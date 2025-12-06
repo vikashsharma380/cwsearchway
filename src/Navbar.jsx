@@ -514,7 +514,7 @@ const Register = ({ setCurrentPage }) => {
   // MAIN FORM UI
   return (
     <div className="min-h-screen pt-28 pb-12 px-6 bg-gradient-to-br from-slate-950 via-cyan-950/10 to-slate-950">
-      <div className="relative z-10">
+      <div className="relative z-10">  
       <div className="max-w-5xl mx-auto">
         {/* HEADER */}
         <div className="text-center mb-12">
