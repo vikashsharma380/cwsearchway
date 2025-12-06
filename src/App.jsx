@@ -8,7 +8,7 @@ import ServicesPage from "./pages/ServicesPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import StatusPage from "./pages/StatusPage.jsx";
 import AdminDashboard from "./pages/AdminDashboard";
-import AdminLogin from "./AdminLogin";
+import AdminLogin from "./pages/AdminLogin.jsx";
 
 
 

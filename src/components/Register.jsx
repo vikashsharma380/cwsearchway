@@ -55,37 +55,37 @@ export default function Register({ setCurrentPage }) {
   };
 
   // Form Submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!formData.agree) {
-      alert("Please agree to the Rules & Regulations before submitting.");
-      return;
+  if (!formData.agree) {
+    alert("Please agree to the Rules & Regulations before submitting.");
+    return;
+  }
+
+  try {
+    const res = await fetch("https://cwsearchway.onrender.com/api/registration/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      setRegistrationId(data.registrationId);
+      setSubmitted(true);
+
+      setTimeout(() => setCurrentPage("status"), 2000);
+    } else {
+      alert("Error saving data!");
     }
+  } catch (err) {
+    console.error(err);
+    alert("Server error! Try again.");
+  }
+};
 
-    const id = "CW" + Date.now();
-
-    const registrationData = {
-      ...formData,
-      registrationId: id,
-      status: "Pending", // admin will update later
-      reason: "",
-      payment: formData.utrNumber ? "Completed" : "Pending",
-      timestamp: new Date().toLocaleString(),
-    };
-
-    const saved = JSON.parse(
-      localStorage.getItem("cwsearchway_registrations") || "{}"
-    );
-
-    saved[id] = registrationData;
-
-    localStorage.setItem("cwsearchway_registrations", JSON.stringify(saved));
-
-    setRegistrationId(id);
-    setSubmitted(true);
-    setTimeout(() => setCurrentPage("status"), 2000);
-  };
 
   // Thank You Screen
   if (submitted) {
@@ -257,7 +257,8 @@ export default function Register({ setCurrentPage }) {
             <input
               type="text"
               name="utrNumber"
-              value={formData.utrNumber}
+             value={formData.utrNumber}
+
               onChange={handleChange}
               className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
             />

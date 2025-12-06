@@ -1,42 +1,34 @@
 import mongoose from "mongoose";
 
 const RegistrationSchema = new mongoose.Schema({
-  fullName: String,
-  email: String,
-  phone: String,
+  employeeName: String,
   dob: String,
   gender: String,
   fatherName: String,
   motherName: String,
-  maritalStatus: String,
+  husbandName: String,
+
+  phone: String,
+  email: String,
+
   aadhar: String,
-  address: String,
-  district: String,
-  policeStation: String,
-  state: String,
-  pincode: String,
+  panCard: String,
+  identificationMark: String,
+  maritalStatus: String,
 
-  edu10Board: String,
-  edu10Percent: String,
-  edu10Year: String,
+  permanentAddress: String,
+  currentAddress: String,
 
-  edu12Board: String,
-  edu12Percent: String,
-  edu12Year: String,
+  eduQualification: String,
+  additionalQualification: String,
+  experienceDetails: String,
+  workPreference: String,
 
-  gradBoard: String,
-  gradPercent: String,
-  gradYear: String,
-
-  postGradBoard: String,
-  postGradPercent: String,
-  postGradYear: String,
-
-  experience: String,
+  utrNumber: String,
+  signature: String,
   resume: String,
 
-  // ⭐ IMPORTANT FIELD
-  jobRole: String,
+  payment: { type: String, default: "Pending" },
 
   registrationId: String,
   status: { type: String, default: "Pending" },
