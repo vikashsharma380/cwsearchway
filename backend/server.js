@@ -16,6 +16,8 @@ mongoose
 
 // Routes
 app.use("/api/registration", registrationRoutes);
+import adminRoutes from "./routes/admin.js";
+app.use("/api/admin", adminRoutes);
 
 // Start Server
 app.listen(5000, () => console.log("Server running on port 5000"));
