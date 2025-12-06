@@ -8,6 +8,9 @@ import ServicesPage from "./pages/ServicesPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import StatusPage from "./pages/StatusPage.jsx";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminLogin from "./AdminLogin";
+
+
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -18,7 +21,9 @@ export default function App() {
     services: <ServicesPage setCurrentPage={setCurrentPage} />,
     register: <RegisterPage setCurrentPage={setCurrentPage} />,
     status: <StatusPage setCurrentPage={setCurrentPage} />,
-    adminDashboard: <AdminDashboard setCurrentPage={setCurrentPage} />,
+    admin: <AdminLogin setCurrentPage={setCurrentPage} />,
+"admin-dashboard": <AdminDashboard setCurrentPage={setCurrentPage} />,
+
   };
 
   return (
