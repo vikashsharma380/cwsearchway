@@ -28,7 +28,7 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
           <img
             src={logoImage}
             alt="CWSearchWay"
-            className="h-16 w-16 object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
+            className="h-40 w-40 object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
           />
         </button>
 
