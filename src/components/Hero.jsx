@@ -4,7 +4,7 @@ import heroPerson from "../assets/hero-person.png";
 export default function Hero({ setCurrentPage }) {
   return (
     <section className="pb-20 bg-white pt-28">
-      <div className="grid items-center max-w-6xl gap-12 px-4 mx-auto lg:grid-cols-2">
+      <div className="grid items-center max-w-6xl gap-20 px-4 mx-auto lg:grid-cols-2">
         {/* LEFT */}
         <div className="space-y-8">
           <h1 className="text-4xl font-bold leading-tight lg:text-6xl text-slate-900">

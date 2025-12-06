@@ -2,34 +2,25 @@ import React from "react";
 import logoImage from "../assets/logo.png";
 
 export default function Navbar({ currentPage, setCurrentPage }) {
-  const linkBase =
-    "text-sm font-medium px-3 py-2 rounded-full transition-colors";
-  const active = "text-slate-900 bg-slate-100";
-  const inactive = "text-slate-500 hover:text-slate-900 hover:bg-slate-100";
+  const linkBase = "text-sm font-medium px-3 py-2 rounded-full transition-all";
+  const active = "bg-gradient-to-r from-cyan-600 to-emerald-600 text-white";
+  const inactive = "text-slate-600 hover:bg-slate-100";
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b bg-white/80 backdrop-blur border-slate-200">
-      <nav className="flex items-center justify-between h-16 max-w-6xl gap-6 px-4 mx-auto lg:px-0">
-        {/* SAME POSITION — JUST DATA CHANGED */}
+    <nav className="fixed z-50 flex items-center w-full h-20 border-b bg-white/50 backdrop-blur-lg border-slate-200">
+      <div className="flex items-center justify-between w-full px-6 mx-auto max-w-7xl">
         <button
           onClick={() => setCurrentPage("home")}
-          className="flex items-center gap-2"
+          className="flex items-center gap-3"
         >
-          {/* LOGO SAME PLACE, JUST BIGGER */}
           <img
             src={logoImage}
-            alt="Logo"
-            className="object-contain w-10 h-10 rounded-full"
+            alt="CWSearchWay"
+            className="object-contain h-24 w-25"
           />
-
-          {/* NAME CHANGED */}
-          <span className="text-lg font-semibold text-slate-900">
-            CWSearchWay
-          </span>
         </button>
 
-        {/* SAME POSITION — ONLY LINK NAMES CHANGED */}
-        <div className="items-center hidden gap-1 md:flex">
+        <div className="hidden gap-2 lg:flex">
           <button
             onClick={() => setCurrentPage("home")}
             className={`${linkBase} ${
@@ -67,16 +58,13 @@ export default function Navbar({ currentPage, setCurrentPage }) {
           </button>
         </div>
 
-        {/* SAME SPOT — JUST BUTTON TEXT CHANGED */}
-        <div>
-          <button
-            onClick={() => setCurrentPage("register")}
-            className="px-4 py-2 text-sm font-semibold text-white rounded-full bg-slate-900 hover:bg-slate-800"
-          >
-            Register
-          </button>
-        </div>
-      </nav>
-    </header>
+        <button
+          onClick={() => setCurrentPage("register")}
+          className="px-6 py-2.5 bg-slate-900 text-white font-bold rounded-xl hover:scale-105 transition"
+        >
+          Register
+        </button>
+      </div>
+    </nav>
   );
 }

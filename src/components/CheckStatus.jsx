@@ -14,7 +14,6 @@ export default function CheckStatus() {
     );
 
     const data = registrations[registrationId];
-
     if (data) {
       setRegistrationData(data);
       setNotFound(false);
@@ -26,97 +25,98 @@ export default function CheckStatus() {
     setSearched(true);
   };
 
-  const getStatusStyles = (status) => {
-    if (status === "Accepted")
-      return { icon: "✅", color: "from-emerald-500 to-teal-500" };
-    if (status === "Rejected")
-      return { icon: "❌", color: "from-orange-500 to-red-500" };
-    return { icon: "⏳", color: "from-amber-500 to-orange-500" };
+  const statusStyles = (status) => {
+    if (status === "Accepted") return { icon: "✅", color: "text-emerald-600" };
+    if (status === "Rejected") return { icon: "❌", color: "text-red-500" };
+    return { icon: "⏳", color: "text-amber-500" };
   };
 
   return (
-    <div className="min-h-screen px-6 pt-32 pb-12 bg-gradient-to-br from-slate-950 via-cyan-950/10 to-slate-950">
+    <div className="min-h-screen px-6 pt-32 pb-12 bg-white">
       <div className="max-w-2xl mx-auto">
         {/* HEADER */}
-        <div className="mb-8 space-y-4 text-center">
-          <h2 className="text-5xl font-black text-white">Check Your Status</h2>
-          <p className="text-slate-300">Enter your registration ID</p>
+        <div className="mb-10 text-center">
+          <h2 className="text-5xl font-black text-slate-900">
+            Check Your Status
+          </h2>
+          <p className="mt-2 text-slate-600">
+            Enter your registration ID below.
+          </p>
         </div>
 
         {/* SEARCH BOX */}
-        <div className="p-8 mb-8 transition-all border bg-gradient-to-br from-slate-900/60 to-slate-950/60 backdrop-blur-2xl border-slate-700/50 rounded-3xl sm:p-12 hover:border-cyan-400/30">
+        <div className="p-8 mb-8 bg-white border shadow-lg border-slate-300 rounded-2xl">
           <input
             type="text"
             value={registrationId}
             onChange={(e) => setRegistrationId(e.target.value.toUpperCase())}
             placeholder="CW1234567890"
-            className="w-full px-6 py-4 mb-4 text-lg font-bold text-white transition-all border bg-slate-800/50 border-slate-600/50 rounded-xl focus:border-cyan-400 focus:outline-none placeholder-slate-500"
+            className="w-full px-6 py-4 mb-4 text-lg font-bold border bg-slate-100 border-slate-300 rounded-xl text-slate-900 placeholder-slate-400"
           />
 
           <button
             onClick={handleSearch}
-            className="w-full py-4 font-black text-white transition-all bg-gradient-to-r from-cyan-600 to-emerald-600 rounded-xl hover:shadow-2xl hover:shadow-cyan-500/30"
+            className="w-full py-4 font-bold text-white bg-slate-900 rounded-xl hover:bg-slate-800"
           >
             Search Status
           </button>
         </div>
 
-        {/* -------------------- STATUS FOUND -------------------- */}
-
-        {searched && !notFound && registrationData && (
-          <div className="p-8 border bg-gradient-to-br from-slate-900/60 to-slate-950/60 backdrop-blur-2xl border-cyan-400/30 rounded-3xl sm:p-12">
-            {/* STATUS ICON */}
+        {/* RESULT FOUND */}
+        {searched && registrationData && (
+          <div className="p-10 bg-white border shadow-xl border-slate-300 rounded-3xl">
             <div className="mb-10 text-center">
-              <div className="mb-6 text-8xl animate-bounce">
-                {getStatusStyles(registrationData.status).icon}
+              <div className="mb-4 text-8xl">
+                {statusStyles(registrationData.status).icon}
               </div>
 
               <h3
-                className={`text-4xl font-black bg-gradient-to-r ${
-                  getStatusStyles(registrationData.status).color
-                } bg-clip-text text-transparent`}
+                className={`text-4xl font-black ${
+                  statusStyles(registrationData.status).color
+                }`}
               >
                 {registrationData.status}
               </h3>
 
-              <p className="mt-2 text-sm text-slate-400">Application Status</p>
+              <p className="mt-2 text-sm text-slate-500">Application Status</p>
             </div>
 
-            {/* DETAILS */}
-            <div className="p-8 space-y-4 border bg-slate-800/30 rounded-2xl border-slate-700/50">
+            {/* DETAILS BOX */}
+            <div className="p-8 space-y-4 border bg-slate-100 rounded-2xl border-slate-300">
               {[
                 { label: "🆔 ID", value: registrationData.registrationId },
                 { label: "👤 Name", value: registrationData.fullName },
                 { label: "📧 Email", value: registrationData.email },
-                { label: "💼 Role", value: registrationData.jobRole },
-                { label: "📅 Applied", value: registrationData.timestamp },
+                { label: "📱 Phone", value: registrationData.phone },
+                { label: "📅 Applied On", value: registrationData.timestamp },
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex justify-between py-3 border-b border-slate-700 last:border-0"
+                  className="flex justify-between py-3 border-b border-slate-300 last:border-0"
                 >
-                  <span className="font-bold text-slate-300">
+                  <span className="font-bold text-slate-700">
                     {item.label}:
                   </span>
-
-                  <span className="text-slate-200">{item.value}</span>
+                  <span className="text-slate-900">{item.value}</span>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* -------------------- NOT FOUND -------------------- */}
-
+        {/* RESULT NOT FOUND */}
         {searched && notFound && (
-          <div className="p-12 text-center border bg-gradient-to-br from-slate-900/60 to-slate-950/60 backdrop-blur-2xl border-slate-700/50 rounded-3xl">
-            <div className="mb-6 text-7xl">🔍</div>
+          <div className="p-12 text-center bg-white border shadow-xl border-slate-300 rounded-3xl">
+            <div className="mb-4 text-7xl">🔍</div>
 
-            <h3 className="mb-3 text-3xl font-black text-white">Not Found</h3>
+            <h3 className="mb-2 text-3xl font-black text-slate-900">
+              Not Found
+            </h3>
 
-            <p className="text-lg text-slate-400">
-              ID "<strong className="text-slate-300">{registrationId}</strong>"
-              not found. Try again.
+            <p className="text-lg text-slate-600">
+              Registration ID "
+              <strong className="text-slate-800">{registrationId}</strong>" does
+              not exist.
             </p>
           </div>
         )}
