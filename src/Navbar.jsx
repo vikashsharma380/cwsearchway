@@ -21,14 +21,14 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
     >
       <div className="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
         {/* LOGO */}
-        <button
-          onClick={() => setCurrentPage("home")}
-          className="group flex items-center gap-0"
-        >
+      <button
+  onClick={() => setCurrentPage("home")}
+  className="group flex items-center gap-0 w-fit h-fit"
+>
           <img
             src={logoImage}
             alt="CWSearchWay"
-            className="h-48 w-48 object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
+            className="h-16 w-16 object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-300"
           />
         </button>
 
@@ -473,37 +473,21 @@ const Register = ({ setCurrentPage }) => {
   };
 
   // Submit Application
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.agree) {
-      alert("Please agree to the Rules & Regulations before submitting.");
-      return;
+    const res = await fetch("http://localhost:5000/api/registration/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      setRegistrationId(data.registrationId);
+      setSubmitted(true);
     }
-
-    const id = "CW" + Date.now();
-    const registrationData = {
-      ...formData,
-      registrationId: id,
-      status: ["Pending", "Accepted", "Rejected"][
-        Math.floor(Math.random() * 3)
-      ],
-      timestamp: new Date().toLocaleString(),
-    };
-
-    const registrations = JSON.parse(
-      localStorage.getItem("cwsearchway_registrations") || "{}"
-    );
-    registrations[id] = registrationData;
-
-    localStorage.setItem(
-      "cwsearchway_registrations",
-      JSON.stringify(registrations)
-    );
-
-    setRegistrationId(id);
-    setSubmitted(true);
-    setTimeout(() => setCurrentPage("status"), 2000);
   };
 
   // Submission Screen
@@ -530,6 +514,7 @@ const Register = ({ setCurrentPage }) => {
   // MAIN FORM UI
   return (
     <div className="min-h-screen pt-28 pb-12 px-6 bg-gradient-to-br from-slate-950 via-cyan-950/10 to-slate-950">
+      <div className="relative z-10">
       <div className="max-w-5xl mx-auto">
         {/* HEADER */}
         <div className="text-center mb-12">
@@ -751,6 +736,7 @@ const Register = ({ setCurrentPage }) => {
           </button>
         </div>
       </div>
+      </div>
     </div>
   );
 };
@@ -762,19 +748,23 @@ const CheckStatus = () => {
   const [searched, setSearched] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    const registrations = JSON.parse(
-      localStorage.getItem("cwsearchway_registrations") || "{}"
+
+    const res = await fetch(
+      `http://localhost:5000/api/registration/status/${registrationId}`
     );
-    const data = registrations[registrationId];
-    if (data) {
-      setRegistrationData(data);
+
+    const data = await res.json();
+
+    if (data.success) {
+      setRegistrationData(data.data);
       setNotFound(false);
     } else {
-      setRegistrationData(null);
       setNotFound(true);
+      setRegistrationData(null);
     }
+
     setSearched(true);
   };
 
