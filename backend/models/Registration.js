@@ -35,6 +35,9 @@ const RegistrationSchema = new mongoose.Schema({
   experience: String,
   resume: String,
 
+  // ⭐ IMPORTANT FIELD
+  jobRole: String,
+
   registrationId: String,
   status: { type: String, default: "Pending" },
   timestamp: { type: Date, default: Date.now },
