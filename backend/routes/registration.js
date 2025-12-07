@@ -1,56 +1,40 @@
 import express from "express";
 import Registration from "../models/Registration.js";
 import multer from "multer";
-import fs from "fs";
-import path from "path";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "../config/cloudinary.js";
 
 const router = express.Router();
 
-// ensure uploads folder exists (important for deploy)
-// path relative to backend root
-const UPLOAD_DIR = path.join(process.cwd(), "uploads");
-if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-  console.log("Created uploads directory:", UPLOAD_DIR);
-}
+// CLOUDINARY STORAGE
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: (req, file) => {
+    let folder = "cwsearchway_uploads";
 
-// STORAGE CONFIG
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, UPLOAD_DIR);
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname.replace(/\s+/g, "_"));
+    // Signature only images
+    if (file.fieldname === "signature") {
+      return {
+        folder,
+        allowed_formats: ["jpg", "jpeg", "png", "webp"],
+        public_id: `signature-${Date.now()}`,
+      };
+    }
+
+    // Resume can be pdf or images
+    if (file.fieldname === "resume") {
+      return {
+        folder,
+        allowed_formats: ["pdf", "jpg", "jpeg", "png", "webp"],
+        public_id: `resume-${Date.now()}`,
+      };
+    }
+
+    return { folder };
   },
 });
 
-// Optional: accept only images for signature and pdf/images for resume
-const fileFilter = (req, file, cb) => {
-  const name = file.fieldname; // "signature" or "resume"
-  const ext = path.extname(file.originalname).toLowerCase();
-
-  if (name === "signature") {
-    // allow common images for signature
-    if ([".png", ".jpg", ".jpeg", ".webp", ".svg"].includes(ext)) return cb(null, true);
-    return cb(new Error("Signature must be an image (png/jpg/jpeg/webp/svg)"));
-  }
-
-  if (name === "resume") {
-    // allow pdf or images for resume
-    if ([".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg"].includes(ext)) return cb(null, true);
-    return cb(new Error("Resume must be PDF/DOC/DOCX or image"));
-  }
-
-  // default allow
-  cb(null, true);
-};
-
-// limits (example: 5MB per file)
-const upload = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 },
-});
+const upload = multer({ storage });
 
 // CREATE REGISTRATION
 router.post(
@@ -61,31 +45,22 @@ router.post(
   ]),
   async (req, res) => {
     try {
-      // debug logs to inspect incoming request (helpful for 500)
-      console.log("=== /register called ===");
-      console.log("req.body keys:", Object.keys(req.body));
-      console.log("req.files keys:", req.files ? Object.keys(req.files) : "no files");
-      if (req.files) {
-        if (req.files.signature) console.log("signature file:", req.files.signature[0].filename);
-        if (req.files.resume) console.log("resume file:", req.files.resume[0].filename);
-      }
+      console.log("Files uploaded:", req.files);
 
       const registrationId = "CW" + Date.now();
 
       const newReg = await Registration.create({
         ...req.body,
         registrationId,
-        signature: req.files?.signature?.[0]?.filename || null,
-        resume: req.files?.resume?.[0]?.filename || null,
+        signature: req.files?.signature?.[0]?.path || null,  // URL from Cloudinary
+        resume: req.files?.resume?.[0]?.path || null,        // URL from Cloudinary
         payment: req.body.utrNumber ? "Completed" : "Pending",
       });
 
       return res.json({ success: true, registrationId, data: newReg });
     } catch (error) {
-      // log full error to server console for logs
       console.error("REGISTER ERROR:", error);
-      // send back message but avoid leaking sensitive stack in production
-      return res.status(500).json({ success: false, error: error.message || "Server error" });
+      return res.status(500).json({ success: false, error: error.message });
     }
   }
 );
