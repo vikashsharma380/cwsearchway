@@ -44,7 +44,7 @@ router.post(
             resource_type: "raw", // IMPORTANT
           }
         );
-        resumeUrl = resume.secure_url;
+        resumeUrl = resume.url;
       }
 
       // generate unique ID
