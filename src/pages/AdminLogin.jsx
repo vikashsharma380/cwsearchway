@@ -26,7 +26,9 @@ export default function AdminLogin({ setCurrentPage }) {
     localStorage.setItem("cw_admin_token", data.token);
 
     // Move to dashboard
-    setCurrentPage("adminDashboard");
+    // Move to dashboard
+setCurrentPage("admin-dashboard");
+
   } catch (error) {
     setError("Server error!");
   }
