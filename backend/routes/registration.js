@@ -35,22 +35,23 @@ router.post(
         signatureUrl = sig.secure_url;
       }
 
-      // 👉 Resume Upload (PDF/DOC = RAW)
-     // RESUME UPLOAD (PDF = RAW)
+      // Resume Upload Corrected
 if (req.files.resume) {
   const resume = await cloudinary.uploader.upload(
     req.files.resume[0].path,
     {
       folder: "cwsearchway_uploads/resumes",
-      resource_type: "auto",
-      format: "pdf"   // FIX
+      resource_type: "raw",
+      use_filename: true,
+      unique_filename: false,
+      flags: "attachment:false",
+      type: "upload"
     }
   );
 
-  resumeUrl =
-    resume.secure_url ||
-    `https://res.cloudinary.com/${cloudinary.config().cloud_name}/raw/upload/${resume.public_id}.pdf`;
+  resumeUrl = resume.secure_url;
 }
+
 
 
       // generate unique ID
