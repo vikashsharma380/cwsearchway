@@ -6,27 +6,35 @@ import cloudinary from "../config/cloudinary.js";
 
 const router = express.Router();
 
-// CLOUDINARY STORAGE
+// CLOUDINARY STORAGE (FIXED)
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+  cloudinary,
   params: (req, file) => {
     let folder = "cwsearchway_uploads";
+    let format = file.originalname.split(".").pop().toLowerCase();
+    let resource_type = "image"; // default
 
-    // Signature only images
+    // Signature = image only
     if (file.fieldname === "signature") {
       return {
         folder,
         allowed_formats: ["jpg", "jpeg", "png", "webp"],
         public_id: `signature-${Date.now()}`,
+        resource_type: "image",
       };
     }
 
-    // Resume can be pdf or images
+    // Resume = pdf/doc/docx/image
     if (file.fieldname === "resume") {
+      if (["pdf", "doc", "docx"].includes(format)) {
+        resource_type = "raw"; // 👈 PDF fix
+      }
+
       return {
         folder,
-        allowed_formats: ["pdf", "jpg", "jpeg", "png", "webp"],
+        allowed_formats: ["pdf", "doc", "docx", "jpg", "jpeg", "png", "webp"],
         public_id: `resume-${Date.now()}`,
+        resource_type, // raw or image
       };
     }
 
@@ -45,26 +53,25 @@ router.post(
   ]),
   async (req, res) => {
     try {
-      console.log("Files uploaded:", req.files);
+      console.log("Uploaded Files:", req.files);
 
       const registrationId = "CW" + Date.now();
 
       const newReg = await Registration.create({
         ...req.body,
         registrationId,
-        signature: req.files?.signature?.[0]?.path || null,  // URL from Cloudinary
-        resume: req.files?.resume?.[0]?.path || null,        // URL from Cloudinary
+        signature: req.files?.signature?.[0]?.path || null, 
+        resume: req.files?.resume?.[0]?.path || null,       
         payment: req.body.utrNumber ? "Completed" : "Pending",
       });
 
-      return res.json({ success: true, registrationId, data: newReg });
+      res.json({ success: true, registrationId, data: newReg });
     } catch (error) {
       console.error("REGISTER ERROR:", error);
-      return res.status(500).json({ success: false, error: error.message });
+      res.status(500).json({ success: false, error: error.message });
     }
   }
 );
-
 // CHECK STATUS
 router.get("/status/:id", async (req, res) => {
   try {
