@@ -73,7 +73,7 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    const res = await fetch("http://localhost:5000/api/register", {
+    const res = await fetch("https://cwsearchway.onrender.com/api/register", {
       method: "POST",
       body: fd,
     });
