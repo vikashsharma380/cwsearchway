@@ -1,6 +1,8 @@
 import { createUploadthing, createRouteHandler } from "uploadthing/express";
+const f = createUploadthing({
+  token: process.env.UPLOADTHING_TOKEN,
+});
 
-const f = createUploadthing();
 
 export const uploadRouter = {
   fileUpload: f({
