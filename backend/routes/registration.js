@@ -57,8 +57,9 @@ router.post(
       const newReg = await Registration.create({
         ...req.body,
         registrationId,
-        signature: req.files?.signature?.[0]?.path || null,
-        resume: req.files?.resume?.[0]?.path || null,
+        signature: req.files?.signature?.[0]?.secure_url || null,
+        resume: req.files?.resume?.[0]?.secure_url || null,
+
         payment: req.body.utrNumber ? "Completed" : "Pending",
       });
 
