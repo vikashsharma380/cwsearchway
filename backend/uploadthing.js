@@ -1,22 +1,19 @@
-// uploadthing.js
 import { createUploadthing, createRouteHandler } from "uploadthing/express";
 
 const f = createUploadthing();
 
 export const uploadRouter = {
   fileUpload: f({
-    signature: {
+    "image/*": {
       maxFileCount: 1,
       maxFileSize: "2MB",
-      allowedFileTypes: ["image/png", "image/jpeg", "image/jpg"],
     },
-    resume: {
+    "application/pdf": {
       maxFileCount: 1,
       maxFileSize: "10MB",
-      allowedFileTypes: ["application/pdf"],
     },
   }).onUploadComplete(({ file }) => {
-    console.log("Uploaded File:", file);
+    console.log("Uploaded File:", file.url);
     return { url: file.url };
   }),
 };

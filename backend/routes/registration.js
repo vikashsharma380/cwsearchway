@@ -11,12 +11,13 @@ router.post("/register", async (req, res) => {
     const registrationId = "CW" + Date.now();
 
     const newReg = await Registration.create({
-      ...req.body,
-      registrationId,
-      signature: req.body.signatureUrl || null,
-      resume: req.body.resumeUrl || null,
-      payment: req.body.utrNumber ? "Completed" : "Pending",
-    });
+  ...req.body,
+  registrationId,
+  signature: req.body.signature || null,
+  resume: req.body.resume || null,
+  payment: req.body.utrNumber ? "Completed" : "Pending",
+});
+
 
     return res.json({ success: true, registrationId, data: newReg });
 
