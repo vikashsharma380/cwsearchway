@@ -36,21 +36,23 @@ router.post(
       }
 
       // Resume Upload Corrected
+// 👉 Resume Upload (PDF/DOC = RAW)
 if (req.files.resume) {
+  const ext = req.files.resume[0].originalname.split(".").pop().toLowerCase();
+
   const resume = await cloudinary.uploader.upload(
     req.files.resume[0].path,
     {
       folder: "cwsearchway_uploads/resumes",
-      resource_type: "raw",
-      use_filename: true,
-      unique_filename: false,
-      flags: "attachment:false",
-      type: "upload"
+      resource_type: "raw",   // RAW FIX
+      public_id: `resume-${Date.now()}`,
+      format: ext             // EXTENSION FORCE
     }
   );
 
-  resumeUrl = resume.secure_url;
+  resumeUrl = resume.secure_url.replace("/image/", "/raw/");  // 👈 MOST IMPORTANT FIX
 }
+
 
 
 

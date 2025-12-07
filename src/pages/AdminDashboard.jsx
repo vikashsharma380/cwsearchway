@@ -62,11 +62,11 @@ export default function AdminDashboard({ setCurrentPage }) {
 
       {/* STATS */}
       <div className="grid md:grid-cols-4 gap-6 mb-10">
-        {[ 
+        {[
           { label: "Total Registrations", value: total },
           { label: "Accepted", value: accepted, color: "text-green-600" },
           { label: "Rejected", value: rejected, color: "text-red-600" },
-          { label: "Pending", value: pending, color: "text-yellow-600" }
+          { label: "Pending", value: pending, color: "text-yellow-600" },
         ].map((stat, i) => (
           <div key={i} className="p-6 bg-white border shadow rounded-xl">
             <h3>{stat.label}</h3>
@@ -135,9 +135,10 @@ export default function AdminDashboard({ setCurrentPage }) {
                       <a
                         href={item.resume}
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="text-purple-600 underline text-sm"
                       >
-                        Resume
+                        View Resume
                       </a>
                     ) : (
                       <span className="text-slate-400 text-sm">No Resume</span>
@@ -208,25 +209,46 @@ export default function AdminDashboard({ setCurrentPage }) {
       {selected && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4">
           <div className="bg-white p-6 rounded-2xl w-full max-w-2xl border shadow-xl overflow-y-auto max-h-[90vh]">
-            
             <h3 className="text-2xl font-bold mb-4">Applicant Details</h3>
 
             <div className="space-y-2">
-              <p><b>Name:</b> {selected.employeeName}</p>
-              <p><b>DOB:</b> {selected.dob}</p>
-              <p><b>Gender:</b> {selected.gender}</p>
+              <p>
+                <b>Name:</b> {selected.employeeName}
+              </p>
+              <p>
+                <b>DOB:</b> {selected.dob}
+              </p>
+              <p>
+                <b>Gender:</b> {selected.gender}
+              </p>
 
-              <p><b>Father Name:</b> {selected.fatherName}</p>
-              <p><b>Mother Name:</b> {selected.motherName}</p>
-              <p><b>Husband Name:</b> {selected.husbandName}</p>
+              <p>
+                <b>Father Name:</b> {selected.fatherName}
+              </p>
+              <p>
+                <b>Mother Name:</b> {selected.motherName}
+              </p>
+              <p>
+                <b>Husband Name:</b> {selected.husbandName}
+              </p>
 
-              <p><b>Phone:</b> {selected.phone}</p>
-              <p><b>Email:</b> {selected.email}</p>
+              <p>
+                <b>Phone:</b> {selected.phone}
+              </p>
+              <p>
+                <b>Email:</b> {selected.email}
+              </p>
 
-              <p><b>Aadhar:</b> {selected.aadhar}</p>
-              <p><b>PAN:</b> {selected.panCard}</p>
+              <p>
+                <b>Aadhar:</b> {selected.aadhar}
+              </p>
+              <p>
+                <b>PAN:</b> {selected.panCard}
+              </p>
 
-              <p><b>Identification Mark:</b> {selected.identificationMark}</p>
+              <p>
+                <b>Identification Mark:</b> {selected.identificationMark}
+              </p>
 
               <p>
                 <b>Permanent Address:</b> {selected.permanentAddress}
@@ -246,8 +268,12 @@ export default function AdminDashboard({ setCurrentPage }) {
               <p>{selected.workPreference}</p>
 
               <h3 className="text-xl font-bold mt-3">Payment</h3>
-              <p><b>UTR:</b> {selected.utrNumber}</p>
-              <p><b>Status:</b> {selected.payment}</p>
+              <p>
+                <b>UTR:</b> {selected.utrNumber}
+              </p>
+              <p>
+                <b>Status:</b> {selected.payment}
+              </p>
 
               <h3 className="text-xl font-bold mt-3">Documents</h3>
 
@@ -288,7 +314,6 @@ export default function AdminDashboard({ setCurrentPage }) {
             >
               Close
             </button>
-
           </div>
         </div>
       )}
