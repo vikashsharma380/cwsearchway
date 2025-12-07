@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { UploadButton } from "@uploadthing/react";
 
 export default function Register({ setCurrentPage }) {
-  const [openRules, setOpenRules] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [registrationId, setRegistrationId] = useState("");
 
   const [formData, setFormData] = useState({
     employeeName: "",
@@ -18,7 +19,6 @@ export default function Register({ setCurrentPage }) {
     identificationMark: "",
     maritalStatus: "",
     permanentAddress: "",
-    currentAddress: "",
     eduQualification: "",
     additionalQualification: "",
     experienceDetails: "",
@@ -27,77 +27,58 @@ export default function Register({ setCurrentPage }) {
     signature: null,
     resume: null,
     agree: false,
+    paymentType: "",
   });
 
-  const [submitted, setSubmitted] = useState(false);
-  const [registrationId, setRegistrationId] = useState("");
-
-  // Input Handler
+  // Input Change
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  const handleSignatureChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      signature: e.target.files[0],
-    }));
-  };
+  // Submit Form
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleResumeChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      resume: e.target.files[0],
-    }));
-  };
-
-  // Form Submit
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  if (!formData.agree) {
-    alert("Please agree to the Rules & Regulations before submitting.");
-    return;
-  }
-
-  try {
-    const res = await fetch(
-      "https://cwsearchway.onrender.com/api/registration/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          signatureUrl: formData.signature, // UploadThing URL
-          resumeUrl: formData.resume,       // UploadThing URL
-        }),
-      }
-    );
-
-    const data = await res.json();
-    console.log("Response:", data);
-
-    if (data.success) {
-      setRegistrationId(data.registrationId);
-      setSubmitted(true);
-      setTimeout(() => setCurrentPage("status"), 2000);
-    } else {
-      alert("Something went wrong!");
+    if (!formData.agree) {
+      alert("Please agree to the Rules & Regulations before submitting.");
+      return;
     }
-  } catch (error) {
-    alert("Server Error: " + error.message);
-  }
-};
 
+    try {
+      const res = await fetch(
+        "https://cwsearchway.onrender.com/api/registration/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...formData,
+            signatureUrl: formData.signature,
+            resumeUrl: formData.resume,
+          }),
+        }
+      );
 
+      const data = await res.json();
+      console.log("Response:", data);
 
-  // Thank You Screen
+      if (data.success) {
+        setRegistrationId(data.registrationId);
+        setSubmitted(true);
+        setTimeout(() => setCurrentPage("status"), 2000);
+      } else {
+        alert("Something went wrong!");
+      }
+    } catch (error) {
+      alert("Server Error: " + error.message);
+    }
+  };
+
+  // THANK YOU PAGE
   if (submitted) {
     return (
       <div className="flex items-center justify-center min-h-screen pt-32 text-center">
@@ -106,9 +87,7 @@ const handleSubmit = async (e) => {
           <h2 className="text-5xl font-black text-slate-900">
             Application Submitted!
           </h2>
-
           <p className="mt-2 text-xl text-slate-600">Your journey begins now</p>
-
           <p className="mt-5 text-slate-600">Registration ID:</p>
           <p className="font-mono text-3xl font-black text-cyan-600">
             {registrationId}
@@ -129,9 +108,7 @@ const handleSubmit = async (e) => {
         </div>
 
         <div className="p-10 bg-white border shadow-xl border-slate-200 rounded-3xl">
-          {/* GRID FIELDS */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {/* PERSONAL DETAILS */}
             {[
               { label: "Employee Name", name: "employeeName" },
               { label: "Date of Birth", name: "dob", type: "date" },
@@ -143,18 +120,11 @@ const handleSubmit = async (e) => {
               },
               { label: "Father's Name", name: "fatherName" },
               { label: "Mother's Name", name: "motherName" },
-              { label: "Husband's Name", name: "husbandName" },
               { label: "Mobile Number", name: "phone" },
               { label: "Email ID", name: "email" },
               { label: "Aadhar Card Number", name: "aadhar" },
               { label: "Pan Card Number", name: "panCard" },
               { label: "Identification Mark", name: "identificationMark" },
-              {
-                label: "Marital Status",
-                name: "maritalStatus",
-                type: "select",
-                options: ["Select", "Unmarried", "Married"],
-              },
             ].map((field) => (
               <div key={field.name}>
                 <label className="text-sm font-semibold text-slate-700">
@@ -184,33 +154,55 @@ const handleSubmit = async (e) => {
               </div>
             ))}
 
-            {/* ADDRESSES */}
-            <div className="md:col-span-3">
+            {/* MARITAL STATUS */}
+            <div>
               <label className="text-sm font-semibold text-slate-700">
-                Permanent Address
+                Marital Status
               </label>
-              <textarea
-                name="permanentAddress"
-                value={formData.permanentAddress}
+
+              <select
+                name="maritalStatus"
+                value={formData.maritalStatus}
                 onChange={handleChange}
                 className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
-              />
+              >
+                <option value="">Select</option>
+                <option value="Unmarried">Unmarried</option>
+                <option value="Married">Married</option>
+              </select>
             </div>
 
-            <div className="md:col-span-3">
-              <label className="text-sm font-semibold text-slate-700">
-                Current Address
-              </label>
-              <textarea
-                name="currentAddress"
-                value={formData.currentAddress}
-                onChange={handleChange}
-                className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
-              />
-            </div>
+            {/* HUSBAND NAME ONLY WHEN MARRIED */}
+            {formData.maritalStatus === "Married" && (
+              <div>
+                <label className="text-sm font-semibold text-slate-700">
+                  Husband's Name
+                </label>
+                <input
+                  type="text"
+                  name="husbandName"
+                  value={formData.husbandName}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
+                />
+              </div>
+            )}
           </div>
 
-          {/* EDUCATION & EXPERIENCE */}
+          {/* ADDRESS */}
+          <div className="mt-6">
+            <label className="text-sm font-semibold text-slate-700">
+              Permanent Address
+            </label>
+            <textarea
+              name="permanentAddress"
+              value={formData.permanentAddress}
+              onChange={handleChange}
+              className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
+            />
+          </div>
+
+          {/* EDUCATION */}
           <div className="mt-6">
             <label className="text-sm font-semibold text-slate-700">
               Education Qualification
@@ -235,6 +227,7 @@ const handleSubmit = async (e) => {
             />
           </div>
 
+          {/* EXPERIENCE */}
           <div className="mt-4">
             <label className="text-sm font-semibold text-slate-700">
               Experience Details
@@ -247,6 +240,7 @@ const handleSubmit = async (e) => {
             />
           </div>
 
+          {/* WORK PREFERENCE */}
           <div className="mt-4">
             <label className="text-sm font-semibold text-slate-700">
               What You Like To Do
@@ -259,10 +253,54 @@ const handleSubmit = async (e) => {
             />
           </div>
 
+          {/* PAYMENT TYPE */}
+          <div className="mt-6">
+            <label className="text-sm font-semibold text-slate-700">
+              Select Payment Type *
+            </label>
+
+            <select
+              name="paymentType"
+              value={formData.paymentType}
+              onChange={handleChange}
+              className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
+            >
+              <option value="">Select</option>
+              <option value="299">Internship – ₹299</option>
+              <option value="499">Permanent Job – ₹499</option>
+              <option value="999">Premium – ₹999</option>
+            </select>
+          </div>
+
+          {/* QR CODE DISPLAY */}
+          {formData.paymentType && (
+            <div className="mt-4">
+              <p className="text-sm font-semibold text-slate-700">
+                Scan QR to Pay
+              </p>
+
+              {formData.paymentType === "299" && (
+                <img src="/__qr_code.png" alt="QR 299" className="w-48 rounded-xl border mt-2" />
+              )}
+
+              {formData.paymentType === "499" && (
+                <img src="/__qr_code (1).png" alt="QR 499" className="w-48 rounded-xl border mt-2" />
+              )}
+
+              {formData.paymentType === "999" && (
+                <img src="/999.png" alt="QR 999" className="w-48 rounded-xl border mt-2" />
+              )}
+
+              <p className="text-xs text-slate-600 mt-2">
+                After payment, enter the UTR Number below.
+              </p>
+            </div>
+          )}
+
           {/* UTR NUMBER */}
           <div className="mt-6">
             <label className="text-sm font-semibold text-slate-700">
-              UTR Number (after payment)
+              UTR Number (After Payment)
             </label>
             <input
               type="text"
@@ -273,44 +311,39 @@ const handleSubmit = async (e) => {
             />
           </div>
 
-         <div className="mt-6">
-  <label className="text-sm font-semibold text-slate-700">
-    Upload Signature *
-  </label>
-<UploadButton
-  endpoint="signatureUpload"
-  url="https://cwsearchway.onrender.com/api/uploadthing"
-  onClientUploadComplete={(files) => {
-    const file = files[0];
-    setFormData((prev) => ({
-      ...prev,
-      signature: file.url,
-    }));
-  }}
-  onUploadError={(error) => alert(`Upload Error: ${error.message}`)}
-/>
-
-</div>
-
-
+          {/* SIGNATURE UPLOAD */}
           <div className="mt-6">
-  <label className="text-sm font-semibold text-slate-700">Resume</label>
+            <label className="text-sm font-semibold text-slate-700">
+              Upload Signature *
+            </label>
 
-  <UploadButton
-  endpoint="resumeUpload"
-  url="https://cwsearchway.onrender.com/api/uploadthing"
-  onClientUploadComplete={(files) => {
-    const file = files[0];
-    setFormData((prev) => ({
-      ...prev,
-      resume: file.url,
-    }));
-  }}
-  onUploadError={(error) => alert(`Upload Error: ${error.message}`)}
-/>
+            <UploadButton
+              endpoint="signatureUpload"
+              url="https://cwsearchway.onrender.com/api/uploadthing"
+              onClientUploadComplete={(files) => {
+                const file = files[0];
+                setFormData((prev) => ({ ...prev, signature: file.url }));
+              }}
+              onUploadError={(err) => alert(`Upload Error: ${err.message}`)}
+            />
+          </div>
 
-</div>
+          {/* RESUME UPLOAD */}
+          <div className="mt-6">
+            <label className="text-sm font-semibold text-slate-700">
+              Resume
+            </label>
 
+            <UploadButton
+              endpoint="resumeUpload"
+              url="https://cwsearchway.onrender.com/api/uploadthing"
+              onClientUploadComplete={(files) => {
+                const file = files[0];
+                setFormData((prev) => ({ ...prev, resume: file.url }));
+              }}
+              onUploadError={(err) => alert(`Upload Error: ${err.message}`)}
+            />
+          </div>
 
           {/* RULES */}
           <div className="p-6 mt-10 border bg-slate-100 rounded-xl border-slate-300">
@@ -337,7 +370,7 @@ const handleSubmit = async (e) => {
             </label>
           </div>
 
-          {/* SUBMIT */}
+          {/* SUBMIT BUTTON */}
           <button
             onClick={handleSubmit}
             className="w-full py-4 mt-8 font-black text-white transition bg-gradient-to-r from-cyan-600 to-emerald-600 rounded-xl hover:scale-105"
