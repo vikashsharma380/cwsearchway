@@ -36,16 +36,22 @@ router.post(
       }
 
       // 👉 Resume Upload (PDF/DOC = RAW)
-      if (req.files.resume) {
-        const resume = await cloudinary.uploader.upload(
-          req.files.resume[0].path,
-          {
-            folder: "cwsearchway_uploads/resumes",
-            resource_type: "raw", // IMPORTANT
-          }
-        );
-        resumeUrl = resume.url;
-      }
+     // RESUME UPLOAD (PDF = RAW)
+if (req.files.resume) {
+  const resume = await cloudinary.uploader.upload(
+    req.files.resume[0].path,
+    {
+      folder: "cwsearchway_uploads/resumes",
+      resource_type: "raw",
+      format: "pdf"   // FIX
+    }
+  );
+
+  resumeUrl =
+    resume.secure_url ||
+    `https://res.cloudinary.com/${cloudinary.config().cloud_name}/raw/upload/${resume.public_id}.pdf`;
+}
+
 
       // generate unique ID
       const registrationId = "CW" + Date.now();
