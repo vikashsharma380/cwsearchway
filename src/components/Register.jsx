@@ -55,68 +55,58 @@ export default function Register({ setCurrentPage }) {
   };
 
   // Form Submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!formData.agree) {
-      alert("Please agree to the Rules & Regulations before submitting.");
-      return;
-    }
+  if (!formData.agree) {
+    alert("Please agree to the Rules & Regulations before submitting.");
+    return;
+  }
 
-    const fd = new FormData();
+  const fd = new FormData();
 
-    // Text fields only
-    fd.append("employeeName", formData.employeeName);
-    fd.append("dob", formData.dob);
-    fd.append("gender", formData.gender);
-    fd.append("fatherName", formData.fatherName);
-    fd.append("motherName", formData.motherName);
-    fd.append("husbandName", formData.husbandName);
-    fd.append("phone", formData.phone);
-    fd.append("email", formData.email);
-    fd.append("aadhar", formData.aadhar);
-    fd.append("panCard", formData.panCard);
-    fd.append("identificationMark", formData.identificationMark);
-    fd.append("maritalStatus", formData.maritalStatus);
-    fd.append("permanentAddress", formData.permanentAddress);
-    fd.append("currentAddress", formData.currentAddress);
-    fd.append("eduQualification", formData.eduQualification);
-    fd.append("additionalQualification", formData.additionalQualification);
-    fd.append("experienceDetails", formData.experienceDetails);
-    fd.append("workPreference", formData.workPreference);
-    fd.append("utrNumber", formData.utrNumber);
-
-    // Files only if selected
-    if (formData.signature) {
-      fd.append("signature", formData.signature);
-    }
-
-    if (formData.resume) {
-      fd.append("resume", formData.resume);
-    }
-
-    try {
-      const res = await fetch(
-        "https://cwsearchway.onrender.com/api/registration/register",
-        {
-          method: "POST",
-          body: fd,
-        }
-      );
-
-      const data = await res.json();
-
-      if (data.success) {
-        setRegistrationId(data.registrationId);
-        setSubmitted(true);
-        setTimeout(() => setCurrentPage("status"), 2000);
-      } else {
-        alert("Something went wrong!");
+  // Append ALL text fields safely
+  Object.keys(formData).forEach((key) => {
+    if (key !== "signature" && key !== "resume" && key !== "agree") {
+      if (formData[key] !== null && formData[key] !== undefined) {
+        fd.append(key, formData[key]);
       }
-    } catch (error) {
-      alert("Server Error: " + error.message);
     }
-  };
+  });
+
+  // Append files only if selected
+  if (formData.signature instanceof File) {
+    fd.append("signature", formData.signature);
+  }
+
+  if (formData.resume instanceof File) {
+    fd.append("resume", formData.resume);
+  }
+
+  try {
+    const res = await fetch(
+      "https://cwsearchway.onrender.com/api/registration/register",
+      {
+        method: "POST",
+        body: fd, // ❗IMPORTANT: no headers
+      }
+    );
+
+    const data = await res.json();
+    console.log("Response:", data);
+
+    if (data.success) {
+      setRegistrationId(data.registrationId);
+      setSubmitted(true);
+      setTimeout(() => setCurrentPage("status"), 2000);
+    } else {
+      alert("Something went wrong!");
+    }
+  } catch (error) {
+    alert("Server Error: " + error.message);
+  }
+};
+
 
   // Thank You Screen
   if (submitted) {

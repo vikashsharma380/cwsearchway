@@ -1,45 +1,13 @@
 import express from "express";
 import Registration from "../models/Registration.js";
 import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
 import cloudinary from "../config/cloudinary.js";
+import fs from "fs";
 
 const router = express.Router();
 
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: (req, file) => {
-    let folder = "cwsearchway_uploads";
-    let ext = file.originalname.split(".").pop().toLowerCase();
-
-    // SIGNATURE → Always image
-    if (file.fieldname === "signature") {
-      return {
-        folder,
-        public_id: `signature-${Date.now()}`,
-        allowed_formats: ["jpg", "jpeg", "png", "webp"],
-        resource_type: "image"
-      };
-    }
-
-    // RESUME → PDF/DOC = RAW | JPG/PNG = IMAGE
-    if (file.fieldname === "resume") {
-      let isRaw = ["pdf", "doc", "docx"].includes(ext);
-
-      return {
-        folder,
-        public_id: `resume-${Date.now()}`,
-        allowed_formats: ["pdf", "doc", "docx", "jpg", "jpeg", "png", "webp"],
-        resource_type: isRaw ? "raw" : "image"   // 👈 MAIN FIX
-      };
-    }
-
-    return { folder };
-  }
-});
-
-
-const upload = multer({ storage });
+// Multer temp folder
+const upload = multer({ dest: "temp/" });
 
 // CREATE REGISTRATION
 router.post(
@@ -50,26 +18,61 @@ router.post(
   ]),
   async (req, res) => {
     try {
-      console.log("Uploaded Files:", req.files);
+      console.log("Files received:", req.files);
 
+      let signatureUrl = null;
+      let resumeUrl = null;
+
+      // 👉 Signature Upload (IMAGE)
+      if (req.files.signature) {
+        const sig = await cloudinary.uploader.upload(
+          req.files.signature[0].path,
+          {
+            folder: "cwsearchway_uploads/signatures",
+            resource_type: "image",
+          }
+        );
+        signatureUrl = sig.secure_url;
+      }
+
+      // 👉 Resume Upload (PDF/DOC = RAW)
+      if (req.files.resume) {
+        const resume = await cloudinary.uploader.upload(
+          req.files.resume[0].path,
+          {
+            folder: "cwsearchway_uploads/resumes",
+            resource_type: "raw", // IMPORTANT
+          }
+        );
+        resumeUrl = resume.secure_url;
+      }
+
+      // generate unique ID
       const registrationId = "CW" + Date.now();
 
+      // Save DB
       const newReg = await Registration.create({
         ...req.body,
         registrationId,
-        signature: req.files?.signature?.[0]?.secure_url || null,
-        resume: req.files?.resume?.[0]?.secure_url || null,
-
+        signature: signatureUrl,
+        resume: resumeUrl,
         payment: req.body.utrNumber ? "Completed" : "Pending",
       });
 
-      res.json({ success: true, registrationId, data: newReg });
+      // Delete temp files
+      if (req.files.signature)
+        fs.unlinkSync(req.files.signature[0].path);
+      if (req.files.resume)
+        fs.unlinkSync(req.files.resume[0].path);
+
+      return res.json({ success: true, registrationId, data: newReg });
     } catch (error) {
       console.error("REGISTER ERROR:", error);
-      res.status(500).json({ success: false, error: error.message });
+      return res.status(500).json({ success: false, error: error.message });
     }
   }
 );
+
 // CHECK STATUS
 router.get("/status/:id", async (req, res) => {
   try {
