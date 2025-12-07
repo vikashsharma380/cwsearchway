@@ -6,41 +6,38 @@ import cloudinary from "../config/cloudinary.js";
 
 const router = express.Router();
 
-// CLOUDINARY STORAGE (FIXED)
 const storage = new CloudinaryStorage({
   cloudinary,
   params: (req, file) => {
     let folder = "cwsearchway_uploads";
-    let format = file.originalname.split(".").pop().toLowerCase();
-    let resource_type = "image"; // default
+    let ext = file.originalname.split(".").pop().toLowerCase();
 
-    // Signature = image only
+    // SIGNATURE → Always image
     if (file.fieldname === "signature") {
       return {
         folder,
-        allowed_formats: ["jpg", "jpeg", "png", "webp"],
         public_id: `signature-${Date.now()}`,
-        resource_type: "image",
+        allowed_formats: ["jpg", "jpeg", "png", "webp"],
+        resource_type: "image"
       };
     }
 
-    // Resume = pdf/doc/docx/image
+    // RESUME → PDF/DOC = RAW | JPG/PNG = IMAGE
     if (file.fieldname === "resume") {
-      if (["pdf", "doc", "docx"].includes(format)) {
-        resource_type = "raw"; // 👈 PDF fix
-      }
+      let isRaw = ["pdf", "doc", "docx"].includes(ext);
 
       return {
         folder,
-        allowed_formats: ["pdf", "doc", "docx", "jpg", "jpeg", "png", "webp"],
         public_id: `resume-${Date.now()}`,
-        resource_type, // raw or image
+        allowed_formats: ["pdf", "doc", "docx", "jpg", "jpeg", "png", "webp"],
+        resource_type: isRaw ? "raw" : "image"   // 👈 MAIN FIX
       };
     }
 
     return { folder };
-  },
+  }
 });
+
 
 const upload = multer({ storage });
 
@@ -60,8 +57,8 @@ router.post(
       const newReg = await Registration.create({
         ...req.body,
         registrationId,
-        signature: req.files?.signature?.[0]?.path || null, 
-        resume: req.files?.resume?.[0]?.path || null,       
+        signature: req.files?.signature?.[0]?.path || null,
+        resume: req.files?.resume?.[0]?.path || null,
         payment: req.body.utrNumber ? "Completed" : "Pending",
       });
 
