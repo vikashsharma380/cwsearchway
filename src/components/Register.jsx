@@ -278,7 +278,7 @@ const handleSubmit = async (e) => {
     Upload Signature *
   </label>
 <UploadButton
-  endpoint="fileUpload"
+  endpoint="signatureUpload"
   url="https://cwsearchway.onrender.com/api/uploadthing"
   onClientUploadComplete={(files) => {
     const file = files[0];
@@ -297,7 +297,7 @@ const handleSubmit = async (e) => {
   <label className="text-sm font-semibold text-slate-700">Resume</label>
 
   <UploadButton
-  endpoint="fileUpload"
+  endpoint="resumeUpload"
   url="https://cwsearchway.onrender.com/api/uploadthing"
   onClientUploadComplete={(files) => {
     const file = files[0];

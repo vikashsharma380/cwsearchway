@@ -3,21 +3,20 @@ const f = createUploadthing({
   token: process.env.UPLOADTHING_TOKEN,
 });
 
-
 export const uploadRouter = {
-  fileUpload: f({
-    signature: {
-      maxFileCount: 1,
-      maxFileSize: "2MB",
-      allowedFileTypes: ["image/png", "image/jpeg", "image/jpg"],
-    },
-    resume: {
-      maxFileCount: 1,
-      maxFileSize: "10MB",
-      allowedFileTypes: ["application/pdf"],
-    },
+  // Signature upload (only images)
+  signatureUpload: f({
+    "image/*": { maxFileCount: 1, maxFileSize: "2MB" }
   }).onUploadComplete(({ file }) => {
-    console.log("Uploaded File:", file.url);
+    console.log("Signature Uploaded:", file.url);
+    return { url: file.url };
+  }),
+
+  // Resume upload (only PDF)
+  resumeUpload: f({
+    "application/pdf": { maxFileCount: 1, maxFileSize: "10MB" }
+  }).onUploadComplete(({ file }) => {
+    console.log("Resume Uploaded:", file.url);
     return { url: file.url };
   }),
 };
