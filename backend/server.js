@@ -23,5 +23,6 @@ app.use("/api/admin", adminAuthRoutes);
 app.use("/uploads", express.static("uploads"));
 
 
+
 // Start Server
 app.listen(5000, () => console.log("Server running on port 5000"));
