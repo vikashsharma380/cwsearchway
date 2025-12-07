@@ -42,7 +42,7 @@ if (req.files.resume) {
     req.files.resume[0].path,
     {
       folder: "cwsearchway_uploads/resumes",
-      resource_type: "raw",
+      resource_type: "auto",
       format: "pdf"   // FIX
     }
   );
