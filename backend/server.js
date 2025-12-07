@@ -21,7 +21,13 @@ app.use("/api/admin", adminRoutes);
 import adminAuthRoutes from "./routes/adminAuth.js";
 app.use("/api/admin", adminAuthRoutes);
 app.use("/uploads", express.static("uploads"));
+import uploadRoutes from "./routes/upload.js";
 
+app.use("/api", uploadRoutes);
+
+
+import { handler as uploadHandler } from "./uploadthing.js";
+app.use("/api/uploadthing", uploadHandler);
 
 
 // Start Server

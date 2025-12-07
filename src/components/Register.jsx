@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { UploadButton } from "@uploadthing/react";
 
 export default function Register({ setCurrentPage }) {
   const [openRules, setOpenRules] = useState(false);
@@ -63,32 +64,19 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  const fd = new FormData();
-
-  // Append ALL text fields safely
-  Object.keys(formData).forEach((key) => {
-    if (key !== "signature" && key !== "resume" && key !== "agree") {
-      if (formData[key] !== null && formData[key] !== undefined) {
-        fd.append(key, formData[key]);
-      }
-    }
-  });
-
-  // Append files only if selected
-  if (formData.signature instanceof File) {
-    fd.append("signature", formData.signature);
-  }
-
-  if (formData.resume instanceof File) {
-    fd.append("resume", formData.resume);
-  }
-
   try {
     const res = await fetch(
       "https://cwsearchway.onrender.com/api/registration/register",
       {
         method: "POST",
-        body: fd, // ❗IMPORTANT: no headers
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          signatureUrl: formData.signature, // UploadThing URL
+          resumeUrl: formData.resume,       // UploadThing URL
+        }),
       }
     );
 
@@ -106,6 +94,7 @@ const handleSubmit = async (e) => {
     alert("Server Error: " + error.message);
   }
 };
+
 
 
   // Thank You Screen
@@ -284,31 +273,41 @@ const handleSubmit = async (e) => {
             />
           </div>
 
-          {/* SIGNATURE */}
-          <div className="mt-6">
-            <label className="text-sm font-semibold text-slate-700">
-              Upload Signature *
-            </label>
-            <input
-              type="file"
-              accept=".jpg,.jpeg,.png,.webp"
-              onChange={handleSignatureChange}
-              className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
-            />
-          </div>
+         <div className="mt-6">
+  <label className="text-sm font-semibold text-slate-700">
+    Upload Signature *
+  </label>
 
-          {/* RESUME */}
+  <UploadButton
+    endpoint="fileUpload"
+    onClientUploadComplete={(files) => {
+      const file = files[0];
+      setFormData((prev) => ({
+        ...prev,
+        signature: file.url, // save URL instead of File object
+      }));
+    }}
+    onUploadError={(error) => alert(`Upload error: ${error.message}`)}
+  />
+</div>
+
+
           <div className="mt-6">
-            <label className="text-sm font-semibold text-slate-700">
-              Resume
-            </label>
-            <input
-              type="file"
-              accept=".pdf,.jpg,.jpeg,.png"
-              onChange={handleResumeChange}
-              className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
-            />
-          </div>
+  <label className="text-sm font-semibold text-slate-700">Resume</label>
+
+  <UploadButton
+    endpoint="fileUpload"
+    onClientUploadComplete={(files) => {
+      const file = files[0];
+      setFormData((prev) => ({
+        ...prev,
+        resume: file.url, // URL from UploadThing
+      }));
+    }}
+    onUploadError={(error) => alert(`Upload error: ${error.message}`)}
+  />
+</div>
+
 
           {/* RULES */}
           <div className="p-6 mt-10 border bg-slate-100 rounded-xl border-slate-300">
