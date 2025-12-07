@@ -4,13 +4,15 @@ const f = createUploadthing();
 
 export const uploadRouter = {
   fileUpload: f({
-    "image/*": {
+    signature: {
       maxFileCount: 1,
       maxFileSize: "2MB",
+      allowedFileTypes: ["image/png", "image/jpeg", "image/jpg"],
     },
-    "application/pdf": {
+    resume: {
       maxFileCount: 1,
       maxFileSize: "10MB",
+      allowedFileTypes: ["application/pdf"],
     },
   }).onUploadComplete(({ file }) => {
     console.log("Uploaded File:", file.url);

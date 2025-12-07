@@ -277,19 +277,19 @@ const handleSubmit = async (e) => {
   <label className="text-sm font-semibold text-slate-700">
     Upload Signature *
   </label>
+<UploadButton
+  endpoint="fileUpload"
+  url="https://cwsearchway.onrender.com/api/uploadthing"
+  onClientUploadComplete={(files) => {
+    const file = files[0];
+    setFormData((prev) => ({
+      ...prev,
+      signature: file.url,
+    }));
+  }}
+  onUploadError={(error) => alert(`Upload Error: ${error.message}`)}
+/>
 
-  <UploadButton
-    endpoint="fileUpload"
-    url="https://cwsearchway.onrender.com/api/uploadthing" 
-    onClientUploadComplete={(files) => {
-      const file = files[0];
-      setFormData((prev) => ({
-        ...prev,
-        signature: file.url, // save URL instead of File object
-      }));
-    }}
-    onUploadError={(error) => alert(`Upload error: ${error.message}`)}
-  />
 </div>
 
 
@@ -297,17 +297,18 @@ const handleSubmit = async (e) => {
   <label className="text-sm font-semibold text-slate-700">Resume</label>
 
   <UploadButton
-    endpoint="fileUpload"
-    url="https://cwsearchway.onrender.com/api/uploadthing" 
-    onClientUploadComplete={(files) => {
-      const file = files[0];
-      setFormData((prev) => ({
-        ...prev,
-        resume: file.url, // URL from UploadThing
-      }));
-    }}
-    onUploadError={(error) => alert(`Upload error: ${error.message}`)}
-  />
+  endpoint="fileUpload"
+  url="https://cwsearchway.onrender.com/api/uploadthing"
+  onClientUploadComplete={(files) => {
+    const file = files[0];
+    setFormData((prev) => ({
+      ...prev,
+      resume: file.url,
+    }));
+  }}
+  onUploadError={(error) => alert(`Upload Error: ${error.message}`)}
+/>
+
 </div>
 
 
