@@ -58,19 +58,27 @@ export default function Navbar({ currentPage, setCurrentPage }) {
           >
             Status
           </button>
+
+          {/* NEW CONTRACTOR FORM LINK */}
+          <button
+            onClick={() => setCurrentPage("contractor")}
+            className={`${linkBase} ${
+              currentPage === "contractor" ? active : inactive
+            }`}
+          >
+            Contractor Form
+          </button>
         </div>
 
-        {/* LOGIN + REGISTER BUTTONS */}
+        {/* LOGIN + REGISTER */}
         <div className="flex items-center gap-3">
-          {/* LOGIN → OPEN ADMIN DASHBOARD */}
           <button
-            onClick={() => setCurrentPage("admin")}
+            onClick={() => setCurrentPage("adminDashboard")}
             className="px-6 py-2.5 border border-slate-300 text-slate-700 font-semibold rounded-xl hover:bg-slate-100 transition"
           >
-            Login
+            Login for admin
           </button>
 
-          {/* REGISTER */}
           <button
             onClick={() => setCurrentPage("register")}
             className="px-6 py-2.5 bg-slate-900 text-white font-bold rounded-xl hover:scale-105 transition"
