@@ -280,6 +280,7 @@ const handleSubmit = async (e) => {
 
   <UploadButton
     endpoint="fileUpload"
+    url="https://cwsearchway.onrender.com/api/uploadthing" 
     onClientUploadComplete={(files) => {
       const file = files[0];
       setFormData((prev) => ({
@@ -297,6 +298,7 @@ const handleSubmit = async (e) => {
 
   <UploadButton
     endpoint="fileUpload"
+    url="https://cwsearchway.onrender.com/api/uploadthing" 
     onClientUploadComplete={(files) => {
       const file = files[0];
       setFormData((prev) => ({
