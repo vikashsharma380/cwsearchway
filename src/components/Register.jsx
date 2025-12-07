@@ -40,60 +40,83 @@ export default function Register({ setCurrentPage }) {
     }));
   };
 
-const handleSignatureChange = (e) => {
-  setFormData((prev) => ({
-    ...prev,
-    signature: e.target.files[0],
-  }));
-};
+  const handleSignatureChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      signature: e.target.files[0],
+    }));
+  };
 
-const handleResumeChange = (e) => {
-  setFormData((prev) => ({
-    ...prev,
-    resume: e.target.files[0],
-  }));
-};
-
-
-
+  const handleResumeChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      resume: e.target.files[0],
+    }));
+  };
 
   // Form Submit
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!formData.agree) {
-    alert("Please agree to the Rules & Regulations before submitting.");
-    return;
-  }
-
-  // FormData object for file upload
-  const fd = new FormData();
-  for (let key in formData) {
-    fd.append(key, formData[key]);
-  }
-
-  try {
-    const res = await fetch("https://cwsearchway.onrender.com/api/registration/register", {
-  method: "POST",
-  body: fd,
-});
-
-
-    const data = await res.json();
-
-    if (data.success) {
-      setRegistrationId(data.registrationId);
-      setSubmitted(true);
-
-      setTimeout(() => setCurrentPage("status"), 2000);
-    } else {
-      alert("Something went wrong!");
+    if (!formData.agree) {
+      alert("Please agree to the Rules & Regulations before submitting.");
+      return;
     }
-  } catch (error) {
-    alert("Server Error: " + error.message);
-  }
-};
 
+    const fd = new FormData();
+
+    // Text fields only
+    fd.append("employeeName", formData.employeeName);
+    fd.append("dob", formData.dob);
+    fd.append("gender", formData.gender);
+    fd.append("fatherName", formData.fatherName);
+    fd.append("motherName", formData.motherName);
+    fd.append("husbandName", formData.husbandName);
+    fd.append("phone", formData.phone);
+    fd.append("email", formData.email);
+    fd.append("aadhar", formData.aadhar);
+    fd.append("panCard", formData.panCard);
+    fd.append("identificationMark", formData.identificationMark);
+    fd.append("maritalStatus", formData.maritalStatus);
+    fd.append("permanentAddress", formData.permanentAddress);
+    fd.append("currentAddress", formData.currentAddress);
+    fd.append("eduQualification", formData.eduQualification);
+    fd.append("additionalQualification", formData.additionalQualification);
+    fd.append("experienceDetails", formData.experienceDetails);
+    fd.append("workPreference", formData.workPreference);
+    fd.append("utrNumber", formData.utrNumber);
+
+    // Files only if selected
+    if (formData.signature) {
+      fd.append("signature", formData.signature);
+    }
+
+    if (formData.resume) {
+      fd.append("resume", formData.resume);
+    }
+
+    try {
+      const res = await fetch(
+        "https://cwsearchway.onrender.com/api/registration/register",
+        {
+          method: "POST",
+          body: fd,
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.success) {
+        setRegistrationId(data.registrationId);
+        setSubmitted(true);
+        setTimeout(() => setCurrentPage("status"), 2000);
+      } else {
+        alert("Something went wrong!");
+      }
+    } catch (error) {
+      alert("Server Error: " + error.message);
+    }
+  };
 
   // Thank You Screen
   if (submitted) {
@@ -278,7 +301,7 @@ const handleSubmit = async (e) => {
             </label>
             <input
               type="file"
-              accept="image/*"
+              accept=".jpg,.jpeg,.png,.webp"
               onChange={handleSignatureChange}
               className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
             />
@@ -291,6 +314,7 @@ const handleSubmit = async (e) => {
             </label>
             <input
               type="file"
+              accept=".pdf,.jpg,.jpeg,.png"
               onChange={handleResumeChange}
               className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
             />
