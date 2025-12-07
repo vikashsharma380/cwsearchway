@@ -5,10 +5,11 @@ export default function AdminLogin({ setCurrentPage }) {
   const [pass, setPass] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+ const handleLogin = async (e) => {
+  e.preventDefault();
 
-    const res = await fetch(" https://cwsearchway.onrender.com/api/admin/login", {
+  try {
+    const res = await fetch("https://cwsearchway.onrender.com/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password: pass }),
@@ -21,9 +22,16 @@ export default function AdminLogin({ setCurrentPage }) {
       return;
     }
 
+    // Save token
     localStorage.setItem("cw_admin_token", data.token);
+
+    // Move to dashboard
     setCurrentPage("adminDashboard");
-  };
+  } catch (error) {
+    setError("Server error!");
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-900">
