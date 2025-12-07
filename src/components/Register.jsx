@@ -73,10 +73,11 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    const res = await fetch("https://cwsearchway.onrender.com/api/register", {
-      method: "POST",
-      body: fd,
-    });
+    const res = await fetch("https://cwsearchway.onrender.com/api/registration/register", {
+  method: "POST",
+  body: fd,
+});
+
 
     const data = await res.json();
 
