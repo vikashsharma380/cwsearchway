@@ -44,5 +44,36 @@ router.get("/status/:id", async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
+// FIND REGISTRATION ID
+router.post("/find-id", async (req, res) => {
+  try {
+    const { employeeName, phone, email, dob } = req.body;
+
+    if (!employeeName || !phone || !email || !dob) {
+      return res.json({ success: false, message: "Missing fields" });
+    }
+
+    const user = await Registration.findOne({
+      employeeName: { $regex: new RegExp("^" + employeeName + "$", "i") },
+      phone,
+      email,
+      dob,
+    });
+
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "No matching registration found!",
+      });
+    }
+
+    return res.json({
+      success: true,
+      registrationId: user.registrationId,
+    });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
+});
 
 export default router;

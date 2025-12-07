@@ -9,6 +9,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
   return (
     <nav className="fixed z-50 flex items-center w-full h-20 border-b bg-white/50 backdrop-blur-lg border-slate-200">
       <div className="flex items-center justify-between w-full px-6 mx-auto max-w-7xl">
+        
         {/* LOGO */}
         <button
           onClick={() => setCurrentPage("home")}
@@ -58,11 +59,20 @@ export default function Navbar({ currentPage, setCurrentPage }) {
           >
             Status
           </button>
+
+          {/* ⭐ NEW BUTTON — FIND REGISTRATION ID */}
+          <button
+            onClick={() => setCurrentPage("findId")}
+            className={`${linkBase} ${
+              currentPage === "findId" ? active : inactive
+            }`}
+          >
+            Find Registration ID
+          </button>
         </div>
 
         {/* LOGIN + REGISTER BUTTONS */}
         <div className="flex items-center gap-3">
-          {/* LOGIN → OPEN ADMIN DASHBOARD */}
           <button
             onClick={() => setCurrentPage("admin")}
             className="px-6 py-2.5 border border-slate-300 text-slate-700 font-semibold rounded-xl hover:bg-slate-100 transition"
@@ -70,7 +80,6 @@ export default function Navbar({ currentPage, setCurrentPage }) {
             Login
           </button>
 
-          {/* REGISTER */}
           <button
             onClick={() => setCurrentPage("register")}
             className="px-6 py-2.5 bg-slate-900 text-white font-bold rounded-xl hover:scale-105 transition"

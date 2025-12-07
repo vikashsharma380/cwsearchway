@@ -9,7 +9,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import StatusPage from "./pages/StatusPage.jsx";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminLogin from "./pages/AdminLogin.jsx";
-
+import FindId from "./components/FindId.jsx";
 
 
 export default function App() {
@@ -23,6 +23,7 @@ export default function App() {
     status: <StatusPage setCurrentPage={setCurrentPage} />,
     admin: <AdminLogin setCurrentPage={setCurrentPage} />,
 "admin-dashboard": <AdminDashboard setCurrentPage={setCurrentPage} />,
+    findId: <FindId setCurrentPage={setCurrentPage} />,
 
   };
 
