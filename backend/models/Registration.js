@@ -28,10 +28,12 @@ const RegistrationSchema = new mongoose.Schema({
   signature: String,
   resume: String,
 
+
   payment: { type: String, default: "Pending" },
 
   registrationId: String,
   status: { type: String, default: "Pending" },
+  remark: { type: String, default: "" },
   timestamp: { type: Date, default: Date.now },
 });
 

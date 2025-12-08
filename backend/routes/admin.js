@@ -16,10 +16,11 @@ router.get("/all", async (req, res) => {
 // UPDATE status (Accept/Reject)
 router.put("/update-status/:id", async (req, res) => {
   try {
-    const { status } = req.body;
+    const { status, remark } = req.body;
 
     await Registration.findByIdAndUpdate(req.params.id, {
       status: status,
+      remark: remark,
     });
 
     res.json({ success: true });

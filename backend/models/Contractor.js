@@ -52,6 +52,7 @@ const ContractorSchema = new Schema(
       enum: ["pending", "approved", "rejected"],
       default: "pending",
     },
+    remark: { type: String, default: "" },
   },
   { timestamps: true }
 );
