@@ -18,6 +18,10 @@ mongoose
 app.use("/api/registration", registrationRoutes);
 import adminRoutes from "./routes/admin.js";
 app.use("/api/admin", adminRoutes);
+import adminAuthRoutes from "./routes/adminAuth.js";
+app.use("/api/admin", adminAuthRoutes);
+app.use("/uploads", express.static("uploads"));
+
 
 // Start Server
 app.listen(5000, () => console.log("Server running on port 5000"));

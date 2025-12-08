@@ -6,7 +6,7 @@ export default function AdminDashboard({ setCurrentPage }) {
 
   // Fetch all registrations
   const loadData = async () => {
-    const res = await fetch("http://localhost:5000/api/admin/all");
+    const res = await fetch("https://cwsearchway.onrender.com/api/admin/all");
     const json = await res.json();
     if (json.success) setData(json.data);
   };
@@ -19,7 +19,7 @@ export default function AdminDashboard({ setCurrentPage }) {
   const deleteUser = async (id) => {
     if (!window.confirm("Delete this user?")) return;
 
-    await fetch(`http://localhost:5000/api/admin/delete/${id}`, {
+    await fetch(`https://cwsearchway.onrender.com/api/admin/delete/${id}`, {
       method: "DELETE",
     });
 
@@ -28,7 +28,7 @@ export default function AdminDashboard({ setCurrentPage }) {
 
   // UPDATE status
   const updateStatus = async (id, status) => {
-    await fetch(`http://localhost:5000/api/admin/update-status/${id}`, {
+    await fetch(`https://cwsearchway.onrender.com/api/admin/update-status/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status }),

@@ -9,7 +9,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import StatusPage from "./pages/StatusPage.jsx";
 
 import AdminDashboard from "./pages/AdminDashboard";
-import AdminLogin from "./pages/AdminLogin";
+import AdminLogin from "./pages/AdminLogin.jsx";
 
 // DIRECT CONTRACTOR FORM
 import ContractorForm from "./components/ContractorForm.jsx";

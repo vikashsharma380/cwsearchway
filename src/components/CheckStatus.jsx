@@ -6,23 +6,32 @@ export default function CheckStatus() {
   const [searched, setSearched] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
 
-    const registrations = JSON.parse(
-      localStorage.getItem("cwsearchway_registrations") || "{}"
-    );
+    if (!registrationId.trim()) return;
 
-    const data = registrations[registrationId];
-    if (data) {
-      setRegistrationData(data);
-      setNotFound(false);
-    } else {
-      setRegistrationData(null);
+    try {
+      const res = await fetch(
+        `https://cwsearchway.onrender.com/api/registration/status/${registrationId}`
+      );
+
+      const data = await res.json();
+
+      if (data.success) {
+        setRegistrationData(data.data);
+        setNotFound(false);
+      } else {
+        setRegistrationData(null);
+        setNotFound(true);
+      }
+
+      setSearched(true);
+    } catch (error) {
+      console.error("Error:", error);
       setNotFound(true);
+      setSearched(true);
     }
-
-    setSearched(true);
   };
 
   const statusStyles = (status) => {
@@ -85,10 +94,13 @@ export default function CheckStatus() {
             <div className="p-8 space-y-4 border bg-slate-100 rounded-2xl border-slate-300">
               {[
                 { label: "🆔 ID", value: registrationData.registrationId },
-                { label: "👤 Name", value: registrationData.fullName },
+                { label: "👤 Name", value: registrationData.employeeName },
                 { label: "📧 Email", value: registrationData.email },
                 { label: "📱 Phone", value: registrationData.phone },
-                { label: "📅 Applied On", value: registrationData.timestamp },
+                {
+                  label: "📅 Applied On",
+                  value: new Date(registrationData.timestamp).toLocaleString(),
+                },
               ].map((item, i) => (
                 <div
                   key={i}
