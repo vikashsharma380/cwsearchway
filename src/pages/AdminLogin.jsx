@@ -46,14 +46,14 @@ setCurrentPage("admin-dashboard");
           <input
             type="email"
             className="w-full border px-4 py-3 rounded-lg"
-            placeholder="Admin Email"
+            placeholder=""
             onChange={(e) => setEmail(e.target.value)}
           />
 
           <input
             type="password"
             className="w-full border px-4 py-3 rounded-lg"
-            placeholder="Enter Password"
+            placeholder=""
             onChange={(e) => setPass(e.target.value)}
           />
 
