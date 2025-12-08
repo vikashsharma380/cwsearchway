@@ -65,12 +65,13 @@ export default function Hero({ setCurrentPage }) {
           {/* TESTIMONIAL BOX */}
           <div className="absolute w-64 p-4 border shadow-lg bottom-6 right-4 bg-white/90 backdrop-blur-md border-slate-200 rounded-xl">
             <p className="text-sm text-slate-700">
-              “This platform helped me land my dream role. Highly recommended!”
+              “CWSearchWay consistently delivers trusted and high-quality
+              talent.”
             </p>
             <p className="mt-2 text-xs font-semibold text-slate-900">
-              Jonas Elliot
+              POWERED BY
             </p>
-            <p className="text-[11px] text-slate-500">CFO at Margo Inc.</p>
+            <p className="text-[11px] text-slate-500">CODE WEB TELECOM</p>
           </div>
         </div>
       </div>

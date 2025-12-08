@@ -5,6 +5,7 @@ import Services from "../components/Services";
 import WhyChooseUs from "../components/WhyChooseUs";
 import Footer from "../components/Footer";
 
+
 export default function HomePage({ setCurrentPage }) {
   return (
     <>

@@ -1,6 +1,7 @@
 import React from "react";
+import heroPerson from "../assets/hero-person.png";
 
-export default function About() {
+export default function About({ setCurrentPage }) {
   return (
     <section className="px-6 py-32 bg-white">
       <div className="grid items-center grid-cols-1 gap-20 mx-auto max-w-7xl lg:grid-cols-2">
@@ -19,6 +20,14 @@ export default function About() {
             your skills and goals effortlessly.
           </p>
 
+          {/* ⭐ Register Button (GOES TO Registration Form Page) */}
+          <button
+            onClick={() => setCurrentPage("form")}
+            className="px-8 py-3 font-semibold text-white transition bg-black rounded-full shadow hover:bg-slate-900"
+          >
+            Register Now →
+          </button>
+
           {/* QUICK STATS */}
           <div className="grid grid-cols-3 gap-6 pt-4">
             <div>
@@ -36,9 +45,8 @@ export default function About() {
           </div>
         </div>
 
-        {/* RIGHT SIDE INFO CARDS */}
+        {/* RIGHT SIDE CARDS */}
         <div className="space-y-6">
-          {/* CARD 1 */}
           <div className="p-6 transition bg-white border shadow-sm rounded-2xl border-slate-200 hover:shadow-md">
             <h3 className="text-lg font-semibold text-slate-900">
               Verified Opportunities
@@ -49,7 +57,6 @@ export default function About() {
             </p>
           </div>
 
-          {/* CARD 2 */}
           <div className="p-6 transition bg-white border shadow-sm rounded-2xl border-slate-200 hover:shadow-md">
             <h3 className="text-lg font-semibold text-slate-900">
               Smart Job Matching
@@ -60,7 +67,6 @@ export default function About() {
             </p>
           </div>
 
-          {/* CARD 3 */}
           <div className="p-6 transition bg-white border shadow-sm rounded-2xl border-slate-200 hover:shadow-md">
             <h3 className="text-lg font-semibold text-slate-900">
               Faster Hiring Process

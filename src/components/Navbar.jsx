@@ -2,15 +2,15 @@ import React from "react";
 import logoImage from "../assets/logo.png";
 
 export default function Navbar({ currentPage, setCurrentPage }) {
-  const linkBase = "text-sm font-medium px-3 py-2 rounded-full transition-all font-semibold";
-  const active = "bg-gradient-to-r from-cyan-600 to-emerald-600 text-white";
+  const linkBase = "text-sm font-medium px-3 py-2 rounded-full transition-all";
+  const active = "bg-black text-white shadow-md";
+
   const inactive = "text-slate-600 hover:bg-slate-100";
    const linkBase1 = "text-xl font-medium px-3 py-2 rounded-full transition-all font-semibold";
 
   return (
     <nav className="fixed z-50 flex items-center w-full h-20 border-b bg-white/50 backdrop-blur-lg border-slate-200">
       <div className="flex items-center justify-between w-full px-6 mx-auto max-w-7xl">
-        
         {/* LOGO */}
         <button
           onClick={() => setCurrentPage("home")}
@@ -71,17 +71,17 @@ export default function Navbar({ currentPage, setCurrentPage }) {
             Find Registration ID
           </button>
 
-             <button
+          <button
             onClick={() => setCurrentPage("form")}
             className={`${linkBase1} ${
               currentPage === "form" ? active : inactive
             }` }
           >
-        Registration Form
+            Registration Form
           </button>
         </div>
 
-        {/* LOGIN + REGISTER BUTTONS */}
+        {/* LOGIN + REGISTER */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setCurrentPage("admin")}

@@ -230,95 +230,118 @@ export default function ContractorRegister({ setCurrentPage }) {
             />
           </div>
 
-         {/* WORK TYPE */}
-<div className="mt-6">
-  <label className="text-sm font-semibold text-slate-700">
-    Work Type *
-  </label>
+          {/* WORK TYPE */}
+          <div className="mt-6">
+            <label className="text-sm font-semibold text-slate-700">
+              Work Type *
+            </label>
 
-  <select
-    name="workType"
-    value={formData.workType}
-    onChange={handleChange}
-    className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
-  >
-    <option value="">Select Work Type</option>
-    <option value="Electrician">Electrician</option>
-    <option value="Plumber">Plumber</option>
-    <option value="Civil Work">Civil Work</option>
-    <option value="Mason">Mason</option>
-    <option value="Painter">Painter</option>
-    <option value="Carpenter">Carpenter</option>
-    <option value="Labour">Labour</option>
-    <option value="Welder">Welder</option>
-    <option value="Operator">Operator</option>
-    <option value="Driver">Driver</option>
-    <option value="Other">Other</option>
-  </select>
+            <select
+              name="workType"
+              value={formData.workType}
+              onChange={handleChange}
+              className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
+            >
+              <option value="">Select Work Type</option>
+              <option value="Electrician">Electrician</option>
+              <option value="Plumber">Plumber</option>
+              <option value="Civil Work">Civil Work</option>
+              <option value="Mason">Mason</option>
+              <option value="Painter">Painter</option>
+              <option value="Carpenter">Carpenter</option>
+              <option value="Labour">Labour</option>
+              <option value="Welder">Welder</option>
+              <option value="Operator">Operator</option>
+              <option value="Driver">Driver</option>
+              <option value="Other">Other</option>
+            </select>
 
-  {/* OTHER WORK TYPE INPUT */}
-  {formData.workType === "Other" && (
-    <input
-      type="text"
-      name="workTypeOther"
-      onChange={(e) =>
-        setFormData((prev) => ({
-          ...prev,
-          workType: e.target.value, // overwrite workType with custom
-        }))
-      }
-      placeholder="Enter your work type"
-      className="w-full px-4 py-3 mt-3 border bg-slate-100 border-slate-300 rounded-xl"
-    />
-  )}
-</div>
-{/* PAYMENT TYPE */}
-<div className="mt-6">
-  <label className="text-sm font-semibold text-slate-700">
-    Select Payment Type *
-  </label>
+            {/* OTHER WORK TYPE INPUT */}
+            {formData.workType === "Other" && (
+              <input
+                type="text"
+                name="workTypeOther"
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    workType: e.target.value, // overwrite workType with custom
+                  }))
+                }
+                placeholder="Enter your work type"
+                className="w-full px-4 py-3 mt-3 border bg-slate-100 border-slate-300 rounded-xl"
+              />
+            )}
+          </div>
+          {/* PAYMENT TYPE */}
+          <div className="mt-6">
+            <label className="text-sm font-semibold text-slate-700">
+              Select Payment Type (By Turnover)*
+            </label>
 
-  <select
-    name="paymentType"
-    value={formData.paymentType}
-    onChange={handleChange}
-    className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
-  >
-    <option value="">Select</option>
-    <option value="999">Registration – ₹999</option>
-    <option value="1499">Premium Registration – ₹1499</option>
-  </select>
-</div>
+            <select
+              name="paymentType"
+              value={formData.paymentType}
+              onChange={handleChange}
+              className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
+            >
+              <option value="">Select</option>
+              <option value="999">Turnover Up to 3 Lakh-₹999</option>
+            <option value="1499">Turnover Up to 3-10 Lakh-₹1499</option>
+           <option value="1999">Turnover Up to 10-20 Lakh-₹1999</option>
+            <option value="3499">Turnover Up to 20-50 Lakh-₹3499</option>
+              <option value="5999">Turnover Above 50 Lakh-₹5999</option>
+            </select>
+          </div>
 
-{/* QR CODE DISPLAY */}
-{formData.paymentType && (
-  <div className="mt-4">
-    <p className="text-sm font-semibold text-slate-700">
-      Scan QR to Pay
-    </p>
+          {/* QR CODE DISPLAY */}
+          {formData.paymentType && (
+            <div className="mt-4">
+              <p className="text-sm font-semibold text-slate-700">
+                Scan QR to Pay
+              </p>
 
-    {formData.paymentType === "999" && (
-      <img
-        src="/999.png"
-        alt="QR 999"
-        className="w-48 rounded-xl border mt-2"
-      />
-    )}
+              {formData.paymentType === "999" && (
+                <img
+                  src="/999.png"
+                  alt="QR 999"
+                  className="w-48 mt-2 border rounded-xl"
+                />
+              )}
 
-    {formData.paymentType === "1499" && (
-      <img
-        src="/1499.png"
-        alt="QR 1499"
-        className="w-48 rounded-xl border mt-2"
-      />
-    )}
+              {formData.paymentType === "1499" && (
+                <img
+                  src="/1499.png"
+                  alt="QR 1499"
+                  className="w-48 mt-2 border rounded-xl"
+                />
+              )}
+               {formData.paymentType === "1999" && (
+                <img
+                  src="/__qr_code (4).png"
+                  alt="QR 1499"
+                  className="w-48 mt-2 border rounded-xl"
+                />
+              )}
+               {formData.paymentType === "3499" && (
+                <img
+                  src="/__qr_code (5).png"
+                  alt="QR 1499"
+                  className="w-48 mt-2 border rounded-xl"
+                />
+              )}
+               {formData.paymentType === "5999" && (
+                <img
+                  src="/__qr_code (6).png"
+                  alt="QR 1499"
+                  className="w-48 mt-2 border rounded-xl"
+                />
+              )}
 
-    <p className="text-xs text-slate-600 mt-2">
-      After payment, please enter UTR number below.
-    </p>
-  </div>
-)}
-
+              <p className="mt-2 text-xs text-slate-600">
+                After payment, please enter UTR number below.
+              </p>
+            </div>
+          )}
 
           {/* UTR NUMBER */}
           <div className="mt-6">
@@ -351,75 +374,83 @@ export default function ContractorRegister({ setCurrentPage }) {
           </div>
 
           {/* RULES */}
-       <div className="p-6 mt-10 border bg-slate-100 rounded-xl border-slate-300">
-  <h3 className="text-lg font-bold text-slate-900">
-    Rules & Regulations
-  </h3>
+          <div className="p-6 mt-10 border bg-slate-100 rounded-xl border-slate-300">
+            <h3 className="text-lg font-bold text-slate-900">
+              Rules & Regulations
+            </h3>
 
-  {/* Always Visible */}
-  <p className="mt-2 text-sm text-slate-600">
-    • Registration fee of ₹999 / ₹1499 is charged for providing opportunities and coordination.
-  </p>
+            {/* Always Visible */}
+            <p className="mt-2 text-sm text-slate-600">
+              • Registration fee of ₹999 / ₹1499 is charged for providing
+              opportunities and coordination.
+            </p>
 
-  <p className="mt-2 text-sm text-slate-600">
-    • All information provided during registration must be correct. Incorrect or incomplete details may lead to cancellation.
-  </p>
+            <p className="mt-2 text-sm text-slate-600">
+              • All information provided during registration must be correct.
+              Incorrect or incomplete details may lead to cancellation.
+            </p>
 
-  <p className="mt-2 text-sm text-slate-600">
-    • No agency or company can provide a 100% job selection guarantee. Selection depends on company policy and interview performance.
-  </p>
+            <p className="mt-2 text-sm text-slate-600">
+              • No agency or company can provide a 100% job selection guarantee.
+              Selection depends on company policy and interview performance.
+            </p>
 
-  {/* Show More Content */}
-  {showMore && (
-    <>
-      <p className="mt-2 text-sm text-slate-600">
-        • Registration fee is strictly non-refundable under any circumstances.
-      </p>
+            {/* Show More Content */}
+            {showMore && (
+              <>
+                <p className="mt-2 text-sm text-slate-600">
+                  • Registration fee is strictly non-refundable under any
+                  circumstances.
+                </p>
 
-      <p className="mt-2 text-sm text-slate-600">
-        • Registration fee is only a service/processing charge and not a job guarantee.
-      </p>
+                <p className="mt-2 text-sm text-slate-600">
+                  • Registration fee is only a service/processing charge and not
+                  a job guarantee.
+                </p>
 
-      <p className="mt-2 text-sm text-slate-600">
-        • Additional service charges may apply after selection (if applicable).
-      </p>
+                <p className="mt-2 text-sm text-slate-600">
+                  • Additional service charges may apply after selection (if
+                  applicable).
+                </p>
 
-      <p className="mt-2 text-sm text-slate-600">
-        • Any fraud, misbehavior, or false activity may lead to registration cancellation.
-      </p>
+                <p className="mt-2 text-sm text-slate-600">
+                  • Any fraud, misbehavior, or false activity may lead to
+                  registration cancellation.
+                </p>
 
-      <p className="mt-2 text-sm text-slate-600">
-        • Contractor's personal data will be kept secure and not shared without consent.
-      </p>
+                <p className="mt-2 text-sm text-slate-600">
+                  • Contractor's personal data will be kept secure and not
+                  shared without consent.
+                </p>
 
-      <p className="mt-2 text-sm text-slate-600">
-        • After fee payment, the contractor agrees to all Terms & Conditions as a binding agreement.
-      </p>
-    </>
-  )}
+                <p className="mt-2 text-sm text-slate-600">
+                  • After fee payment, the contractor agrees to all Terms &
+                  Conditions as a binding agreement.
+                </p>
+              </>
+            )}
 
-  {/* VIEW MORE / VIEW LESS BUTTON */}
-  <button
-    type="button"
-    onClick={() => setShowMore(!showMore)}
-    className="mt-3 text-cyan-700 font-semibold hover:underline"
-  >
-    {showMore ? "View Less" : "View More"}
-  </button>
+            {/* VIEW MORE / VIEW LESS BUTTON */}
+            <button
+              type="button"
+              onClick={() => setShowMore(!showMore)}
+              className="mt-3 font-semibold text-cyan-700 hover:underline"
+            >
+              {showMore ? "View Less" : "View More"}
+            </button>
 
-  {/* Checkbox */}
-  <label className="flex items-center gap-2 mt-4 text-slate-800">
-    <input
-      type="checkbox"
-      name="agree"
-      checked={formData.agree}
-      onChange={handleChange}
-      className="w-5 h-5"
-    />
-    I agree to all Rules & Regulations.
-  </label>
-</div>
-
+            {/* Checkbox */}
+            <label className="flex items-center gap-2 mt-4 text-slate-800">
+              <input
+                type="checkbox"
+                name="agree"
+                checked={formData.agree}
+                onChange={handleChange}
+                className="w-5 h-5"
+              />
+              I agree to all Rules & Regulations.
+            </label>
+          </div>
 
           {/* SUBMIT BUTTON */}
           <button

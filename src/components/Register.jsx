@@ -289,7 +289,7 @@ export default function Register({ setCurrentPage }) {
                 <img
                   src="/__qr_code.png"
                   alt="QR 299"
-                  className="w-48 rounded-xl border mt-2"
+                  className="w-48 mt-2 border rounded-xl"
                 />
               )}
 
@@ -297,7 +297,7 @@ export default function Register({ setCurrentPage }) {
                 <img
                   src="/__qr_code (1).png"
                   alt="QR 499"
-                  className="w-48 rounded-xl border mt-2"
+                  className="w-48 mt-2 border rounded-xl"
                 />
               )}
 
@@ -305,11 +305,11 @@ export default function Register({ setCurrentPage }) {
                 <img
                   src="/999.png"
                   alt="QR 999"
-                  className="w-48 rounded-xl border mt-2"
+                  className="w-48 mt-2 border rounded-xl"
                 />
               )}
 
-              <p className="text-xs text-slate-600 mt-2">
+              <p className="mt-2 text-xs text-slate-600">
                 After payment, enter the UTR Number below.
               </p>
             </div>
@@ -423,7 +423,7 @@ export default function Register({ setCurrentPage }) {
             <button
               type="button"
               onClick={() => setShowMore(!showMore)}
-              className="mt-3 text-cyan-700 font-semibold hover:underline"
+              className="mt-3 font-semibold text-cyan-700 hover:underline"
             >
               {showMore ? "View Less" : "View More"}
             </button>
