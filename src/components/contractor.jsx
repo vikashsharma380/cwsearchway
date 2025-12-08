@@ -4,6 +4,7 @@ import { UploadButton } from "@uploadthing/react";
 export default function ContractorRegister({ setCurrentPage }) {
   const [submitted, setSubmitted] = useState(false);
   const [registrationId, setRegistrationId] = useState("");
+  const [showMore, setShowMore] = useState(false);
 
   const [formData, setFormData] = useState({
     contractorName: "",
@@ -344,29 +345,75 @@ export default function ContractorRegister({ setCurrentPage }) {
           </div>
 
           {/* RULES */}
-          <div className="p-6 mt-10 border bg-slate-100 rounded-xl border-slate-300">
-            <h3 className="text-lg font-bold text-slate-900">
-              Rules & Regulations
-            </h3>
+       <div className="p-6 mt-10 border bg-slate-100 rounded-xl border-slate-300">
+  <h3 className="text-lg font-bold text-slate-900">
+    Rules & Regulations
+  </h3>
 
-            <p className="mt-2 text-sm text-slate-600">
-             
-            </p>
-            <p className="text-sm text-slate-600">
-              • All information must match your documents.
-            </p>
+  {/* Always Visible */}
+  <p className="mt-2 text-sm text-slate-600">
+    • Job registration fee of ₹299 / ₹499 is charged for providing job opportunities and interview coordination.
+  </p>
 
-            <label className="flex items-center gap-2 mt-4 text-slate-800">
-              <input
-                type="checkbox"
-                name="agree"
-                checked={formData.agree}
-                onChange={handleChange}
-                className="w-5 h-5"
-              />
-              I agree to all Rules & Regulations.
-            </label>
-          </div>
+  <p className="mt-2 text-sm text-slate-600">
+    • All information provided during registration must be correct. Incorrect or incomplete details may lead to cancellation.
+  </p>
+
+  <p className="mt-2 text-sm text-slate-600">
+    • No agency or company can provide a 100% job selection guarantee. Selection depends on company policy and interview performance.
+  </p>
+
+  {/* Show More Content */}
+  {showMore && (
+    <>
+      <p className="mt-2 text-sm text-slate-600">
+        • Registration fee is strictly non-refundable under any circumstances.
+      </p>
+
+      <p className="mt-2 text-sm text-slate-600">
+        • Registration fee is only a service/processing charge and not a job guarantee.
+      </p>
+
+      <p className="mt-2 text-sm text-slate-600">
+        • Additional service charges may apply after selection (if applicable).
+      </p>
+
+      <p className="mt-2 text-sm text-slate-600">
+        • Any fraud, misbehavior, or false activity may lead to registration cancellation.
+      </p>
+
+      <p className="mt-2 text-sm text-slate-600">
+        • Candidate's personal data will be kept secure and not shared without consent.
+      </p>
+
+      <p className="mt-2 text-sm text-slate-600">
+        • After fee payment, the candidate agrees to all Terms & Conditions as a binding agreement.
+      </p>
+    </>
+  )}
+
+  {/* VIEW MORE / VIEW LESS BUTTON */}
+  <button
+    type="button"
+    onClick={() => setShowMore(!showMore)}
+    className="mt-3 text-cyan-700 font-semibold hover:underline"
+  >
+    {showMore ? "View Less" : "View More"}
+  </button>
+
+  {/* Checkbox */}
+  <label className="flex items-center gap-2 mt-4 text-slate-800">
+    <input
+      type="checkbox"
+      name="agree"
+      checked={formData.agree}
+      onChange={handleChange}
+      className="w-5 h-5"
+    />
+    I agree to all Rules & Regulations.
+  </label>
+</div>
+
 
           {/* SUBMIT BUTTON */}
           <button

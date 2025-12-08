@@ -1,61 +1,71 @@
 import express from "express";
-import Registration from "../models/Registration.js";
+import Contractor from "../models/Contractor.js";
 
 const router = express.Router();
 
-// CREATE REGISTRATION (UploadThing Version)
+// REGISTER CONTRACTOR
 router.post("/register", async (req, res) => {
   try {
-    console.log("BODY RECEIVED:", req.body);
+    console.log("RECEIVED BODY:", req.body);
 
     const registrationId = "CWCON" + Date.now();
 
-    const newReg = await Registration.create({
-  ...req.body,
-  registrationId,
-  signature: req.body.signature || null,
-  resume: req.body.resume || null,
-  payment: req.body.utrNumber ? "Completed" : "Pending",
-});
+    const payload = {
+      ...req.body,
 
+      // FIX 1: phone → mobile
+      mobile: req.body.phone,
 
-    return res.json({ success: true, registrationId, data: newReg });
+      // FIX 2: gender lowercase
+      gender: req.body.gender?.toLowerCase(),
 
+      // FIX 3: workTypeOther support
+      workTypeOther: req.body.workTypeOther || null,
+
+      registrationId,
+      status: req.body.utrNumber ? "approved" : "pending",
+    };
+
+    const saved = await Contractor.create(payload);
+
+    return res.json({
+      success: true,
+      registrationId,
+      data: saved,
+    });
   } catch (error) {
     console.error("REGISTER ERROR:", error);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 });
-
-
 
 // CHECK STATUS
 router.get("/status/:id", async (req, res) => {
   try {
-    const data = await Registration.findOne({
-      registrationId: req.params.id,
-    });
+    const data = await Contractor.findOne({ registrationId: req.params.id });
 
-    if (!data) return res.json({ success: false, message: "Not Found" });
+    if (!data)
+      return res.json({ success: false, message: "No record found!" });
 
     res.json({ success: true, data });
   } catch (error) {
     console.error("STATUS ERROR:", error);
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
+
 // FIND REGISTRATION ID
 router.post("/find-id", async (req, res) => {
   try {
-    const { employeeName, phone, email, dob } = req.body;
+    const { contractorName, mobile, email, dob } = req.body;
 
-    if (!employeeName || !phone || !email || !dob) {
+    if (!contractorName || !mobile || !email || !dob) {
       return res.json({ success: false, message: "Missing fields" });
     }
 
-    const user = await Registration.findOne({
-      employeeName: { $regex: new RegExp("^" + employeeName + "$", "i") },
-      phone,
+    const user = await Contractor.findOne({
+      contractorName: { $regex: new RegExp("^" + contractorName + "$", "i") },
+      mobile,
       email,
       dob,
     });

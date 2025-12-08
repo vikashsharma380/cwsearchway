@@ -3,113 +3,49 @@ const contractorConn = require("../db/contractorConn");
 
 const ContractorSchema = new Schema(
   {
-    contractorName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    contractorName: { type: String, required: true, trim: true },
 
-    dob: {
-      type: String,
-      required: true,
-    },
+    dob: { type: String, required: true },
 
-    gender: {
-      type: String,
-      enum: ["male", "female", "other"],
-      required: true,
-    },
+    gender: { type: String, required: true }, // frontend se Male/Female aayega, backend me convert karenge
 
-    maritalStatus: {
-      type: String,
-      enum: ["single", "married", "widow", "divorced"],
-      required: true,
-    },
+    maritalStatus: { type: String, required: true },
 
-    spouseName: {
-      type: String,
-      trim: true,
-    },
+    spouseName: { type: String, trim: true },
 
-    fatherName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    fatherName: { type: String, required: true },
+    motherName: { type: String, required: true },
 
-    motherName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    mobile: { type: String, required: true, trim: true },   // FIXED for frontend (phone → mobile)
 
-    mobile: {
-      type: String,
-      required: true,
-      index: true,
-      trim: true,
-    },
+    email: { type: String, trim: true, lowercase: true },
 
-    email: {
-      type: String,
-      trim: true,
-      lowercase: true,
-    },
+    aadhaarCard: { type: String, required: true },
+    panCard: { type: String },
 
-    aadhaarCard: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    identificationMark: { type: String },
 
-    panCard: {
-      type: String,
-      trim: true,
-    },
+    permanentAddress: { type: String, required: true },
 
-    identificationMark: {
-      type: String,
-      trim: true,
-    },
+    educationQualification: { type: String },
+    experienceDetails: { type: String },
 
-    permanentAddress: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    workType: { type: String, required: true }, // "Other" + workTypeOther supported
+    workTypeOther: { type: String },
 
-    educationQualification: {
-      type: String,
-      trim: true,
-    },
+    paymentType: { type: String }, // 999 / 1499
 
-    experienceDetails: {
-      type: String,
-      trim: true,
-    },
+    utrNumber: { type: String },
 
-    workType: {
-      type: String, // electrical, civil, labour, etc.
-      required: true,
-      trim: true,
-    },
-
-    signature: {
-      type: String, // Base64 string OR file URL
-      trim: true,
-    },
-
-    utrNumber: {
-      type: String,
-      trim: true,
-    },
+    signature: { type: String },
 
     registrationId: {
       type: String,
       unique: true,
       required: true,
-      index: true,
     },
+
+    agree: { type: Boolean, default: false },
 
     status: {
       type: String,
@@ -117,9 +53,7 @@ const ContractorSchema = new Schema(
       default: "pending",
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 module.exports = contractorConn.model("Contractor", ContractorSchema);

@@ -8,7 +8,7 @@ const RegistrationSchema = new mongoose.Schema({
   motherName: String,
   spouseName: String,
 
-  phone: String,
+  phone: String , 
   email: String,
 
   aadhar: String,
