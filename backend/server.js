@@ -24,7 +24,7 @@ import adminAuthRoutes from "./routes/adminAuth.js";
 app.use("/api/admin", adminAuthRoutes);
 app.use("/uploads", express.static("uploads"));
 
-import adminContractorRoutes from "./routes/adminContractor.js";
+import adminContractorRoutes from "./routes/adminContractorRoutes.js";
 app.use("/api/admin", adminContractorRoutes);
 
 
