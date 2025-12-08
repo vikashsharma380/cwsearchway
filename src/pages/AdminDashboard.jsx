@@ -28,6 +28,8 @@ export default function AdminDashboard({ setCurrentPage }) {
 
   const [rejectUser, setRejectUser] = useState(null);
   const [rejectRemark, setRejectRemark] = useState("");
+const [acceptUser, setAcceptUser] = useState(null);
+const [acceptRemark, setAcceptRemark] = useState("");
 
   // table states
   const [data, setData] = useState([]);
@@ -167,6 +169,37 @@ export default function AdminDashboard({ setCurrentPage }) {
     if (view) loadViewData(view);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view]);
+const addWorkType = async () => {
+  const name = prompt("Enter new work type:");
+  if (!name) return;
+
+  try {
+    const res = await fetch("https://cwsearchway.onrender.com/api/work-types", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name }),
+    });
+
+    const json = await res.json();
+    if (json.success) loadWorkTypes();
+  } catch (err) {
+    console.error("Add error:", err);
+  }
+};
+
+const deleteWorkType = async (id) => {
+  if (!window.confirm("Delete this work type?")) return;
+
+  try {
+    await fetch(`https://cwsearchway.onrender.com/api/work-types/${id}`, {
+      method: "DELETE",
+    });
+
+    loadWorkTypes();
+  } catch (err) {
+    console.error("Delete error:", err);
+  }
+};
 
   // -------------------------
   // Delete, update status, save edit
@@ -494,6 +527,66 @@ export default function AdminDashboard({ setCurrentPage }) {
       </div>
     );
   }
+  if (view === "worktypes") {
+  return (
+    <div className="min-h-screen p-6 bg-slate-50">
+      <div className="max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow">
+
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">Manage Work Types</h2>
+          <button
+            onClick={() => setView("")}
+            className="px-4 py-2 bg-gray-800 text-white rounded-md"
+          >
+            Back
+          </button>
+        </div>
+
+        <button
+          onClick={addWorkType}
+          className="px-4 py-2 bg-cyan-600 text-white rounded-md mb-4"
+        >
+          + Add Work Type
+        </button>
+
+        <table className="w-full text-left border">
+          <thead className="bg-slate-100">
+            <tr>
+              <th className="p-3 border">Work Type</th>
+              <th className="p-3 border text-right">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {workTypes.map((wt) => (
+              <tr key={wt._id} className="border-b">
+                <td className="p-3">{wt.name}</td>
+                <td className="p-3 text-right">
+                  <button
+                    onClick={() => deleteWorkType(wt._id)}
+                    className="px-3 py-1 bg-red-600 text-white rounded-md text-sm"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+
+            {workTypes.length === 0 && (
+              <tr>
+                <td className="p-4 text-center text-slate-500" colSpan="2">
+                  No Work Types Found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  );
+}
+
 
   // -------------------------
   // Table View UI
@@ -700,12 +793,15 @@ export default function AdminDashboard({ setCurrentPage }) {
                         Edit
                       </button>
 
-                      <button
-                        onClick={() => updateStatus(item._id, "Accepted")}
-                        className="px-3 py-2 bg-green-600 text-white rounded-md text-sm"
-                      >
-                        Accept
-                      </button>
+                    <button
+  onClick={() => {
+    setAcceptUser(item);
+    setAcceptRemark("");
+  }}
+  className="px-3 py-2 bg-green-600 text-white rounded-md text-sm"
+>
+  Accept
+</button>
 
                       <button
                         onClick={() => {
@@ -1250,6 +1346,49 @@ export default function AdminDashboard({ setCurrentPage }) {
             </div>
           </div>
         )}
+        {acceptUser && (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4">
+    <div className="bg-white p-6 rounded-2xl w-full max-w-lg shadow-xl">
+      <h2 className="text-xl font-bold mb-3">Accept Application</h2>
+
+      <p className="text-sm text-slate-600 mb-2">
+        <b>{acceptUser.contractorName || acceptUser.employeeName}</b> को
+        accept करने का remark लिखें (optional):
+      </p>
+
+      <textarea
+        value={acceptRemark}
+        onChange={(e) => setAcceptRemark(e.target.value)}
+        placeholder="Remark (optional)..."
+        className="w-full border p-3 rounded-xl h-32"
+      />
+
+      <div className="flex gap-3 mt-5">
+        <button
+          onClick={async () => {
+            await updateStatus(
+              acceptUser._id,
+              "Accepted",
+              acceptRemark
+            );
+            setAcceptUser(null);
+          }}
+          className="flex-1 py-3 bg-green-600 text-white rounded-lg"
+        >
+          Submit
+        </button>
+
+        <button
+          onClick={() => setAcceptUser(null)}
+          className="flex-1 py-3 bg-slate-800 text-white rounded-lg"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
         {rejectUser && (
           <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4">
