@@ -10,6 +10,9 @@ import StatusPage from "./pages/StatusPage.jsx";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminLogin from "./pages/AdminLogin.jsx";
 import FindId from "./components/FindId.jsx";
+import FormPage from "./pages/FormPage.jsx";
+import Contractor from "./components/contractor.jsx";
+
 
 
 export default function App() {
@@ -22,8 +25,12 @@ export default function App() {
     register: <RegisterPage setCurrentPage={setCurrentPage} />,
     status: <StatusPage setCurrentPage={setCurrentPage} />,
     admin: <AdminLogin setCurrentPage={setCurrentPage} />,
+    contractor: <Contractor setCurrentPage={setCurrentPage} />,
+
 "admin-dashboard": <AdminDashboard setCurrentPage={setCurrentPage} />,
     findId: <FindId setCurrentPage={setCurrentPage} />,
+    form: <FormPage setCurrentPage={setCurrentPage} />,
+
 
   };
 

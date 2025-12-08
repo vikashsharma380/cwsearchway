@@ -69,6 +69,15 @@ export default function Navbar({ currentPage, setCurrentPage }) {
           >
             Find Registration ID
           </button>
+
+             <button
+            onClick={() => setCurrentPage("form")}
+            className={`${linkBase} ${
+              currentPage === "form" ? active : inactive
+            }`}
+          >
+        Registration Form
+          </button>
         </div>
 
         {/* LOGIN + REGISTER BUTTONS */}
@@ -80,12 +89,12 @@ export default function Navbar({ currentPage, setCurrentPage }) {
             Login
           </button>
 
-          <button
+          {/* <button
             onClick={() => setCurrentPage("register")}
             className="px-6 py-2.5 bg-slate-900 text-white font-bold rounded-xl hover:scale-105 transition"
           >
             Register
-          </button>
+          </button> */}
         </div>
       </div>
     </nav>

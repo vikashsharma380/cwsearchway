@@ -8,7 +8,7 @@ router.post("/register", async (req, res) => {
   try {
     console.log("BODY RECEIVED:", req.body);
 
-    const registrationId = "CWEMP" + Date.now();
+    const registrationId = "CWCON" + Date.now();
 
     const newReg = await Registration.create({
   ...req.body,
