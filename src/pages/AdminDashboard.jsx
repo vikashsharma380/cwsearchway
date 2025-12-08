@@ -75,6 +75,13 @@ const [rejectRemark, setRejectRemark] = useState("");
     }
   };
 
+  const handleLogout = () => {
+  localStorage.removeItem("cw_admin_token");  // token delete
+  setView("");                                // dashboard view reset
+  setCurrentPage("admin");                    // admin login page par bhejo
+};
+
+
   const loadContractorData = async () => {
     try {
       const res = await fetch(
@@ -318,12 +325,13 @@ const updateStatus = async (id, status, remark = "") => {
         <div className="max-w-6xl mx-auto">
           <header className="flex items-center justify-between mb-8">
             <h1 className="text-4xl font-extrabold">Admin Dashboard</h1>
-            <button
-              onClick={() => setCurrentPage("home")}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg"
-            >
-              Logout
-            </button>
+          <button
+  onClick={handleLogout}
+  className="px-4 py-2 bg-red-600 text-white rounded-md"
+>
+  Logout
+</button>
+
           </header>
 
           <div className="grid md:grid-cols-2 gap-6">
