@@ -93,7 +93,7 @@ export default function ContractorRegister({ setCurrentPage }) {
     <div className="min-h-screen px-6 pb-12 bg-white pt-28">
       <div className="max-w-5xl mx-auto">
         <h2 className="mb-12 text-5xl font-black text-center text-slate-900">
-          Contractor Registration
+          Contractor Registration Form
         </h2>
 
         <form

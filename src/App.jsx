@@ -39,8 +39,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      {pages[currentPage]}
+      {currentPage !== "admin-dashboard" && (
+  <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+)}
+
+{pages[currentPage]}
+
     </div>
   );
 }

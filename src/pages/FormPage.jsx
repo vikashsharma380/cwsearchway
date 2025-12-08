@@ -21,7 +21,7 @@ export default function FormPage({ setCurrentPage }) {
             onClick={() => setCurrentPage("register")}
             className="w-full py-3 mb-4 bg-blue-600 text-white text-lg rounded-xl font-semibold shadow-sm hover:bg-blue-700 hover:shadow-md transition-all duration-200"
           >
-            Candidate Registration
+            Candidate Registration Form 
           </button>
 
           {/* Contractor Button */}
@@ -29,7 +29,7 @@ export default function FormPage({ setCurrentPage }) {
             onClick={() => setCurrentPage("contractor")}
             className="w-full py-3 bg-green-600 text-white text-lg rounded-xl font-semibold shadow-sm hover:bg-green-700 hover:shadow-md transition-all duration-200"
           >
-            Contractor Registration
+            Contractor Registration Form
           </button>
 
         </div>

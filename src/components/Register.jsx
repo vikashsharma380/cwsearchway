@@ -105,7 +105,7 @@ export default function Register({ setCurrentPage }) {
       <div className="max-w-5xl mx-auto">
         <div className="mb-12 text-center">
           <h2 className="text-5xl font-black text-slate-900">
-            Candidate Form
+            Candidate Registration Form
           </h2>
         </div>
 
