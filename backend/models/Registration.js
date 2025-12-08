@@ -23,15 +23,17 @@ const RegistrationSchema = new mongoose.Schema({
   additionalQualification: String,
   experienceDetails: String,
   workPreference: String,
-
+ paymentType: String,
   utrNumber: String,
   signature: String,
   resume: String,
+
 
   payment: { type: String, default: "Pending" },
 
   registrationId: String,
   status: { type: String, default: "Pending" },
+  remark: { type: String, default: "" },
   timestamp: { type: Date, default: Date.now },
 });
 

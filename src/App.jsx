@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Navbar from "./components/Navbar";
 
@@ -14,11 +14,16 @@ import FindId from "./components/FindId.jsx";
 import FormPage from "./pages/FormPage.jsx";
 import Contractor from "./components/contractor.jsx";
 
-// DIRECT CONTRACTOR FORM
-import ContractorForm from "./components/ContractorForm.jsx";
-
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
+
+  // 🔥 Refresh ke baad admin logged-in check
+  useEffect(() => {
+    const token = localStorage.getItem("cw_admin_token");
+    if (token) {
+      setCurrentPage("admin-dashboard");
+    }
+  }, []);
 
   const pages = {
     home: <HomePage setCurrentPage={setCurrentPage} />,
@@ -28,11 +33,10 @@ export default function App() {
     status: <StatusPage setCurrentPage={setCurrentPage} />,
 
     // ➤ DIRECT COMPONENT — NO PAGE FILE
-    contractor: <ContractorForm setCurrentPage={setCurrentPage} />,
+    contractor: <Contractor setCurrentPage={setCurrentPage} />,
 
     admin: <AdminLogin setCurrentPage={setCurrentPage} />,
     contractor: <Contractor setCurrentPage={setCurrentPage} />,
-
     "admin-dashboard": <AdminDashboard setCurrentPage={setCurrentPage} />,
     findId: <FindId setCurrentPage={setCurrentPage} />,
     form: <FormPage setCurrentPage={setCurrentPage} />,
@@ -40,7 +44,10 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      {currentPage !== "admin-dashboard" && (
+        <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      )}
+
       {pages[currentPage]}
     </div>
   );

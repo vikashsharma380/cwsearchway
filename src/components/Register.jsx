@@ -267,10 +267,12 @@ export default function Register({ setCurrentPage }) {
               className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
             >
               <option value="">Select</option>
-              <option value="299">Internship – ₹299</option>
-              <option value="499">Premium Internship – ₹499</option>
+              <option value="299">
+                Part-time job/work, Temporary work, Short-term job/work - ₹299
+              </option>
+              <option value="499">Internship – ₹499</option>
               <option value="499">Permanent Job – ₹499</option>
-              <option value="999">Premium – ₹999</option>
+              <option value="999">Permanent Work/Job– ₹999</option>
             </select>
           </div>
 
