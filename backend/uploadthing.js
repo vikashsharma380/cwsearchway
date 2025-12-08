@@ -6,7 +6,7 @@ const f = createUploadthing({
 export const uploadRouter = {
   // Signature upload (only images)
   signatureUpload: f({
-    "image/*": { maxFileCount: 1, maxFileSize: "2MB", allowedFileTypes: ["image/jpeg", "image/png", "image/jpg", "image/webp"] },
+    "image/jpeg": { maxFileCount: 1, maxFileSize: "2MB", allowedFileTypes: ["image/jpeg", "image/png", "image/jpg", "image/webp"] },
   }).onUploadComplete(({ file }) => {
     console.log("Signature Uploaded:", file.url);
     return { url: file.url };
