@@ -64,7 +64,7 @@ export default function Services() {
           </div>
 
           <h2 className="mb-4 text-5xl font-black lg:text-6xl text-slate-900">
-            OUR SERVICES
+            Powered by 2025 AI
           </h2>
 
           <p className="max-w-2xl mx-auto text-lg text-slate-600">

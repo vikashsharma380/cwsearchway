@@ -38,4 +38,18 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
+// UPDATE full user details
+router.put("/update/:id", async (req, res) => {
+  try {
+    const updated = await Registration.findByIdAndUpdate(
+      req.params.id,
+      req.body, // All editable fields accepted
+      { new: true }
+    );
+
+    res.json({ success: true, updated });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
+});
 export default router;

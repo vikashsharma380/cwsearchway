@@ -1,9 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
+
 
 import registrationRoutes from "./routes/registration.js";
-
+dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -21,6 +23,11 @@ app.use("/api/admin", adminRoutes);
 import adminAuthRoutes from "./routes/adminAuth.js";
 app.use("/api/admin", adminAuthRoutes);
 app.use("/uploads", express.static("uploads"));
+
+
+
+import { handler as uploadHandler } from "./uploadthing.js";
+app.use("/api/uploadthing", uploadHandler);
 
 
 // Start Server

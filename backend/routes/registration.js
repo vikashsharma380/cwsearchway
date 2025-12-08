@@ -1,48 +1,33 @@
 import express from "express";
 import Registration from "../models/Registration.js";
-import multer from "multer";
 
 const router = express.Router();
 
-// FILE UPLOAD STORAGE
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
+// CREATE REGISTRATION (UploadThing Version)
+router.post("/register", async (req, res) => {
+  try {
+    console.log("BODY RECEIVED:", req.body);
+
+    const registrationId = "CWEMP" + Date.now();
+
+    const newReg = await Registration.create({
+  ...req.body,
+  registrationId,
+  signature: req.body.signature || null,
+  resume: req.body.resume || null,
+  payment: req.body.utrNumber ? "Completed" : "Pending",
 });
 
-const upload = multer({ storage });
 
-// CREATE REGISTRATION
-router.post(
-  "/register",
-  upload.fields([
-    { name: "signature", maxCount: 1 },
-    { name: "resume", maxCount: 1 },
-  ]),
-  async (req, res) => {
-    try {
-      const registrationId = "CW" + Date.now();
+    return res.json({ success: true, registrationId, data: newReg });
 
-      const newReg = await Registration.create({
-        ...req.body,
-        registrationId,
-        signature: req.files.signature
-          ? req.files.signature[0].filename
-          : null,
-        resume: req.files.resume ? req.files.resume[0].filename : null,
-        payment: req.body.utrNumber ? "Completed" : "Pending",
-      });
-
-      res.json({ success: true, registrationId, data: newReg });
-    } catch (error) {
-      res.status(500).json({ success: false, error: error.message });
-    }
+  } catch (error) {
+    console.error("REGISTER ERROR:", error);
+    return res.status(500).json({ success: false, error: error.message });
   }
-);
+});
+
+
 
 // CHECK STATUS
 router.get("/status/:id", async (req, res) => {
@@ -55,7 +40,39 @@ router.get("/status/:id", async (req, res) => {
 
     res.json({ success: true, data });
   } catch (error) {
+    console.error("STATUS ERROR:", error);
     res.status(500).json({ success: false, error: error.message });
+  }
+});
+// FIND REGISTRATION ID
+router.post("/find-id", async (req, res) => {
+  try {
+    const { employeeName, phone, email, dob } = req.body;
+
+    if (!employeeName || !phone || !email || !dob) {
+      return res.json({ success: false, message: "Missing fields" });
+    }
+
+    const user = await Registration.findOne({
+      employeeName: { $regex: new RegExp("^" + employeeName + "$", "i") },
+      phone,
+      email,
+      dob,
+    });
+
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "No matching registration found!",
+      });
+    }
+
+    return res.json({
+      success: true,
+      registrationId: user.registrationId,
+    });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
   }
 });
 

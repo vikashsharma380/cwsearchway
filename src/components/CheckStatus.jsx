@@ -43,17 +43,14 @@ export default function CheckStatus() {
   return (
     <div className="min-h-screen px-6 pt-32 pb-12 bg-white">
       <div className="max-w-2xl mx-auto">
+
         {/* HEADER */}
         <div className="mb-10 text-center">
-          <h2 className="text-5xl font-black text-slate-900">
-            Check Your Status
-          </h2>
-          <p className="mt-2 text-slate-600">
-            Enter your registration ID below.
-          </p>
+          <h2 className="text-5xl font-black text-slate-900">Check Your Status</h2>
+          <p className="mt-2 text-slate-600">Enter your registration ID below.</p>
         </div>
 
-        {/* SEARCH BOX */}
+        {/* SEARCH */}
         <div className="p-8 mb-8 bg-white border shadow-lg border-slate-300 rounded-2xl">
           <input
             type="text"
@@ -74,6 +71,7 @@ export default function CheckStatus() {
         {/* RESULT FOUND */}
         {searched && registrationData && (
           <div className="p-10 bg-white border shadow-xl border-slate-300 rounded-3xl">
+
             <div className="mb-10 text-center">
               <div className="mb-4 text-8xl">
                 {statusStyles(registrationData.status).icon}
@@ -88,9 +86,17 @@ export default function CheckStatus() {
               </h3>
 
               <p className="mt-2 text-sm text-slate-500">Application Status</p>
+
+              {/* ⭐ SHOW REJECTION REMARK HERE */}
+              {registrationData.status === "Rejected" &&
+                registrationData.remark && (
+                  <p className="mt-4 text-lg font-semibold text-red-600 bg-red-50 p-3 rounded-xl">
+                    ❗ Reason for Rejection: {registrationData.remark}
+                  </p>
+                )}
             </div>
 
-            {/* DETAILS BOX */}
+            {/* DETAILS */}
             <div className="p-8 space-y-4 border bg-slate-100 rounded-2xl border-slate-300">
               {[
                 { label: "🆔 ID", value: registrationData.registrationId },
@@ -106,9 +112,7 @@ export default function CheckStatus() {
                   key={i}
                   className="flex justify-between py-3 border-b border-slate-300 last:border-0"
                 >
-                  <span className="font-bold text-slate-700">
-                    {item.label}:
-                  </span>
+                  <span className="font-bold text-slate-700">{item.label}:</span>
                   <span className="text-slate-900">{item.value}</span>
                 </div>
               ))}
@@ -116,7 +120,7 @@ export default function CheckStatus() {
           </div>
         )}
 
-        {/* RESULT NOT FOUND */}
+        {/* NOT FOUND */}
         {searched && notFound && (
           <div className="p-12 text-center bg-white border shadow-xl border-slate-300 rounded-3xl">
             <div className="mb-4 text-7xl">🔍</div>

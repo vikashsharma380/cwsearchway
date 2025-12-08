@@ -10,34 +10,22 @@ export default function WhyChooseUs() {
             Trusted by Top Companies
           </h2>
           <p className="text-slate-600">
-            Thousands of employers hire talent through CWSearchWay.
+            These organizations rely on CWSearchWay for hiring skilled talent.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-10 pt-4 grayscale opacity-80">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
-              className="h-8"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Google_logo_%282015%29.svg"
-              className="h-8"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
-              className="h-8"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/1/19/Tata_logo.svg"
-              className="h-8"
-            />
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg"
-              className="h-8"
-            />
+          {/* ⭐ CLEAN COMPANY NAME BARS */}
+          <div className="flex flex-wrap justify-center gap-6 pt-4">
+            <div className="px-10 py-4 text-lg font-semibold transition bg-white border shadow-sm border-slate-200 rounded-xl hover:shadow-md text-slate-800">
+              Code Web Telecom
+            </div>
+
+            <div className="px-10 py-4 text-lg font-semibold transition bg-white border shadow-sm border-slate-200 rounded-xl hover:shadow-md text-slate-800">
+              Digyaansh Shrishti Maintenance Pvt. Ltd.
+            </div>
           </div>
         </div>
 
-        {/* WHY CHOOSE US  */}
+        {/* WHY CHOOSE US */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="p-6 transition bg-white border shadow-sm rounded-xl hover:shadow-md">
             <h3 className="font-bold text-slate-900">Verified Companies</h3>

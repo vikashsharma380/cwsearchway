@@ -1,40 +1,36 @@
 import React, { useState } from "react";
 import { UploadButton } from "@uploadthing/react";
 
-export default function Register({ setCurrentPage }) {
+export default function ContractorRegister({ setCurrentPage }) {
   const [submitted, setSubmitted] = useState(false);
   const [registrationId, setRegistrationId] = useState("");
   const [showMore, setShowMore] = useState(false);
 
   const [formData, setFormData] = useState({
-    employeeName: "",
+    contractorName: "",
     dob: "",
     gender: "",
+    maritalStatus: "",
+    spouseName: "",
     fatherName: "",
     motherName: "",
-    spouseName: "",
     phone: "",
     email: "",
-    aadhar: "",
+    aadhaarCard: "",
     panCard: "",
     identificationMark: "",
-    maritalStatus: "",
     permanentAddress: "",
-    eduQualification: "",
-    additionalQualification: "",
+    educationQualification: "",
     experienceDetails: "",
-    workPreference: "",
+    workType: "",
     utrNumber: "",
     signature: null,
-    resume: null,
     agree: false,
-    paymentType: "",
   });
 
   // Input Change
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
+    const { name, value, checked, type } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -46,50 +42,44 @@ export default function Register({ setCurrentPage }) {
     e.preventDefault();
 
     if (!formData.agree) {
-      alert("Please agree to the Rules & Regulations before submitting.");
-      return;
+      return alert("Please accept all terms before submitting.");
     }
 
     try {
       const res = await fetch(
-        "https://cwsearchway.onrender.com/api/registration/register",
+        "https://cwsearchway.onrender.com/api/contractor/register",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...formData,
-            signatureUrl: formData.signature,
-            resumeUrl: formData.resume,
-          }),
+          body: JSON.stringify(formData),
         }
       );
 
       const data = await res.json();
-      console.log("Response:", data);
 
       if (data.success) {
         setRegistrationId(data.registrationId);
         setSubmitted(true);
+
         setTimeout(() => setCurrentPage("status"), 2000);
       } else {
-        alert("Something went wrong!");
+        alert(data.message || "Something went wrong!");
       }
-    } catch (error) {
-      alert("Server Error: " + error.message);
+    } catch (err) {
+      alert("Server Error: " + err.message);
     }
   };
 
-  // THANK YOU PAGE
+  // SUCCESS SCREEN
   if (submitted) {
     return (
       <div className="flex items-center justify-center min-h-screen pt-32 text-center">
         <div>
           <div className="mb-6 text-8xl animate-bounce">✅</div>
           <h2 className="text-5xl font-black text-slate-900">
-            Application Submitted!
+            Registration Complete!
           </h2>
-          <p className="mt-2 text-xl text-slate-600">Your journey begins now</p>
-          <p className="mt-5 text-slate-600">Registration ID:</p>
+          <p className="mt-4 text-xl text-slate-600">Your Registration ID:</p>
           <p className="font-mono text-3xl font-black text-cyan-600">
             {registrationId}
           </p>
@@ -102,30 +92,35 @@ export default function Register({ setCurrentPage }) {
   return (
     <div className="min-h-screen px-6 pb-12 bg-white pt-28">
       <div className="max-w-5xl mx-auto">
-        <div className="mb-12 text-center">
-          <h2 className="text-5xl font-black text-slate-900">
-            Candidate Registration Form
-          </h2>
-        </div>
+        <h2 className="mb-12 text-5xl font-black text-center text-slate-900">
+          Contractor Registration Form
+        </h2>
 
-        <div className="p-10 bg-white border shadow-xl border-slate-200 rounded-3xl">
+        <form
+          onSubmit={handleSubmit}
+          className="p-10 bg-white border shadow-xl border-slate-200 rounded-3xl"
+        >
+          {/* GRID FIELDS */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {[
-              { label: "Employee Name", name: "employeeName" },
+              { label: "Contractor Name", name: "contractorName" },
               { label: "Date of Birth", name: "dob", type: "date" },
               {
                 label: "Gender",
                 name: "gender",
                 type: "select",
-                options: ["Select", "Male", "Female", "Other"],
+                options: ["Male", "Female", "Other"],
               },
               { label: "Father's Name", name: "fatherName" },
               { label: "Mother's Name", name: "motherName" },
               { label: "Mobile Number", name: "phone" },
               { label: "Email ID", name: "email" },
-              { label: "Aadhar Card Number", name: "aadhar" },
-              { label: "Pan Card Number", name: "panCard" },
-              { label: "Identification Mark", name: "identificationMark" },
+              { label: "Aadhaar Number", name: "aadhaarCard" },
+              { label: "PAN Card Number", name: "panCard" },
+              {
+                label: "Identification Mark",
+                name: "identificationMark",
+              },
             ].map((field) => (
               <div key={field.name}>
                 <label className="text-sm font-semibold text-slate-700">
@@ -139,6 +134,7 @@ export default function Register({ setCurrentPage }) {
                     onChange={handleChange}
                     className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
                   >
+                    <option value="">Select</option>
                     {field.options.map((opt) => (
                       <option key={opt}>{opt}</option>
                     ))}
@@ -160,7 +156,6 @@ export default function Register({ setCurrentPage }) {
               <label className="text-sm font-semibold text-slate-700">
                 Marital Status
               </label>
-
               <select
                 name="maritalStatus"
                 value={formData.maritalStatus}
@@ -168,21 +163,21 @@ export default function Register({ setCurrentPage }) {
                 className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
               >
                 <option value="">Select</option>
-                <option value="Unmarried">Unmarried</option>
-                <option value="Married">Married</option>
+                <option value="single">Single</option>
+                <option value="married">Married</option>
               </select>
             </div>
 
-            {/* HUSBAND NAME ONLY WHEN MARRIED */}
-            {formData.maritalStatus === "Married" && (
+            {/* SPOUSE NAME */}
+            {formData.maritalStatus === "married" && (
               <div>
                 <label className="text-sm font-semibold text-slate-700">
                   Spouse Name
                 </label>
                 <input
                   type="text"
-                  name="husbandName"
-                  value={formData.husbandName}
+                  name="spouseName"
+                  value={formData.spouseName}
                   onChange={handleChange}
                   className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
                 />
@@ -209,27 +204,15 @@ export default function Register({ setCurrentPage }) {
               Education Qualification
             </label>
             <textarea
-              name="eduQualification"
-              value={formData.eduQualification}
-              onChange={handleChange}
-              className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
-            />
-          </div>
-
-          <div className="mt-4">
-            <label className="text-sm font-semibold text-slate-700">
-              Additional Qualification
-            </label>
-            <textarea
-              name="additionalQualification"
-              value={formData.additionalQualification}
+              name="educationQualification"
+              value={formData.educationQualification}
               onChange={handleChange}
               className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
             />
           </div>
 
           {/* EXPERIENCE */}
-          <div className="mt-4">
+          <div className="mt-6">
             <label className="text-sm font-semibold text-slate-700">
               Experience Details
             </label>
@@ -241,19 +224,48 @@ export default function Register({ setCurrentPage }) {
             />
           </div>
 
-          {/* WORK PREFERENCE */}
-          <div className="mt-4">
+          {/* WORK TYPE */}
+          <div className="mt-6">
             <label className="text-sm font-semibold text-slate-700">
-              What You Like To Do
+              Work Type *
             </label>
-            <textarea
-              name="workPreference"
-              value={formData.workPreference}
+
+            <select
+              name="workType"
+              value={formData.workType}
               onChange={handleChange}
               className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
-            />
-          </div>
+            >
+              <option value="">Select Work Type</option>
+              <option value="Electrician">Electrician</option>
+              <option value="Plumber">Plumber</option>
+              <option value="Civil Work">Civil Work</option>
+              <option value="Mason">Mason</option>
+              <option value="Painter">Painter</option>
+              <option value="Carpenter">Carpenter</option>
+              <option value="Labour">Labour</option>
+              <option value="Welder">Welder</option>
+              <option value="Operator">Operator</option>
+              <option value="Driver">Driver</option>
+              <option value="Other">Other</option>
+            </select>
 
+            {/* OTHER WORK TYPE INPUT */}
+            {formData.workType === "Other" && (
+              <input
+                type="text"
+                name="workTypeOther"
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    workType: e.target.value, // overwrite workType with custom
+                  }))
+                }
+                placeholder="Enter your work type"
+                className="w-full px-4 py-3 mt-3 border bg-slate-100 border-slate-300 rounded-xl"
+              />
+            )}
+          </div>
           {/* PAYMENT TYPE */}
           <div className="mt-6">
             <label className="text-sm font-semibold text-slate-700">
@@ -267,10 +279,8 @@ export default function Register({ setCurrentPage }) {
               className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
             >
               <option value="">Select</option>
-              <option value="299">Internship – ₹299</option>
-              <option value="499">Premium Internship – ₹499</option>
-              <option value="499">Permanent Job – ₹499</option>
-              <option value="999">Premium – ₹999</option>
+              <option value="999">Registration – ₹999</option>
+              <option value="1499">Premium Registration – ₹1499</option>
             </select>
           </div>
 
@@ -281,22 +291,6 @@ export default function Register({ setCurrentPage }) {
                 Scan QR to Pay
               </p>
 
-              {formData.paymentType === "299" && (
-                <img
-                  src="/__qr_code.png"
-                  alt="QR 299"
-                  className="w-48 mt-2 border rounded-xl"
-                />
-              )}
-
-              {formData.paymentType === "499" && (
-                <img
-                  src="/__qr_code (1).png"
-                  alt="QR 499"
-                  className="w-48 mt-2 border rounded-xl"
-                />
-              )}
-
               {formData.paymentType === "999" && (
                 <img
                   src="/999.png"
@@ -305,8 +299,16 @@ export default function Register({ setCurrentPage }) {
                 />
               )}
 
+              {formData.paymentType === "1499" && (
+                <img
+                  src="/1499.png"
+                  alt="QR 1499"
+                  className="w-48 mt-2 border rounded-xl"
+                />
+              )}
+
               <p className="mt-2 text-xs text-slate-600">
-                After payment, enter the UTR Number below.
+                After payment, please enter UTR number below.
               </p>
             </div>
           )}
@@ -330,7 +332,6 @@ export default function Register({ setCurrentPage }) {
             <label className="text-sm font-semibold text-slate-700">
               Upload Signature *
             </label>
-
             <UploadButton
               endpoint="signatureUpload"
               url="https://cwsearchway.onrender.com/api/uploadthing"
@@ -338,27 +339,11 @@ export default function Register({ setCurrentPage }) {
                 const file = files[0];
                 setFormData((prev) => ({ ...prev, signature: file.url }));
               }}
-              onUploadError={(err) => alert(`Upload Error: ${err.message}`)}
+              onUploadError={(err) => alert("Upload Error: " + err.message)}
             />
           </div>
 
-          {/* RESUME UPLOAD */}
-          <div className="mt-6">
-            <label className="text-sm font-semibold text-slate-700">
-              Resume
-            </label>
-
-            <UploadButton
-              endpoint="resumeUpload"
-              url="https://cwsearchway.onrender.com/api/uploadthing"
-              onClientUploadComplete={(files) => {
-                const file = files[0];
-                setFormData((prev) => ({ ...prev, resume: file.url }));
-              }}
-              onUploadError={(err) => alert(`Upload Error: ${err.message}`)}
-            />
-          </div>
-
+          {/* RULES */}
           <div className="p-6 mt-10 border bg-slate-100 rounded-xl border-slate-300">
             <h3 className="text-lg font-bold text-slate-900">
               Rules & Regulations
@@ -439,12 +424,12 @@ export default function Register({ setCurrentPage }) {
 
           {/* SUBMIT BUTTON */}
           <button
-            onClick={handleSubmit}
+            type="submit"
             className="w-full py-4 mt-8 font-black text-white transition bg-gradient-to-r from-cyan-600 to-emerald-600 rounded-xl hover:scale-105"
           >
             Submit Application
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );
