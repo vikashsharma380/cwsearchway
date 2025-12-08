@@ -6,7 +6,7 @@ const RegistrationSchema = new mongoose.Schema({
   gender: String,
   fatherName: String,
   motherName: String,
-  husbandName: String,
+  spouseName: String,
 
   phone: String,
   email: String,
@@ -17,7 +17,7 @@ const RegistrationSchema = new mongoose.Schema({
   maritalStatus: String,
 
   permanentAddress: String,
-  currentAddress: String,
+ 
 
   eduQualification: String,
   additionalQualification: String,
