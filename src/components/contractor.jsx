@@ -352,7 +352,7 @@ export default function ContractorRegister({ setCurrentPage }) {
 
   {/* Always Visible */}
   <p className="mt-2 text-sm text-slate-600">
-    • Job registration fee of ₹299 / ₹499 is charged for providing job opportunities and interview coordination.
+    • Registration fee of ₹999 / ₹1499 is charged for providing opportunities and coordination.
   </p>
 
   <p className="mt-2 text-sm text-slate-600">
@@ -383,11 +383,11 @@ export default function ContractorRegister({ setCurrentPage }) {
       </p>
 
       <p className="mt-2 text-sm text-slate-600">
-        • Candidate's personal data will be kept secure and not shared without consent.
+        • Contractor's personal data will be kept secure and not shared without consent.
       </p>
 
       <p className="mt-2 text-sm text-slate-600">
-        • After fee payment, the candidate agrees to all Terms & Conditions as a binding agreement.
+        • After fee payment, the contractor agrees to all Terms & Conditions as a binding agreement.
       </p>
     </>
   )}
