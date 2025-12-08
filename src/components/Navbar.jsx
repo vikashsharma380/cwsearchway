@@ -57,7 +57,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
               currentPage === "status" ? active : inactive
             }`}
           >
-            Status
+            Track Your Application
           </button>
 
           {/* ⭐ NEW BUTTON — FIND REGISTRATION ID */}
