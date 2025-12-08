@@ -271,7 +271,7 @@ export default function Register({ setCurrentPage }) {
                 Part-time job/work, Temporary work, Short-term job/work - ₹299
               </option>
               <option value="499">Internship – ₹499</option>
-              <option value="499">Permanent Job – ₹499</option>
+             
               <option value="999">Permanent Work/Job– ₹999</option>
             </select>
           </div>
