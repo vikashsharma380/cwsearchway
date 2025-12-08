@@ -7,28 +7,8 @@ export default function Register({ setCurrentPage }) {
   const [showMore, setShowMore] = useState(false);
 
   const [formData, setFormData] = useState({
-    employeeName: "",
-    dob: "",
-    gender: "",
-    fatherName: "",
-    motherName: "",
-    spouseName: "",
-    phone: "",
-    email: "",
-    aadhar: "",
-    panCard: "",
-    identificationMark: "",
-    maritalStatus: "",
-    permanentAddress: "",
-    eduQualification: "",
-    additionalQualification: "",
-    experienceDetails: "",
-    workPreference: "",
-    utrNumber: "",
-    signature: null,
     resume: null,
     agree: false,
-    paymentType: "",
   });
 
   // Input Change
@@ -47,6 +27,28 @@ export default function Register({ setCurrentPage }) {
 
     if (!formData.agree) {
       alert("Please agree to the Rules & Regulations before submitting.");
+      return;
+    }
+    if (!formData.signature) {
+      alert("Please upload your Signature before submitting.");
+      return;
+    }
+
+    if (!formData.paymentType) {
+      alert("Please select a Payment Type before submitting.");
+      return;
+    }
+    if (!formData.utrNumber) {
+      alert("Please enter the UTR Number after payment before submitting.");
+      return;
+    }
+    if (
+      !formData.employeeName ||
+      !formData.dob ||
+      !formData.phone ||
+      !formData.email
+    ) {
+      alert("Please fill in all required fields before submitting.");
       return;
     }
 
@@ -271,7 +273,7 @@ export default function Register({ setCurrentPage }) {
                 Part-time job/work, Temporary work, Short-term job/work - ₹299
               </option>
               <option value="499">Internship – ₹499</option>
-             
+
               <option value="999">Permanent Work/Job– ₹999</option>
             </select>
           </div>

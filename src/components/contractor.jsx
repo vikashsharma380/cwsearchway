@@ -7,24 +7,6 @@ export default function ContractorRegister({ setCurrentPage }) {
   const [showMore, setShowMore] = useState(false);
 
   const [formData, setFormData] = useState({
-    contractorName: "",
-    dob: "",
-    gender: "",
-    maritalStatus: "",
-    spouseName: "",
-    fatherName: "",
-    motherName: "",
-    phone: "",
-    email: "",
-    aadhaarCard: "",
-    panCard: "",
-    identificationMark: "",
-    permanentAddress: "",
-    educationQualification: "",
-    experienceDetails: "",
-    workType: "",
-    utrNumber: "",
-    signature: null,
     agree: false,
   });
 
@@ -44,6 +26,30 @@ export default function ContractorRegister({ setCurrentPage }) {
     if (!formData.agree) {
       return alert("Please accept all terms before submitting.");
     }
+
+   
+
+    if (!formData.signature) {
+      return alert("Please upload your signature before submitting.");
+    }
+
+    if (!formData.utrNumber) {
+      return alert("Please enter the UTR Number after payment before submitting.");
+    }
+
+    if (
+      !formData.employeeName ||
+      !formData.dob ||
+      !formData.phone ||
+      !formData.email
+    ) {
+      return alert("Please fill in all required fields before submitting.");
+    }
+
+    if (!formData.paymentType) {
+      return alert("Please select a Payment Type before submitting.");
+    }
+
 
     try {
       const res = await fetch(
