@@ -381,7 +381,7 @@ export default function ContractorRegister({ setCurrentPage }) {
 
             {/* Always Visible */}
             <p className="mt-2 text-sm text-slate-600">
-              • Registration fee of ₹999 / ₹1499 is charged for providing
+              • One time registration fee is charged for providing
               opportunities and coordination.
             </p>
 

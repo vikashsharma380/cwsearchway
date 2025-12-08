@@ -370,7 +370,7 @@ export default function Register({ setCurrentPage }) {
 
             {/* Always Visible */}
             <p className="mt-2 text-sm text-slate-600">
-              • Job registration fee of ₹299 / ₹499 is charged for providing job
+              • One time registration fee  is charged for providing job
               opportunities and interview coordination.
             </p>
 
