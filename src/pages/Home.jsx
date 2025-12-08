@@ -10,7 +10,7 @@ export default function HomePage({ setCurrentPage }) {
   return (
     <>
       <Hero setCurrentPage={setCurrentPage} />
-      <About />
+      <About setCurrentPage={setCurrentPage} />
       <Services />
       <WhyChooseUs />
       <Footer setCurrentPage={setCurrentPage} />

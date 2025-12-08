@@ -23,7 +23,7 @@ export default function Hero({ setCurrentPage }) {
           {/* BUTTONS */}
           <div className="flex flex-wrap gap-3">
             <button
-              onClick={() => setCurrentPage("register")}
+              onClick={() => setCurrentPage("form")}
               className="px-6 py-3 text-sm font-semibold text-white rounded-full bg-slate-900 hover:bg-slate-800"
             >
               Find a job
