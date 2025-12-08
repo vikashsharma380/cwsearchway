@@ -11,7 +11,7 @@ export default function Register({ setCurrentPage }) {
     gender: "",
     fatherName: "",
     motherName: "",
-    husbandName: "",
+    spouseName: "",
     phone: "",
     email: "",
     aadhar: "",
@@ -103,7 +103,7 @@ export default function Register({ setCurrentPage }) {
       <div className="max-w-5xl mx-auto">
         <div className="mb-12 text-center">
           <h2 className="text-5xl font-black text-slate-900">
-            Registration Form
+            Candidate Form
           </h2>
         </div>
 
@@ -176,7 +176,7 @@ export default function Register({ setCurrentPage }) {
             {formData.maritalStatus === "Married" && (
               <div>
                 <label className="text-sm font-semibold text-slate-700">
-                  Husband's Name
+                  Spouse Name
                 </label>
                 <input
                   type="text"
