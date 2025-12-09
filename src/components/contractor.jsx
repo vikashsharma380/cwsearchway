@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { UploadButton } from "@uploadthing/react";
 
 export default function ContractorRegister({ setCurrentPage }) {
   const [submitted, setSubmitted] = useState(false);
   const [registrationId, setRegistrationId] = useState("");
   const [showMore, setShowMore] = useState(false);
+  const [workTypes, setWorkTypes] = useState([]);
 
   const [formData, setFormData] = useState({
     agree: false,
@@ -18,6 +19,11 @@ export default function ContractorRegister({ setCurrentPage }) {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
+useEffect(() => {
+  fetch("https://cwsearchway.onrender.com/api/work-types")
+    .then(res => res.json())
+    .then(data => setWorkTypes(data.data || []));
+}, []);
 
   // Submit Form
   const handleSubmit = async (e) => {
@@ -235,25 +241,25 @@ export default function ContractorRegister({ setCurrentPage }) {
               Work Type *
             </label>
 
-            <select
-              name="workType"
-              value={formData.workType}
-              onChange={handleChange}
-              className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
-            >
-              <option value="">Select Work Type</option>
-              <option value="Electrician">Electrician</option>
-              <option value="Plumber">Plumber</option>
-              <option value="Civil Work">Civil Work</option>
-              <option value="Mason">Mason</option>
-              <option value="Painter">Painter</option>
-              <option value="Carpenter">Carpenter</option>
-              <option value="Labour">Labour</option>
-              <option value="Welder">Welder</option>
-              <option value="Operator">Operator</option>
-              <option value="Driver">Driver</option>
-              <option value="Other">Other</option>
-            </select>
+          <select
+  name="workType"
+  value={formData.workType}
+  onChange={handleChange}
+  className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
+>
+  <option value="">Select Work Type</option>
+
+  {workTypes.length === 0 && <option>Loading...</option>}
+
+  {workTypes.map((wt) => (
+    <option key={wt._id} value={wt.name}>
+      {wt.name}
+    </option>
+  ))}
+
+  <option value="Other">Other</option>
+</select>
+
 
             {/* OTHER WORK TYPE INPUT */}
             {formData.workType === "Other" && (

@@ -27,6 +27,9 @@ app.use("/uploads", express.static("uploads"));
 import adminContractorRoutes from "./routes/adminContractorRoutes.js";
 app.use("/api/admin", adminContractorRoutes);
 
+import workTypeRoutes from "./routes/workTypeRoutes.js";
+
+app.use("/api/work-types", workTypeRoutes);
 
 import { handler as uploadHandler } from "./uploadthing.js";
 app.use("/api/uploadthing", uploadHandler);

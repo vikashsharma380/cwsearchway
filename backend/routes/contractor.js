@@ -8,7 +8,8 @@ router.post("/register", async (req, res) => {
   try {
     console.log("RECEIVED BODY:", req.body);
 
-    const registrationId = "CWCON" + Date.now();
+    const registrationId = "CWCON" + new Date().getFullYear().toString().slice(-2) 
+    + Math.floor(1000 + Math.random() * 9000);
 
     const payload = {
       ...req.body,

@@ -6,6 +6,7 @@ export default function Register({ setCurrentPage }) {
   const [registrationId, setRegistrationId] = useState("");
   const [showMore, setShowMore] = useState(false);
 
+
   const [formData, setFormData] = useState({
     resume: null,
     agree: false,
@@ -20,6 +21,7 @@ export default function Register({ setCurrentPage }) {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
+
 
   // Submit Form
   const handleSubmit = async (e) => {
