@@ -526,7 +526,7 @@ const [completedRemark, setCompletedRemark] = useState("");
                     {overview.cont.rejected}
                   </div>
                 </div>
-                <button
+                {/* <button
                   onClick={() => {
                     setCompletedUser(item);
                     setCompletedRemark("");
@@ -534,7 +534,7 @@ const [completedRemark, setCompletedRemark] = useState("");
                   className="px-3 py-2 bg-purple-600 text-white rounded-md text-sm"
                 >
                   Completed
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
