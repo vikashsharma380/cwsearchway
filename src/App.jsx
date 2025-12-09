@@ -34,9 +34,7 @@ export default function App() {
 
     // ➤ DIRECT COMPONENT — NO PAGE FILE
     contractor: <Contractor setCurrentPage={setCurrentPage} />,
-
     admin: <AdminLogin setCurrentPage={setCurrentPage} />,
-    contractor: <Contractor setCurrentPage={setCurrentPage} />,
     "admin-dashboard": <AdminDashboard setCurrentPage={setCurrentPage} />,
     findId: <FindId setCurrentPage={setCurrentPage} />,
     form: <FormPage setCurrentPage={setCurrentPage} />,
