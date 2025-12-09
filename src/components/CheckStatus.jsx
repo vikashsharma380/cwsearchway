@@ -102,6 +102,14 @@ export default function CheckStatus() {
                       🎉 Note: {registrationData.remark}
                     </p>
                   )}
+
+              {/* ⭐ SHOW ACCEPTANCE NOTE HERE */}
+              {registrationData.status === "Completed" &&
+                registrationData.remark && (
+                  <p className="mt-4 text-lg font-semibold text-emerald-600 bg-emerald-50 p-3 rounded-xl">
+                    🎉 Note: {registrationData.remark}
+                  </p>
+                )}
             </div>
 
             {/* DETAILS */}
