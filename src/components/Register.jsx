@@ -338,6 +338,7 @@ export default function Register({ setCurrentPage }) {
             <UploadButton
               endpoint="signatureUpload"
               url="https://cwsearchway.onrender.com/api/uploadthing"
+              appearance={{ button: "bg-black text-white" }}
               onClientUploadComplete={(files) => {
                 const file = files[0];
                 setFormData((prev) => ({ ...prev, signature: file.url }));
@@ -355,6 +356,7 @@ export default function Register({ setCurrentPage }) {
             <UploadButton
               endpoint="resumeUpload"
               url="https://cwsearchway.onrender.com/api/uploadthing"
+              appearance={{ button: "bg-black text-white" }}
               onClientUploadComplete={(files) => {
                 const file = files[0];
                 setFormData((prev) => ({ ...prev, resume: file.url }));
@@ -370,7 +372,7 @@ export default function Register({ setCurrentPage }) {
 
             {/* Always Visible */}
             <p className="mt-2 text-sm text-slate-600">
-              • One time registration fee  is charged for providing job
+              • One time registration fee is charged for providing job
               opportunities and interview coordination.
             </p>
 

@@ -27,14 +27,14 @@ export default function ContractorRegister({ setCurrentPage }) {
       return alert("Please accept all terms before submitting.");
     }
 
-   
-
     if (!formData.signature) {
       return alert("Please upload your signature before submitting.");
     }
 
     if (!formData.utrNumber) {
-      return alert("Please enter the UTR Number after payment before submitting.");
+      return alert(
+        "Please enter the UTR Number after payment before submitting."
+      );
     }
 
     if (
@@ -49,7 +49,6 @@ export default function ContractorRegister({ setCurrentPage }) {
     if (!formData.paymentType) {
       return alert("Please select a Payment Type before submitting.");
     }
-
 
     try {
       const res = await fetch(
@@ -286,9 +285,9 @@ export default function ContractorRegister({ setCurrentPage }) {
             >
               <option value="">Select</option>
               <option value="999">Turnover Up to 3 Lakh-₹999</option>
-            <option value="1499">Turnover Up to 3-10 Lakh-₹1499</option>
-           <option value="1999">Turnover Up to 10-20 Lakh-₹1999</option>
-            <option value="3499">Turnover Up to 20-50 Lakh-₹3499</option>
+              <option value="1499">Turnover Up to 3-10 Lakh-₹1499</option>
+              <option value="1999">Turnover Up to 10-20 Lakh-₹1999</option>
+              <option value="3499">Turnover Up to 20-50 Lakh-₹3499</option>
               <option value="5999">Turnover Above 50 Lakh-₹5999</option>
             </select>
           </div>
@@ -315,21 +314,21 @@ export default function ContractorRegister({ setCurrentPage }) {
                   className="w-48 mt-2 border rounded-xl"
                 />
               )}
-               {formData.paymentType === "1999" && (
+              {formData.paymentType === "1999" && (
                 <img
                   src="/__qr_code (4).png"
                   alt="QR 1499"
                   className="w-48 mt-2 border rounded-xl"
                 />
               )}
-               {formData.paymentType === "3499" && (
+              {formData.paymentType === "3499" && (
                 <img
                   src="/__qr_code (5).png"
                   alt="QR 1499"
                   className="w-48 mt-2 border rounded-xl"
                 />
               )}
-               {formData.paymentType === "5999" && (
+              {formData.paymentType === "5999" && (
                 <img
                   src="/__qr_code (6).png"
                   alt="QR 1499"
@@ -365,6 +364,7 @@ export default function ContractorRegister({ setCurrentPage }) {
             <UploadButton
               endpoint="signatureUpload"
               url="https://cwsearchway.onrender.com/api/uploadthing"
+              appearance={{ button: "bg-black text-white" }}
               onClientUploadComplete={(files) => {
                 const file = files[0];
                 setFormData((prev) => ({ ...prev, signature: file.url }));
@@ -381,8 +381,8 @@ export default function ContractorRegister({ setCurrentPage }) {
 
             {/* Always Visible */}
             <p className="mt-2 text-sm text-slate-600">
-              • One time registration fee is charged for providing
-              opportunities and coordination.
+              • One time registration fee is charged for providing opportunities
+              and coordination.
             </p>
 
             <p className="mt-2 text-sm text-slate-600">
