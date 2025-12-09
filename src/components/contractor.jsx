@@ -19,11 +19,11 @@ export default function ContractorRegister({ setCurrentPage }) {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-useEffect(() => {
-  fetch("https://cwsearchway.onrender.com/api/work-types")
-    .then(res => res.json())
-    .then(data => setWorkTypes(data.data || []));
-}, []);
+  useEffect(() => {
+    fetch("https://cwsearchway.onrender.com/api/work-types")
+      .then((res) => res.json())
+      .then((data) => setWorkTypes(data.data || []));
+  }, []);
 
   // Submit Form
   const handleSubmit = async (e) => {
@@ -241,25 +241,24 @@ useEffect(() => {
               Work Type *
             </label>
 
-          <select
-  name="workType"
-  value={formData.workType}
-  onChange={handleChange}
-  className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
->
-  <option value="">Select Work Type</option>
+            <select
+              name="workType"
+              value={formData.workType}
+              onChange={handleChange}
+              className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
+            >
+              <option value="">Select Work Type</option>
 
-  {workTypes.length === 0 && <option>Loading...</option>}
+              {workTypes.length === 0 && <option>Loading...</option>}
 
-  {workTypes.map((wt) => (
-    <option key={wt._id} value={wt.name}>
-      {wt.name}
-    </option>
-  ))}
+              {workTypes.map((wt) => (
+                <option key={wt._id} value={wt.name}>
+                  {wt.name}
+                </option>
+              ))}
 
-  <option value="Other">Other</option>
-</select>
-
+              <option value="Other">Other</option>
+            </select>
 
             {/* OTHER WORK TYPE INPUT */}
             {formData.workType === "Other" && (
@@ -370,7 +369,7 @@ useEffect(() => {
             <UploadButton
               endpoint="signatureUpload"
               url="https://cwsearchway.onrender.com/api/uploadthing"
-              appearance={{ button: "bg-black text-white" }}
+              appearance={{ button: "bg-slate-700 text-white" }}
               onClientUploadComplete={(files) => {
                 const file = files[0];
                 setFormData((prev) => ({ ...prev, signature: file.url }));

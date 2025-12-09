@@ -6,7 +6,6 @@ export default function Register({ setCurrentPage }) {
   const [registrationId, setRegistrationId] = useState("");
   const [showMore, setShowMore] = useState(false);
 
-
   const [formData, setFormData] = useState({
     resume: null,
     agree: false,
@@ -21,7 +20,6 @@ export default function Register({ setCurrentPage }) {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
 
   // Submit Form
   const handleSubmit = async (e) => {
@@ -340,7 +338,7 @@ export default function Register({ setCurrentPage }) {
             <UploadButton
               endpoint="signatureUpload"
               url="https://cwsearchway.onrender.com/api/uploadthing"
-              appearance={{ button: "bg-black text-white" }}
+              appearance={{ button: "bg-slate-700 text-white" }}
               onClientUploadComplete={(files) => {
                 const file = files[0];
                 setFormData((prev) => ({ ...prev, signature: file.url }));
@@ -358,7 +356,7 @@ export default function Register({ setCurrentPage }) {
             <UploadButton
               endpoint="resumeUpload"
               url="https://cwsearchway.onrender.com/api/uploadthing"
-              appearance={{ button: "bg-black text-white" }}
+              appearance={{ button: "bg-slate-700 text-white" }}
               onClientUploadComplete={(files) => {
                 const file = files[0];
                 setFormData((prev) => ({ ...prev, resume: file.url }));
