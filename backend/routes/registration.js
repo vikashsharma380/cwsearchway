@@ -1,6 +1,6 @@
 import express from "express";
 import Registration from "../models/Registration.js";
-import { upload } from "../utils/upload.js";
+import { upload } from "../upload.js";
 
 const router = express.Router();
 
