@@ -4,23 +4,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-
+import cors from "cors";
 // ---------------- CORS FIX (CUSTOM) ----------------
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://www.cwsearchway.com");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+app.use(cors());
 
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(204);
-  }
-
-  next();
-});
 
 // DO NOT USE cors() AT ALL → REMOVE IT
-// import cors from "cors";
+
 // app.use(cors());
 
 app.use(express.json());
