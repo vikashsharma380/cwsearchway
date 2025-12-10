@@ -4,20 +4,17 @@ import AWS from "aws-sdk";
 import dotenv from "dotenv";
 dotenv.config();
 
-// Correct AWS config for eu-north-1
+// AWS SDK v2 config
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET_KEY,
-  region: process.env.AWS_REGION,
+  region: "eu-north-1", // Stockholm region
 });
 
-// Correct EndPoint for eu-north-1
-const s3 = new AWS.S3({
-  endpoint: "https://s3.eu-north-1.amazonaws.com",
-  s3ForcePathStyle: true,
-});
+// Create S3 client (NO endpoint override)
+const s3 = new AWS.S3();
 
-// Multer Upload
+// Multer Upload Config
 export const upload = multer({
   storage: multerS3({
     s3,
@@ -25,7 +22,7 @@ export const upload = multer({
     acl: "public-read",
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: (req, file, cb) => {
-      cb(null, Date.now() + "-" + file.originalname);
+      cb(null, `${Date.now()}-${file.originalname}`);
     },
   }),
 });
