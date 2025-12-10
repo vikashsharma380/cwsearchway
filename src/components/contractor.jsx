@@ -20,7 +20,7 @@ export default function ContractorRegister({ setCurrentPage }) {
     }));
   };
   useEffect(() => {
-    fetch("https://cwsearchway.onrender.com/api/work-types")
+    fetch("https://api.cwsearchway.com/api/work-types")
       .then((res) => res.json())
       .then((data) => setWorkTypes(data.data || []));
   }, []);
@@ -58,7 +58,7 @@ export default function ContractorRegister({ setCurrentPage }) {
 
     try {
       const res = await fetch(
-        "https://cwsearchway.onrender.com/api/contractor/register",
+        "https://api.cwsearchway.com/api/contractor/register",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -368,7 +368,7 @@ export default function ContractorRegister({ setCurrentPage }) {
             </label>
             <UploadButton
               endpoint="signatureUpload"
-              url="https://cwsearchway.onrender.com/api/uploadthing"
+              url="https://api.cwsearchway.com/api/uploadthing"
               appearance={{ button: "bg-slate-700 text-white" }}
               onClientUploadComplete={(files) => {
                 const file = files[0];

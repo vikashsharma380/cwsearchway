@@ -6,10 +6,31 @@ export default function Register({ setCurrentPage }) {
   const [registrationId, setRegistrationId] = useState("");
   const [showMore, setShowMore] = useState(false);
 
-  const [formData, setFormData] = useState({
-    resume: null,
-    agree: false,
-  });
+ const [formData, setFormData] = useState({
+  employeeName: "",
+  dob: "",
+  gender: "",
+  fatherName: "",
+  motherName: "",
+  spouseName: "",
+  phone: "",
+  email: "",
+  aadhar: "",
+  panCard: "",
+  identificationMark: "",
+  maritalStatus: "",
+  permanentAddress: "",
+  eduQualification: "",
+  additionalQualification: "",
+  experienceDetails: "",
+  workPreference: "",
+  paymentType: "",
+  utrNumber: "",
+  signature: null,
+  resume: null,
+  agree: false,
+});
+
 
   // Input Change
   const handleChange = (e) => {
@@ -22,64 +43,54 @@ export default function Register({ setCurrentPage }) {
   };
 
   // Submit Form
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!formData.agree) {
-      alert("Please agree to the Rules & Regulations before submitting.");
-      return;
-    }
-    if (!formData.signature) {
-      alert("Please upload your Signature before submitting.");
-      return;
-    }
+  // Validation
+  if (!formData.signature) {
+    alert("Please upload your Signature before submitting.");
+    return;
+  }
 
-    if (!formData.paymentType) {
-      alert("Please select a Payment Type before submitting.");
-      return;
-    }
-    if (!formData.utrNumber) {
-      alert("Please enter the UTR Number after payment before submitting.");
-      return;
-    }
-    if (
-      !formData.employeeName ||
-      !formData.dob ||
-      !formData.phone ||
-      !formData.email
-    ) {
-      alert("Please fill in all required fields before submitting.");
-      return;
-    }
+  // Create FormData
+  const data = new FormData();
 
-    try {
-      const res = await fetch(
-        "https://cwsearchway.onrender.com/api/registration/register",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...formData,
-            signatureUrl: formData.signature,
-            resumeUrl: formData.resume,
-          }),
-        }
-      );
+  // Append all text fields
+  Object.keys(formData).forEach((key) => {
+    if (key !== "signature" && key !== "resume") {
+      data.append(key, formData[key]);
+    }
+  });
 
-      const data = await res.json();
-      console.log("Response:", data);
+  // Append files
+  data.append("signature", formData.signature);
+  if (formData.resume) {
+    data.append("resume", formData.resume);
+  }
 
-      if (data.success) {
-        setRegistrationId(data.registrationId);
-        setSubmitted(true);
-        setTimeout(() => setCurrentPage("status"), 2000);
-      } else {
-        alert("Something went wrong!");
+  try {
+    const res = await fetch(
+      "https://api.cwsearchway.com/api/registration/register",
+      {
+        method: "POST",
+        body: data, // IMPORTANT — no JSON
       }
-    } catch (error) {
-      alert("Server Error: " + error.message);
+    );
+
+    const result = await res.json();
+
+    if (result.success) {
+      setRegistrationId(result.registrationId);
+      setSubmitted(true);
+      setTimeout(() => setCurrentPage("status"), 2000);
+    } else {
+      alert("Something went wrong!");
     }
-  };
+  } catch (err) {
+    alert("Server Error: " + err.message);
+  }
+};
+
 
   // THANK YOU PAGE
   if (submitted) {
@@ -329,41 +340,34 @@ export default function Register({ setCurrentPage }) {
             />
           </div>
 
-          {/* SIGNATURE UPLOAD */}
-          <div className="mt-6">
-            <label className="text-sm font-semibold text-slate-700">
-              Upload Signature *
-            </label>
+<div className="mt-6">
+  <label className="text-sm font-semibold text-slate-700">
+    Upload Signature *
+  </label>
+  <input
+    type="file"
+    accept="image/*"
+    onChange={(e) =>
+      setFormData((prev) => ({ ...prev, signature: e.target.files[0] }))
+    }
+    className="mt-2"
+  />
+</div>
 
-            <UploadButton
-              endpoint="signatureUpload"
-              url="https://cwsearchway.onrender.com/api/uploadthing"
-              appearance={{ button: "bg-slate-700 text-white" }}
-              onClientUploadComplete={(files) => {
-                const file = files[0];
-                setFormData((prev) => ({ ...prev, signature: file.url }));
-              }}
-              onUploadError={(err) => alert(`Upload Error: ${err.message}`)}
-            />
-          </div>
+<div className="mt-6">
+  <label className="text-sm font-semibold text-slate-700">
+    Upload Resume
+  </label>
+  <input
+    type="file"
+    accept=".pdf,.doc,.docx"
+    onChange={(e) =>
+      setFormData((prev) => ({ ...prev, resume: e.target.files[0] }))
+    }
+    className="mt-2"
+  />
+</div>
 
-          {/* RESUME UPLOAD */}
-          <div className="mt-6">
-            <label className="text-sm font-semibold text-slate-700">
-              Resume
-            </label>
-
-            <UploadButton
-              endpoint="resumeUpload"
-              url="https://cwsearchway.onrender.com/api/uploadthing"
-              appearance={{ button: "bg-slate-700 text-white" }}
-              onClientUploadComplete={(files) => {
-                const file = files[0];
-                setFormData((prev) => ({ ...prev, resume: file.url }));
-              }}
-              onUploadError={(err) => alert(`Upload Error: ${err.message}`)}
-            />
-          </div>
 
           <div className="p-6 mt-10 border bg-slate-100 rounded-xl border-slate-300">
             <h3 className="text-lg font-bold text-slate-900">

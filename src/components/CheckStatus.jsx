@@ -13,7 +13,7 @@ export default function CheckStatus() {
 
     try {
       const res = await fetch(
-        `https://cwsearchway.onrender.com/api/registration/status/${registrationId}`
+        `https://api.cwsearchway.com/api/registration/status/${registrationId}`
       );
 
       const data = await res.json();

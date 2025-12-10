@@ -20,7 +20,7 @@ export default function FindId({ setCurrentPage }) {
     setLoading(true);
 
     const res = await fetch(
-      "https://cwsearchway.onrender.com/api/registration/find-id",
+      "https://api.cwsearchway.com/api/registration/find-id",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

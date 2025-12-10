@@ -76,7 +76,7 @@ const [completedRemark, setCompletedRemark] = useState("");
   // -------------------------
   const loadCandidateData = async () => {
     try {
-      const res = await fetch("https://cwsearchway.onrender.com/api/admin/all");
+      const res = await fetch("https://api.cwsearchway.com/api/admin/all");
       const json = await res.json();
       if (json.success) setCandidateData(json.data || []);
     } catch (err) {
@@ -114,7 +114,7 @@ const [completedRemark, setCompletedRemark] = useState("");
   const loadWorkTypes = async () => {
     try {
       const res = await fetch(
-        "https://cwsearchway.onrender.com/api/work-types"
+        "https://api.cwsearchway.com/api/work-types"
       );
       const json = await res.json();
       if (json.success) setWorkTypes(json.data || []);
@@ -126,7 +126,7 @@ const [completedRemark, setCompletedRemark] = useState("");
   const loadContractorData = async () => {
     try {
       const res = await fetch(
-        "https://cwsearchway.onrender.com/api/admin/all-contractors"
+        "https://api.cwsearchway.com/api/admin/all-contractors"
       );
       const json = await res.json();
       if (json.success) setContractorData(json.data || []);
@@ -178,7 +178,7 @@ const [completedRemark, setCompletedRemark] = useState("");
 
     try {
       const res = await fetch(
-        "https://cwsearchway.onrender.com/api/work-types",
+        "https://api.cwsearchway.com/api/work-types",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -197,7 +197,7 @@ const [completedRemark, setCompletedRemark] = useState("");
     if (!window.confirm("Delete this work type?")) return;
 
     try {
-      await fetch(`https://cwsearchway.onrender.com/api/work-types/${id}`, {
+      await fetch(`https://api.cwsearchway.com/api/work-types/${id}`, {
         method: "DELETE",
       });
 
@@ -215,8 +215,8 @@ const [completedRemark, setCompletedRemark] = useState("");
 
     const url =
       view === "candidate"
-        ? `https://cwsearchway.onrender.com/api/admin/delete/${id}`
-        : `https://cwsearchway.onrender.com/api/admin/delete-contractor/${id}`;
+        ? `https://api.cwsearchway.com/api/admin/delete/${id}`
+        : `https://api.cwsearchway.com/api/admin/delete-contractor/${id}`;
 
     try {
       await fetch(url, { method: "DELETE" });
@@ -236,8 +236,8 @@ const [completedRemark, setCompletedRemark] = useState("");
   const updateStatus = async (id, status, remark = "") => {
     const url =
       view === "candidate"
-        ? `https://cwsearchway.onrender.com/api/admin/update-status/${id}`
-        : `https://cwsearchway.onrender.com/api/admin/update-status-contractor/${id}`;
+        ? `https://api.cwsearchway.com/api/admin/update-status/${id}`
+        : `https://api.cwsearchway.com/api/admin/update-status-contractor/${id}`;
 
     await fetch(url, {
       method: "PUT",
@@ -259,8 +259,8 @@ const [completedRemark, setCompletedRemark] = useState("");
     if (!editUser) return;
     const url =
       view === "candidate"
-        ? `https://cwsearchway.onrender.com/api/admin/update/${editUser._id}`
-        : `https://cwsearchway.onrender.com/api/admin/update-contractor/${editUser._id}`;
+        ? `https://api.cwsearchway.com/api/admin/update/${editUser._id}`
+        : `https://api.cwsearchway.com/api/admin/update-contractor/${editUser._id}`;
 
     try {
       await fetch(url, {
