@@ -9,7 +9,7 @@ export default function AdminLogin({ setCurrentPage }) {
   e.preventDefault();
 
   try {
-    const res = await fetch("https://cwsearchway.onrender.com/api/admin/login", {
+    const res = await fetch("https://api.cwsearchway.com/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password: pass }),
