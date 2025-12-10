@@ -7,7 +7,19 @@ import dotenv from "dotenv";
 import registrationRoutes from "./routes/registration.js";
 dotenv.config();
 const app = express();
-app.use(cors());
+import cors from "cors";
+
+app.use(
+  cors({
+    origin: [
+      "https://www.cwsearchway.com",
+      "https://cwsearchway.com"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 // MongoDB Connection

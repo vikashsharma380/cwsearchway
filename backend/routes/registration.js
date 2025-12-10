@@ -1,34 +1,51 @@
 import express from "express";
 import Registration from "../models/Registration.js";
+import { upload } from "../utils/upload.js";
 
 const router = express.Router();
 
-// CREATE REGISTRATION (UploadThing Version)
-router.post("/register", async (req, res) => {
-  try {
-    console.log("BODY RECEIVED:", req.body);
+// CREATE REGISTRATION WITH AWS S3 UPLOAD
+router.post(
+  "/register",
+  upload.fields([
+    { name: "signature", maxCount: 1 },
+    { name: "resume", maxCount: 1 }
+  ]),
+  async (req, res) => {
+    try {
+      console.log("BODY RECEIVED:", req.body);
+      console.log("FILES RECEIVED:", req.files);
 
-    const registrationId = "CWEMP" + new Date().getFullYear().toString().slice(-2) 
-  + Math.floor(1000 + Math.random() * 9000);
+      // Generate Registration ID
+      const registrationId =
+        "CWEMP" +
+        new Date().getFullYear().toString().slice(-2) +
+        Math.floor(1000 + Math.random() * 9000);
 
+      // Extract uploaded file URLs
+      const signatureUrl = req.files?.signature?.[0]?.location || null;
+      const resumeUrl = req.files?.resume?.[0]?.location || null;
 
-    const newReg = await Registration.create({
-  ...req.body,
-  registrationId,
-  signature: req.body.signature || null,
-  resume: req.body.resume || null,
-  payment: req.body.utrNumber ? "Completed" : "Pending",
-});
+      // Save to DB
+      const newReg = await Registration.create({
+        ...req.body,
+        registrationId,
+        signature: signatureUrl,
+        resume: resumeUrl,
+        payment: req.body.utrNumber ? "Completed" : "Pending",
+      });
 
-
-    return res.json({ success: true, registrationId, data: newReg });
-
-  } catch (error) {
-    console.error("REGISTER ERROR:", error);
-    return res.status(500).json({ success: false, error: error.message });
+      return res.json({
+        success: true,
+        registrationId,
+        data: newReg,
+      });
+    } catch (error) {
+      console.error("REGISTER ERROR:", error);
+      return res.status(500).json({ success: false, error: error.message });
+    }
   }
-});
-
+);
 
 
 // CHECK STATUS
