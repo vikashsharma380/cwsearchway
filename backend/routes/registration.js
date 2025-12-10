@@ -21,13 +21,8 @@ router.post(
         Math.floor(1000 + Math.random() * 9000);
 
       // Upload files to S3
-      const signatureUrl = req.files.signature
-        ? await uploadToS3(req.files.signature[0])
-        : "";
-
-      const resumeUrl = req.files.resume
-        ? await uploadToS3(req.files.resume[0])
-        : "";
+     const signatureUrl = req.files?.signature?.[0]?.location || "";
+const resumeUrl = req.files?.resume?.[0]?.location || "";
 
       // Save DB Entry
       const newReg = await Registration.create({
