@@ -4,17 +4,16 @@ import AWS from "aws-sdk";
 import dotenv from "dotenv";
 dotenv.config();
 
-// AWS SDK v2 config
+// AWS S3 V2 CONFIG
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET_KEY,
-  region: "eu-north-1", // Stockholm region
+  region: "eu-north-1",
 });
 
-// Create S3 client (NO endpoint override)
 const s3 = new AWS.S3();
 
-// Multer Upload Config
+// Multer + S3 Upload
 export const upload = multer({
   storage: multerS3({
     s3,
@@ -23,6 +22,6 @@ export const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: (req, file, cb) => {
       cb(null, `${Date.now()}-${file.originalname}`);
-    },
+    }
   }),
 });
