@@ -4,19 +4,20 @@ import AWS from "aws-sdk";
 import dotenv from "dotenv";
 dotenv.config();
 
-// AWS Config
+// Correct AWS config for eu-north-1
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET_KEY,
   region: process.env.AWS_REGION,
 });
 
-// IMPORTANT: Correct endpoint for EU-NORTH-1 bucket
+// Correct EndPoint for eu-north-1
 const s3 = new AWS.S3({
   endpoint: "https://s3.eu-north-1.amazonaws.com",
   s3ForcePathStyle: true,
 });
 
+// Multer Upload
 export const upload = multer({
   storage: multerS3({
     s3,
