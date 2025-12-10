@@ -4,9 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-import cors from "cors";
-// ---------------- CORS FIX (CUSTOM) ----------------
-app.use(cors());
+
 
 
 // DO NOT USE cors() AT ALL → REMOVE IT
