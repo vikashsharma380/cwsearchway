@@ -1,10 +1,9 @@
 import express from "express";
 import Registration from "../models/Registration.js";
-import { upload } from "../upload.js";
+import { upload, uploadToS3 } from "../upload.js";
 
 const router = express.Router();
 
-// CREATE REGISTRATION WITH AWS S3 UPLOAD
 router.post(
   "/register",
   upload.fields([
@@ -16,17 +15,21 @@ router.post(
       console.log("BODY RECEIVED:", req.body);
       console.log("FILES RECEIVED:", req.files);
 
-      // Generate Registration ID
       const registrationId =
         "CWEMP" +
         new Date().getFullYear().toString().slice(-2) +
         Math.floor(1000 + Math.random() * 9000);
 
-      // Extract uploaded file URLs
-      const signatureUrl = req.files?.signature?.[0]?.location || null;
-      const resumeUrl = req.files?.resume?.[0]?.location || null;
+      // Upload files to S3
+      const signatureUrl = req.files.signature
+        ? await uploadToS3(req.files.signature[0])
+        : "";
 
-      // Save to DB
+      const resumeUrl = req.files.resume
+        ? await uploadToS3(req.files.resume[0])
+        : "";
+
+      // Save DB Entry
       const newReg = await Registration.create({
         ...req.body,
         registrationId,
@@ -40,12 +43,14 @@ router.post(
         registrationId,
         data: newReg,
       });
+
     } catch (error) {
       console.error("REGISTER ERROR:", error);
       return res.status(500).json({ success: false, error: error.message });
     }
   }
 );
+
 
 
 // CHECK STATUS

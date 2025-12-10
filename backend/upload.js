@@ -1,26 +1,33 @@
 import multer from "multer";
-import multerS3 from "multer-s3";
-import AWS from "aws-sdk";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
-
 dotenv.config();
 
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_KEY,
+// Memory storage for Multer
+const storage = multer.memoryStorage();
+export const upload = multer({ storage });
+
+// AWS V3 Client
+export const s3 = new S3Client({
   region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+  },
 });
 
-const s3 = new AWS.S3();
+// Upload Function
+export const uploadToS3 = async (file) => {
+  const fileName = Date.now() + "-" + file.originalname;
 
-export const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: process.env.AWS_BUCKET,
-    acl: "public-read",
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    key: (req, file, cb) => {
-      cb(null, Date.now() + "-" + file.originalname);
-    },
-  }),
-});
+  const params = {
+    Bucket: process.env.AWS_BUCKET,
+    Key: fileName,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+  };
+
+  await s3.send(new PutObjectCommand(params));
+
+  return `https://${process.env.AWS_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
+};
