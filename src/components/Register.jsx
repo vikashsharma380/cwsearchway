@@ -194,8 +194,8 @@ const handleSubmit = async (e) => {
                 </label>
                 <input
                   type="text"
-                  name="husbandName"
-                  value={formData.husbandName}
+                  name="SpouseName"
+                  value={formData.spouseName}
                   onChange={handleChange}
                   className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
                 />
