@@ -1,6 +1,7 @@
 import express from "express";
 import Registration from "../models/Registration.js";
-import { upload } from "../upload.js";
+import upload from "../multer.js";        // multer added
+import { uploadFile } from "../upload.js"; // AWS upload
 
 const router = express.Router();
 
@@ -20,11 +21,19 @@ router.post(
         new Date().getFullYear().toString().slice(-2) +
         Math.floor(1000 + Math.random() * 9000);
 
-      // Upload files to S3
-     const signatureUrl = req.files?.signature?.[0]?.location || "";
-const resumeUrl = req.files?.resume?.[0]?.location || "";
+      // --- Upload files to S3 ---
+      let signatureUrl = "";
+      let resumeUrl = "";
 
-      // Save DB Entry
+      if (req.files?.signature?.[0]) {
+        signatureUrl = (await uploadFile(req.files.signature[0])).Location;
+      }
+
+      if (req.files?.resume?.[0]) {
+        resumeUrl = (await uploadFile(req.files.resume[0])).Location;
+      }
+
+      // Save to DB
       const newReg = await Registration.create({
         ...req.body,
         registrationId,
