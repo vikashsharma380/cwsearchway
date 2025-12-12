@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { UploadButton } from "@uploadthing/react";
+
 
 export default function ContractorRegister({ setCurrentPage }) {
   const [submitted, setSubmitted] = useState(false);
@@ -44,7 +44,7 @@ export default function ContractorRegister({ setCurrentPage }) {
     }
 
     if (
-      !formData.employeeName ||
+      !formData.contractorName ||
       !formData.dob ||
       !formData.phone ||
       !formData.email
@@ -361,22 +361,55 @@ export default function ContractorRegister({ setCurrentPage }) {
             />
           </div>
 
-          {/* SIGNATURE UPLOAD */}
-          <div className="mt-6">
-            <label className="text-sm font-semibold text-slate-700">
-              Upload Signature *
-            </label>
-            <UploadButton
-              endpoint="signatureUpload"
-              url="https://api.cwsearchway.com/api/uploadthing"
-              appearance={{ button: "bg-slate-700 text-white" }}
-              onClientUploadComplete={(files) => {
-                const file = files[0];
-                setFormData((prev) => ({ ...prev, signature: file.url }));
-              }}
-              onUploadError={(err) => alert("Upload Error: " + err.message)}
-            />
-          </div>
+        {/* SIGNATURE UPLOAD */}
+<div className="mt-6">
+  <label className="text-sm font-semibold text-slate-700">
+    Upload Signature *
+  </label>
+
+  <input
+    type="file"
+    accept="image/*"
+    onChange={async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const formDataToSend = new FormData();
+      formDataToSend.append("file", file);
+
+      try {
+        const res = await fetch(
+          "https://api.cwsearchway.com/api/upload/signature",
+          {
+            method: "POST",
+            body: formDataToSend,
+          }
+        );
+
+        const data = await res.json();
+
+        if (data.success) {
+          setFormData((prev) => ({ ...prev, signature: data.url }));
+          alert("Signature uploaded successfully!");
+        } else {
+          alert("Upload failed: " + data.message);
+        }
+      } catch (err) {
+        alert("Upload Error: " + err.message);
+      }
+    }}
+    className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
+  />
+
+  {formData.signature && (
+    <img
+      src={formData.signature}
+      alt="Signature Preview"
+      className="w-32 mt-3 border rounded-xl"
+    />
+  )}
+</div>
+
 
           {/* RULES */}
           <div className="p-6 mt-10 border bg-slate-100 rounded-xl border-slate-300">
