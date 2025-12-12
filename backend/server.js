@@ -40,5 +40,8 @@ app.use("/api/work-types", workTypeRoutes);
 import { handler as uploadHandler } from "./uploadthing.js";
 app.use("/api/uploadthing", uploadHandler);
 
+
+import contractorRoutes from "./routes/contractor.js";
+app.use("/api/contractor", contractorRoutes);
 // ---------------- START SERVER ----------------
 app.listen(5000, () => console.log("Server running on port 5000"));
