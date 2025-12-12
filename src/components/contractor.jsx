@@ -26,60 +26,47 @@ export default function ContractorRegister({ setCurrentPage }) {
   }, []);
 
   // Submit Form
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!formData.agree) {
-      return alert("Please accept all terms before submitting.");
+  if (!formData.signature) {
+    alert("Please upload your signature");
+    return;
+  }
+
+  // Make FormData
+  const data = new FormData();
+
+  // Add text fields
+  Object.keys(formData).forEach((key) => {
+    if (key !== "signature") {
+      data.append(key, formData[key]);
     }
+  });
 
-    if (!formData.signature) {
-      return alert("Please upload your signature before submitting.");
+  // Add file
+  data.append("signature", formData.signature);
+
+  try {
+    const res = await fetch("https://api.cwsearchway.com/api/contractor/register", {
+      method: "POST",
+      body: data, // VERY IMPORTANT
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      setRegistrationId(result.registrationId);
+      setSubmitted(true);
+      setTimeout(() => setCurrentPage("status"), 2000);
+    } else {
+      alert(result.message);
     }
+  } catch (err) {
+    alert("Server Error: " + err.message);
+  }
+};
 
-    if (!formData.utrNumber) {
-      return alert(
-        "Please enter the UTR Number after payment before submitting."
-      );
-    }
-
-    if (
-      !formData.contractorName ||
-      !formData.dob ||
-      !formData.phone ||
-      !formData.email
-    ) {
-      return alert("Please fill in all required fields before submitting.");
-    }
-
-    if (!formData.paymentType) {
-      return alert("Please select a Payment Type before submitting.");
-    }
-
-    try {
-      const res = await fetch(
-        "https://api.cwsearchway.com/api/contractor/register",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const data = await res.json();
-
-      if (data.success) {
-        setRegistrationId(data.registrationId);
-        setSubmitted(true);
-
-        setTimeout(() => setCurrentPage("status"), 2000);
-      } else {
-        alert(data.message || "Something went wrong!");
-      }
-    } catch (err) {
-      alert("Server Error: " + err.message);
-    }
-  };
 
   // SUCCESS SCREEN
   if (submitted) {
@@ -366,49 +353,16 @@ export default function ContractorRegister({ setCurrentPage }) {
   <label className="text-sm font-semibold text-slate-700">
     Upload Signature *
   </label>
-
   <input
     type="file"
     accept="image/*"
-    onChange={async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const formDataToSend = new FormData();
-      formDataToSend.append("file", file);
-
-      try {
-        const res = await fetch(
-          "https://api.cwsearchway.com/api/upload/signature",
-          {
-            method: "POST",
-            body: formDataToSend,
-          }
-        );
-
-        const data = await res.json();
-
-        if (data.success) {
-          setFormData((prev) => ({ ...prev, signature: data.url }));
-          alert("Signature uploaded successfully!");
-        } else {
-          alert("Upload failed: " + data.message);
-        }
-      } catch (err) {
-        alert("Upload Error: " + err.message);
-      }
-    }}
-    className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
+    onChange={(e) =>
+      setFormData((prev) => ({ ...prev, signature: e.target.files[0] }))
+    }
+    className="mt-2"
   />
-
-  {formData.signature && (
-    <img
-      src={formData.signature}
-      alt="Signature Preview"
-      className="w-32 mt-3 border rounded-xl"
-    />
-  )}
 </div>
+
 
 
           {/* RULES */}
