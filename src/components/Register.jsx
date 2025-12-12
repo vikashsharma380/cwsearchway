@@ -280,6 +280,7 @@ const handleSubmit = async (e) => {
               className="w-full px-4 py-3 mt-1 border bg-slate-100 border-slate-300 rounded-xl"
             >
               <option value="">Select</option>
+              <option value="299">Student Registration</option>
               <option value="299">
                 Part-time job/work, Temporary work, Short-term job/work - ₹299
               </option>
