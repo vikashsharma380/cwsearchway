@@ -74,14 +74,14 @@ export default function WhyChooseUs() {
       {/* CUSTOM ANIMATION */}
       <style>
         {`
-          @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .animate-scroll {
-            animation: scroll 7s linear infinite;
-          }
-        `}
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    .animate-scroll {
+      animation: scroll 14s linear infinite;
+    }
+  `}
       </style>
     </section>
   );
