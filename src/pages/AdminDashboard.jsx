@@ -472,7 +472,7 @@ const [completedRemark, setCompletedRemark] = useState("");
 
                 <div className="p-4 bg-slate-50 rounded-xl text-center">
                   <div className="text-sm text-slate-500">Completed</div>
-                  <div className="text-lg font-semibold text-slate-800">
+                  <div className="text-lg font-semibold text-purple-600">
                     {overview.cand.completed}
                   </div>
                 </div>
@@ -540,7 +540,7 @@ const [completedRemark, setCompletedRemark] = useState("");
 
                 <div className="p-4 bg-slate-50 rounded-xl text-center">
                   <div className="text-sm text-slate-500">Completed</div>
-                  <div className="text-lg font-semibold text-slate-800">
+                  <div className="text-lg font-semibold text-purple-600">
                     {overview.cont.completed}
                   </div>
                 </div>
