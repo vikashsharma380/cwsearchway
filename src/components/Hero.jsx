@@ -29,11 +29,11 @@ export default function Hero({ setCurrentPage }) {
               Find a job
             </button>
 
-            <button className="flex items-center gap-2 px-6 py-3 text-sm border rounded-full border-slate-300 hover:bg-slate-100">
-              <span className="flex items-center justify-center w-8 h-8 border rounded-full border-slate-400">
-                ▶
-              </span>
-              Watch Video
+            <button
+              onClick={() => setCurrentPage("explore-jobs")}
+              className="flex items-center gap-2 px-6 py-3 text-sm border rounded-full border-slate-300 hover:bg-slate-100"
+            >
+              Explore Jobs
             </button>
           </div>
 

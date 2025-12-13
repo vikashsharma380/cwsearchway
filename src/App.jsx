@@ -13,6 +13,7 @@ import AdminLogin from "./pages/AdminLogin.jsx";
 import FindId from "./components/FindId.jsx";
 import FormPage from "./pages/FormPage.jsx";
 import Contractor from "./components/contractor.jsx";
+import ExploreJobs from "./pages/ExploreJobs.jsx";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -31,6 +32,7 @@ export default function App() {
     services: <ServicesPage setCurrentPage={setCurrentPage} />,
     register: <RegisterPage setCurrentPage={setCurrentPage} />,
     status: <StatusPage setCurrentPage={setCurrentPage} />,
+    "explore-jobs": <ExploreJobs />,
 
     // ➤ DIRECT COMPONENT — NO PAGE FILE
     contractor: <Contractor setCurrentPage={setCurrentPage} />,

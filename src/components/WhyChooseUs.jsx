@@ -1,8 +1,17 @@
 import React from "react";
 
 export default function WhyChooseUs() {
+  const companies = [
+    "Code Web Telecom",
+    "Digyaansh Shrishti Maintenance Pvt. Ltd.",
+    "Pathak Enterprises",
+    "Aradhya Enterprises",
+    "Nisha Construction",
+    "Code Web Information Of Technology",
+  ];
+
   return (
-    <section className="px-6 py-28 bg-slate-50">
+    <section className="px-6 overflow-hidden py-28 bg-slate-50">
       <div className="mx-auto space-y-16 max-w-7xl">
         {/* TRUSTED BY COMPANIES */}
         <div className="space-y-6 text-center">
@@ -13,14 +22,17 @@ export default function WhyChooseUs() {
             These organizations rely on CWSearchWay for hiring skilled talent.
           </p>
 
-          {/* ⭐ CLEAN COMPANY NAME BARS */}
-          <div className="flex flex-wrap justify-center gap-6 pt-4">
-            <div className="px-10 py-4 text-lg font-semibold transition bg-white border shadow-sm border-slate-200 rounded-xl hover:shadow-md text-slate-800">
-              Code Web Telecom
-            </div>
-
-            <div className="px-10 py-4 text-lg font-semibold transition bg-white border shadow-sm border-slate-200 rounded-xl hover:shadow-md text-slate-800">
-              Digyaansh Shrishti Maintenance Pvt. Ltd.
+          {/* ⭐ AUTO SCROLLING COMPANY BAR */}
+          <div className="relative w-full pt-6 overflow-hidden">
+            <div className="flex gap-6 animate-scroll whitespace-nowrap">
+              {[...companies, ...companies].map((company, index) => (
+                <div
+                  key={index}
+                  className="px-10 py-4 text-lg font-semibold transition bg-white border shadow-sm border-slate-200 rounded-xl text-slate-800 hover:shadow-md"
+                >
+                  {company}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -56,6 +68,19 @@ export default function WhyChooseUs() {
           </div>
         </div>
       </div>
+
+      {/* CUSTOM ANIMATION */}
+      <style>
+        {`
+          @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-scroll {
+            animation: scroll 25s linear infinite;
+          }
+        `}
+      </style>
     </section>
   );
 }
