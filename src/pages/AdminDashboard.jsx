@@ -465,6 +465,13 @@ const [completedRemark, setCompletedRemark] = useState("");
                     {overview.cand.rejected}
                   </div>
                 </div>
+
+                <div className="p-4 bg-slate-50 rounded-xl text-center">
+                  <div className="text-sm text-slate-500">Completed</div>
+                  <div className="text-lg font-semibold text-slate-800">
+                    {overview.cand.completed}
+                  </div>
+                </div>
               </div>
             </div>
             {/* Work Types Card */}
