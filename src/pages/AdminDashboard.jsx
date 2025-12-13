@@ -369,7 +369,7 @@ const [completedRemark, setCompletedRemark] = useState("");
       else if (s === "Rejected") rejected++;
       else if (s === "Completed") completed++;
     });
-    return { total, pending, accepted, rejected };
+    return { total, pending, accepted, rejected, completed };
   }, [filteredData]);
 
   // -------------------------
