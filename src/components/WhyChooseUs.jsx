@@ -79,7 +79,7 @@ export default function WhyChooseUs() {
             100% { transform: translateX(-50%); }
           }
           .animate-scroll {
-            animation: scroll 25s linear infinite;
+            animation: scroll 7s linear infinite;
           }
         `}
       </style>
