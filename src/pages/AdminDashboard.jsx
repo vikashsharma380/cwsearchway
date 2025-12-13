@@ -360,12 +360,14 @@ const [completedRemark, setCompletedRemark] = useState("");
     const total = filteredData.length;
     let pending = 0,
       accepted = 0,
-      rejected = 0;
+      rejected = 0,
+     completed = 0;
     filteredData.forEach((it) => {
       const s = normalizeStatus(it.status);
       if (s === "Pending") pending++;
       else if (s === "Accepted") accepted++;
       else if (s === "Rejected") rejected++;
+      else if (s === "Completed") completed++;
     });
     return { total, pending, accepted, rejected };
   }, [filteredData]);
@@ -531,6 +533,13 @@ const [completedRemark, setCompletedRemark] = useState("");
                   <div className="text-sm text-slate-500">Rejected</div>
                   <div className="text-lg font-semibold text-red-600">
                     {overview.cont.rejected}
+                  </div>
+                </div>
+
+                <div className="p-4 bg-slate-50 rounded-xl text-center">
+                  <div className="text-sm text-slate-500">Completed</div>
+                  <div className="text-lg font-semibold text-slate-800">
+                    {overview.cont.completed}
                   </div>
                 </div>
                 {/* <button
@@ -784,17 +793,20 @@ const [completedRemark, setCompletedRemark] = useState("");
                     </td>
 
                     <td className="p-3">
-                      <span
-                        className={`px-3 py-1 rounded-full text-sm ${
-                          status === "Accepted"
-                            ? "bg-green-100 text-green-700"
-                            : status === "Rejected"
-                            ? "bg-red-100 text-red-700"
-                            : "bg-yellow-100 text-yellow-700"
-                        }`}
-                      >
-                        {status}
-                      </span>
+                     <span
+  className={`px-3 py-1 rounded-full text-sm ${
+    status === "Accepted"
+      ? "bg-green-100 text-green-700"
+      : status === "Rejected"
+      ? "bg-red-100 text-red-700"
+      : status === "Completed"
+      ? "bg-purple-100 text-purple-700"
+      : "bg-yellow-100 text-yellow-700"
+  }`}
+>
+  {status}
+</span>
+
                     </td>
 
                     <td className="p-3 text-right space-x-2 whitespace-nowrap">
