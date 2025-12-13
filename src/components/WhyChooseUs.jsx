@@ -8,6 +8,8 @@ export default function WhyChooseUs() {
     "Aradhya Enterprises",
     "Nisha Construction",
     "Code Web Information Of Technology",
+    "Code Web Solutions",
+    "Code Web IT",
   ];
 
   return (
