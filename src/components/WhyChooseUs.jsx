@@ -10,6 +10,7 @@ export default function WhyChooseUs() {
     "Code Web Information Of Technology",
     "Code Web Solutions",
     "Code Web IT",
+    "Gupta IT Solutions",
   ];
 
   return (
@@ -24,17 +25,32 @@ export default function WhyChooseUs() {
             These organizations rely on CWSearchWay for hiring skilled talent.
           </p>
 
-          {/* ⭐ AUTO SCROLLING COMPANY BAR */}
+          {/* ✅ TRUE INFINITE SMOOTH SCROLL */}
           <div className="relative w-full pt-6 overflow-hidden">
-            <div className="flex gap-6 animate-scroll whitespace-nowrap">
-              {[...companies, ...companies].map((company, index) => (
-                <div
-                  key={index}
-                  className="px-10 py-4 text-lg font-semibold transition bg-white border shadow-sm border-slate-200 rounded-xl text-slate-800 hover:shadow-md"
-                >
-                  {company}
-                </div>
-              ))}
+            <div className="flex w-max animate-marquee">
+              {/* FIRST SET */}
+              <div className="flex gap-6 pr-6">
+                {companies.map((company, index) => (
+                  <div
+                    key={`a-${index}`}
+                    className="px-10 py-4 text-lg font-semibold bg-white border shadow-sm border-slate-200 rounded-xl text-slate-800 whitespace-nowrap"
+                  >
+                    {company}
+                  </div>
+                ))}
+              </div>
+
+              {/* SECOND SET (CLONE) */}
+              <div className="flex gap-6 pr-6">
+                {companies.map((company, index) => (
+                  <div
+                    key={`b-${index}`}
+                    className="px-10 py-4 text-lg font-semibold bg-white border shadow-sm border-slate-200 rounded-xl text-slate-800 whitespace-nowrap"
+                  >
+                    {company}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -71,17 +87,22 @@ export default function WhyChooseUs() {
         </div>
       </div>
 
-      {/* CUSTOM ANIMATION */}
+      {/* 🔥 SMOOTH MARQUEE ANIMATION */}
       <style>
         {`
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-    .animate-scroll {
-      animation: scroll 14s linear infinite;
-    }
-  `}
+          @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+
+          .animate-marquee {
+            animation: marquee 20s linear infinite;
+          }
+
+          .animate-marquee:hover {
+            animation-play-state: paused;
+          }
+        `}
       </style>
     </section>
   );
