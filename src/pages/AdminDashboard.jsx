@@ -385,6 +385,7 @@ const [completedRemark, setCompletedRemark] = useState("");
         .length,
       rejected: c.filter((x) => normalizeStatus(x.status) === "Rejected")
         .length,
+      completed: c.filter((x) => normalizeStatus(x.status) === "Completed").length
     };
     // Contractor stats
     const co = contractorData || [];
@@ -395,6 +396,7 @@ const [completedRemark, setCompletedRemark] = useState("");
         .length,
       rejected: co.filter((x) => normalizeStatus(x.status) === "Rejected")
         .length,
+      completed: co.filter((x) => normalizeStatus(x.status) === "Completed").length
     };
 
     return { cand, cont };
