@@ -2,15 +2,21 @@ import React from "react";
 
 export default function WhyChooseUs() {
   const companies = [
-    "Code Web Telecom",
-    "Digyaansh Shrishti Maintenance Pvt. Ltd.",
-    "Pathak Enterprises",
-    "Aradhya Enterprises",
-    "Nisha Construction",
-    "Code Web Information Of Technology",
-    "Code Web Solutions",
-    "Code Web IT",
-    "Gupta IT Solutions",
+    {
+      name: "Code Web Telecom",
+      link: "https://www.codewebtelecom.in/",
+    },
+    {
+      name: "Digyaansh Shrishti Maintenance Pvt. Ltd.",
+      link: "https://digyaanshshrishti.in/",
+    },
+    { name: "Pathak Enterprises" },
+    { name: "Aradhya Enterprises" },
+    { name: "Nisha Construction" },
+    { name: "Code Web Information Of Technology" },
+    { name: "Code Web Solutions" },
+    { name: "Code Web IT" },
+    { name: "Gupta IT Solutions" },
   ];
 
   return (
@@ -25,7 +31,7 @@ export default function WhyChooseUs() {
             These organizations rely on CWSearchWay for hiring skilled talent.
           </p>
 
-          {/* ✅ TRUE INFINITE SMOOTH SCROLL */}
+          {/* TRUE INFINITE SMOOTH SCROLL */}
           <div className="relative w-full pt-6 overflow-hidden">
             <div className="flex w-max animate-marquee">
               {/* FIRST SET */}
@@ -35,7 +41,18 @@ export default function WhyChooseUs() {
                     key={`a-${index}`}
                     className="px-10 py-4 text-lg font-semibold bg-white border shadow-sm border-slate-200 rounded-xl text-slate-800 whitespace-nowrap"
                   >
-                    {company}
+                    {company.link ? (
+                      <a
+                        href={company.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        {company.name}
+                      </a>
+                    ) : (
+                      company.name
+                    )}
                   </div>
                 ))}
               </div>
@@ -47,7 +64,18 @@ export default function WhyChooseUs() {
                     key={`b-${index}`}
                     className="px-10 py-4 text-lg font-semibold bg-white border shadow-sm border-slate-200 rounded-xl text-slate-800 whitespace-nowrap"
                   >
-                    {company}
+                    {company.link ? (
+                      <a
+                        href={company.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline"
+                      >
+                        {company.name}
+                      </a>
+                    ) : (
+                      company.name
+                    )}
                   </div>
                 ))}
               </div>
@@ -87,7 +115,7 @@ export default function WhyChooseUs() {
         </div>
       </div>
 
-      {/* 🔥 SMOOTH MARQUEE ANIMATION */}
+      {/* SMOOTH MARQUEE ANIMATION */}
       <style>
         {`
           @keyframes marquee {
