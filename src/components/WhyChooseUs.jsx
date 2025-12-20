@@ -15,7 +15,7 @@ export default function WhyChooseUs() {
     { name: "Nisha Construction" },
     { name: "Code Web Information Of Technology" },
     { name: "Code Web Solutions" },
-    { name: "Code Web IT" },
+    { name: "Code Web IT", link: "https://www.codewebit.com/" },
     { name: "Gupta IT Solutions" },
   ];
 

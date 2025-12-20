@@ -55,6 +55,16 @@ export default function Navbar({ currentPage, setCurrentPage }) {
               Services
             </button>
 
+            {/* ✅ BLOGS ADDED */}
+            <button
+              onClick={() => setCurrentPage("blogs")}
+              className={`${linkBase} ${
+                currentPage === "blogs" ? active : inactive
+              }`}
+            >
+              Blogs
+            </button>
+
             <button
               onClick={() => setCurrentPage("status")}
               className={`${linkBase} ${
@@ -85,7 +95,6 @@ export default function Navbar({ currentPage, setCurrentPage }) {
 
           {/* RIGHT SIDE */}
           <div className="flex items-center gap-3">
-            {/* LOGIN FIRST (MOBILE + DESKTOP SAME) */}
             <button
               onClick={() => setCurrentPage("admin")}
               className="px-6 py-2.5 border border-slate-300 text-slate-700 font-semibold rounded-xl hover:bg-slate-100 transition"
@@ -93,7 +102,6 @@ export default function Navbar({ currentPage, setCurrentPage }) {
               Login
             </button>
 
-            {/* HAMBURGER SECOND ONLY MOBILE */}
             <button
               onClick={() => setOpenMenu(!openMenu)}
               className="px-3 py-2 lg:hidden text-slate-700"
@@ -139,6 +147,17 @@ export default function Navbar({ currentPage, setCurrentPage }) {
             className="block w-full py-2 font-semibold text-left text-slate-700"
           >
             Services
+          </button>
+
+          {/* ✅ BLOGS ADDED */}
+          <button
+            onClick={() => {
+              setCurrentPage("blogs");
+              setOpenMenu(false);
+            }}
+            className="block w-full py-2 font-semibold text-left text-slate-700"
+          >
+            Blogs
           </button>
 
           <button

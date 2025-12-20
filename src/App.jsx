@@ -14,6 +14,7 @@ import FindId from "./components/FindId.jsx";
 import FormPage from "./pages/FormPage.jsx";
 import Contractor from "./components/contractor.jsx";
 import ExploreJobs from "./pages/ExploreJobs.jsx";
+import Blog from "./pages/Blog.jsx";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -33,8 +34,7 @@ export default function App() {
     register: <RegisterPage setCurrentPage={setCurrentPage} />,
     status: <StatusPage setCurrentPage={setCurrentPage} />,
     "explore-jobs": <ExploreJobs />,
-
-    // ➤ DIRECT COMPONENT — NO PAGE FILE
+    blogs: <Blog setCurrentPage={setCurrentPage} />,
     contractor: <Contractor setCurrentPage={setCurrentPage} />,
     admin: <AdminLogin setCurrentPage={setCurrentPage} />,
     "admin-dashboard": <AdminDashboard setCurrentPage={setCurrentPage} />,
@@ -42,13 +42,19 @@ export default function App() {
     form: <FormPage setCurrentPage={setCurrentPage} />,
   };
 
+  const isAdminPage = currentPage === "admin-dashboard";
+
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      {currentPage !== "admin-dashboard" && (
-        <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      {/* NAVBAR - FIXED POSITIONING */}
+      {!isAdminPage && (
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
+          <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        </nav>
       )}
 
-      {pages[currentPage]}
+      {/* MAIN CONTENT - WITH TOP PADDING TO ACCOUNT FOR NAVBAR */}
+      <main className={!isAdminPage ? "pt-20" : ""}>{pages[currentPage]}</main>
     </div>
   );
 }
